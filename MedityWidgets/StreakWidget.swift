@@ -142,8 +142,8 @@ struct StreakWidgetView: View {
                 )
                 infoBlock(
                     title: "THIS WEEK",
-                    value: hoursValue(minutes: entry.weekMinutes),
-                    subtitle: "hrs"
+                    value: "\(entry.weekMinutes)",
+                    subtitle: "min"
                 )
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -167,7 +167,7 @@ struct StreakWidgetView: View {
                 Spacer()
                 VStack(alignment: .trailing, spacing: 4) {
                     eyebrow("WEEK")
-                    Text(hoursValue(minutes: entry.weekMinutes) + " hrs")
+                    Text("\(entry.weekMinutes) min")
                         .font(.system(size: 22, weight: .regular))
                         .foregroundStyle(Color(hex: 0x0F1B2D))
                 }

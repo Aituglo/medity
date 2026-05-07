@@ -80,9 +80,12 @@ final class AudioEngine: @unchecked Sendable {
         // past. Bring it up first, then mutate state.
         ensureRunning()
 
-        // Stop whichever path was active.
+        // Always stop the previous source so previewing a different sound
+        // is instant. `filePlayer.stop()` clears any in-flight buffer and
+        // pending schedule — without it a fresh `scheduleBuffer` would
+        // queue behind the looping previous track.
         ambient.generator = nil
-        if filePlayer.isPlaying { filePlayer.stop() }
+        filePlayer.stop()
 
         guard let soundId, soundId != "silence" else {
             currentSoundId = nil
@@ -92,7 +95,7 @@ final class AudioEngine: @unchecked Sendable {
         // 1) Bundled audio file, looped.
         if let buffer = loadBundledLoop(for: soundId) {
             filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
-            if !filePlayer.isPlaying { filePlayer.play() }
+            filePlayer.play()
             setAmbientVolume(1.0)
             currentSoundId = soundId
             return
@@ -118,15 +121,18 @@ final class AudioEngine: @unchecked Sendable {
         currentSoundId = nil
     }
 
-    /// Schedule one bell ring of the given timbre. Multiple rings can
-    /// overlap — the player node queues them. Ducks the ambient instead of
-    /// fighting it. Pass `nil` to use the catalog's default (Tibetan bowl).
+    /// Schedule one bell ring of the given timbre. Stops any in-progress
+    /// bell first so previewing different timbres in the bells picker is
+    /// instant — the previous ring doesn't have to finish before the new
+    /// one starts. Ducks the ambient instead of fighting it.
+    /// Pass `nil` to use the catalog's default (Tibetan bowl).
     func playBell(id: String? = nil) {
         let bellId = id ?? "tibetan-bowl"
         guard let buffer = bellBuffer(for: bellId) else { return }
         ensureRunning()
+        bellPlayer.stop()
         bellPlayer.scheduleBuffer(buffer, at: nil, options: [], completionHandler: nil)
-        if !bellPlayer.isPlaying { bellPlayer.play() }
+        bellPlayer.play()
         Task { await duckAmbient() }
     }
 

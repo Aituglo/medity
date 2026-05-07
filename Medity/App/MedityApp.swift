@@ -1,5 +1,5 @@
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct MedityApp: App {
@@ -10,6 +10,12 @@ struct MedityApp: App {
     /// Shared services injected via `.environment` so any view can read them.
     @State private var healthStore = HealthStore()
     @State private var audioEngine = AudioEngine()
+
+    /// Persistence container — CloudKit-backed when the device is signed
+    /// in to iCloud and the container is reachable; falls back to local
+    /// SQLite when CloudKit can't initialise (free dev account on a real
+    /// device, no network during first launch, etc.).
+    private let modelContainer = MedityApp.makeModelContainer()
 
     var body: some Scene {
         WindowGroup {
@@ -28,9 +34,31 @@ struct MedityApp: App {
             .environment(healthStore)
             .environment(audioEngine)
         }
-        // Local-only persistence in V1. Switching to CloudKit-synced is a
-        // single-line change to a `ModelConfiguration` once the developer
-        // account has provisioned an iCloud container.
-        .modelContainer(for: [Session.self, UserPreferences.self])
+        .modelContainer(modelContainer)
+    }
+
+    /// Builds the SwiftData container, preferring CloudKit-private
+    /// synchronisation. The first attempt declares the iCloud container
+    /// explicitly; if that fails for any reason we fall back to a local
+    /// store so the app still runs (data just doesn't sync). A second
+    /// failure is fatal — at that point the device can't even create a
+    /// local SQLite, and there's nothing meaningful for us to do.
+    private static func makeModelContainer() -> ModelContainer {
+        let schema = Schema([Session.self, UserPreferences.self])
+        let cloudConfig = ModelConfiguration(
+            schema: schema,
+            cloudKitDatabase: .private("iCloud.com.aituglo.medity")
+        )
+        do {
+            return try ModelContainer(for: schema, configurations: [cloudConfig])
+        } catch {
+            print("CloudKit container failed (\(error)) — falling back to local store")
+            let localConfig = ModelConfiguration(schema: schema)
+            do {
+                return try ModelContainer(for: schema, configurations: [localConfig])
+            } catch {
+                fatalError("Failed to create even a local ModelContainer: \(error)")
+            }
+        }
     }
 }
