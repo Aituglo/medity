@@ -50,6 +50,7 @@ enum SoundCatalog {
         Sound(id: "tibetan-bowls", displayName: "Tibetan Bowls",     category: .sacred, isPremium: true, fileName: "tibetan-bowls"),
         Sound(id: "om-chant",      displayName: "Om Chant",          category: .sacred, isPremium: true, fileName: "om-chant"),
         Sound(id: "temple",        displayName: "Temple Ambience",   category: .sacred, isPremium: true, fileName: "temple"),
+        Sound(id: "suikinkutsu",   displayName: "Suikinkutsu",       category: .sacred, isPremium: true, fileName: "suikinkutsu"),
 
         // Stillness — sentinel, no playback.
         Sound(id: "silence",       displayName: "Silence",           category: .stillness, isPremium: false, fileName: nil),

@@ -23,6 +23,7 @@ in `SoundCatalog.swift`:
 | `tibetan-bowls`   | `tibetan-bowls`        |
 | `om-chant`        | `om-chant`             |
 | `temple`          | `temple`               |
+| `suikinkutsu`     | `suikinkutsu`          |
 
 `noise.white` / `noise.pink` / `noise.brown` and `silence` have no
 `fileName` — they're always procedural.
@@ -79,6 +80,10 @@ To revert to the procedural version, just delete the file and regenerate.
 | `rain-light.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg) | cori                              | Public Domain      |
 | `temple.m4a`        | [Wikimedia](https://commons.wikimedia.org/wiki/File:Chanting_at_Lingyin_Temple,_Hangzhou.ogg) | LouiseBrown1981                   | CC BY-SA 3.0       |
 | `om-chant.m4a`      | [Wikimedia](https://commons.wikimedia.org/wiki/File:Heart_Sutra.oga) | kennymiyoshi                      | CC BY 3.0          |
+| `suikinkutsu.m4a`   | [Wikimedia](https://commons.wikimedia.org/wiki/File:Suikinkutsu-LS100128.ogg) | Fg2                               | Public Domain      |
+| `rain-heavy.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Regen_op_een_pannendak_-_SoundCloud_-_Beeld_en_Geluid.ogg) | Beeld en Geluid (NL audiovisual archive) | CC BY-SA 3.0 |
+| `river.m4a`         | [Wikimedia](https://commons.wikimedia.org/wiki/File:Water_on_Rocks.ogg) | Dsw4                              | CC BY 3.0          |
+| `wind.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Howling_wind.ogg) | Tvabutzku1234                     | CC0                |
 
 The CC-licensed files (BY / BY-SA) require attribution somewhere in the
 shipping app — typically a "Sound credits" entry in the About / Acknowledgements
@@ -86,8 +91,5 @@ screen.
 
 ### Still procedural (no recording yet)
 
-- `rain.heavy` — heavier filtered noise + extra bass
-- `ocean.shore` — same generator, slower LFO period
-- `wind` — pink noise with 9 s amplitude LFO
-- `river` — brown noise with HF emphasis
+- `ocean.shore` — same generator as `ocean.waves` with slower LFO period
 - `noise.*` — always procedural by design (they're math, not recordings)
