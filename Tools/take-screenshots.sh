@@ -89,6 +89,15 @@ for node in manifest:
 shutil.rmtree(raw)
 PY
 
+echo "→ resizing to 1284×2778 for App Store Connect's 6.5-inch slot"
+# App Store Connect rejects 1320×2868 in some submission flows even
+# though that's the canonical 6.9-inch size. Resampling down to 1284×2778
+# (the 6.5-inch iPhone Display size) gets us through every slot without
+# perceptible distortion (0.4 % aspect ratio shift).
+for png in "$DEST"/*.png; do
+  sips -z 2778 1284 "$png" --out "$png" > /dev/null
+done
+
 echo "→ clearing status bar override"
 xcrun simctl status_bar "$SIM_ID" clear
 
