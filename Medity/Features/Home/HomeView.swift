@@ -26,8 +26,8 @@ struct HomeView: View {
 
             VStack(spacing: 0) {
                 HomeTopBar(streak: streak)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 8)
+                    .padding(.horizontal, Spacing.xl)
+                    .padding(.top, Spacing.l)
 
                 Spacer(minLength: 0)
 
@@ -36,21 +36,22 @@ struct HomeView: View {
                     TimerRing(minutes: $minutes)
                     timerLabel
                 }
+                .padding(.horizontal, Spacing.xl)
 
                 presetRow
-                    .padding(.top, 20)
+                    .padding(.top, Spacing.xl)
 
                 soundAndBellsRow
-                    .padding(.top, 18)
-                    .padding(.horizontal, 24)
+                    .padding(.top, Spacing.l)
+                    .padding(.horizontal, 28)
 
                 Spacer(minLength: 0)
 
                 PrimaryButton("\(minutes) min session", icon: .play) {
                     // Hooked up when SessionView lands.
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 36)
+                .padding(.horizontal, 28)
+                .padding(.bottom, Spacing.xxl)
             }
         }
     }
@@ -59,22 +60,16 @@ struct HomeView: View {
 
     /// The big duration readout at the center of the timer ring.
     private var timerLabel: some View {
-        VStack(spacing: 4) {
-            HStack(alignment: .lastTextBaseline, spacing: 8) {
-                Text("\(minutes)")
-                    .font(Typography.display(size: 132, weight: .thin))
-                    .tracking(-5)
-                    .foregroundStyle(.ink)
-                    .contentTransition(.numericText())
-                Text("min")
-                    .font(Typography.body(size: 19, weight: .regular))
-                    .foregroundStyle(.inkSecondary)
-                    .padding(.bottom, 20)
-            }
-            Text("DRAG THE DIAL")
-                .font(Typography.eyebrow(size: 10.5))
-                .tracking(3.5)
-                .foregroundStyle(.inkTertiary)
+        HStack(alignment: .lastTextBaseline, spacing: 8) {
+            Text("\(minutes)")
+                .font(Typography.display(size: 132, weight: .thin))
+                .tracking(-5)
+                .foregroundStyle(.ink)
+                .contentTransition(.numericText())
+            Text("min")
+                .font(Typography.body(size: 19, weight: .regular))
+                .foregroundStyle(.inkSecondary)
+                .padding(.bottom, 20)
         }
     }
 
@@ -89,7 +84,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, 28)
         }
     }
 

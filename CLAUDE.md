@@ -17,7 +17,7 @@
 ## Stack technique
 
 - **SwiftUI** natif. Pas de React Native, pas de Flutter.
-- **iOS 18.0+** minimum (Xcode 26 / Swift 6.3+).
+- **iOS 26.0+** minimum (Xcode 26 / Swift 6.3+) — pour avoir l'API native Liquid Glass (`.glassEffect()`).
 - **SwiftData + CloudKit** pour le stockage offline-first avec sync iCloud (DB privée).
 - **HealthKit** : write `mindfulSession` à chaque méditation. Read si dispo (HRV / heart rate / sleep — l'utilisateur porte une Oura ring qui écrit dans HealthKit).
 - **StoreKit 2** pour le one-time IAP.

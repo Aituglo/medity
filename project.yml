@@ -3,7 +3,7 @@ name: Medity
 options:
   bundleIdPrefix: com.aituglo
   deploymentTarget:
-    iOS: "18.0"
+    iOS: "26.0"
   developmentLanguage: en
   createIntermediateGroups: true
   groupSortPosition: top

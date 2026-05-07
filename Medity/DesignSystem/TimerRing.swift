@@ -80,8 +80,10 @@ struct TimerRing: View {
             for i in 0..<60 {
                 let isMajor = i.isMultiple(of: 5)
                 let angle = (Double(i) / 60.0) * 2 * .pi - .pi / 2
-                let inner = ringRadius - (isMajor ? 8 : 5)
-                let outer = ringRadius + (isMajor ? 4 : 2)
+                // Chunkier ticks per design feedback — major reads as a
+                // confident notch, minor as a clear stitch.
+                let inner = ringRadius - (isMajor ? 14 : 8)
+                let outer = ringRadius + (isMajor ? 8 : 4)
                 let p1 = CGPoint(
                     x: center.x + inner * cos(angle),
                     y: center.y + inner * sin(angle)
@@ -93,9 +95,9 @@ struct TimerRing: View {
                 let passed = (Double(i) / 60.0) <= progress
                 let color: Color = passed ? .accent : .ink
                 let opacity: Double = passed
-                    ? (isMajor ? 0.55 : 0.30)
-                    : (isMajor ? 0.22 : 0.08)
-                let width: CGFloat = isMajor ? 1.2 : 0.6
+                    ? (isMajor ? 0.65 : 0.35)
+                    : (isMajor ? 0.28 : 0.12)
+                let width: CGFloat = isMajor ? 2.4 : 1.2
 
                 var line = Path()
                 line.move(to: p1)
