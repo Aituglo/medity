@@ -21,9 +21,17 @@ struct HomeView: View {
     @State private var bellsSummary: String = "Start & End"
     @State private var isPresentingSession = false
     @State private var isPresentingStats = false
+    @State private var isPresentingSettings = false
+    /// Set on first appear so we don't reset the user's current dial value
+    /// every time we come back from another screen.
+    @State private var didSeedDefaultDuration = false
 
     /// All recorded sessions, newest first. Used to compute the live streak.
     @Query(sort: \Session.endedAt, order: .reverse) private var sessions: [Session]
+
+    /// Singleton preferences. List-typed because @Query is a list, but the
+    /// app guarantees only one row exists.
+    @Query private var prefsList: [UserPreferences]
 
     private var streak: Int {
         Session.currentStreak(from: sessions)
@@ -36,7 +44,7 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 HomeTopBar(
                     streak: streak,
-                    onSettingsTap: { /* settings — TBD */ },
+                    onSettingsTap: { isPresentingSettings = true },
                     onStatsTap: { isPresentingStats = true }
                 )
                 .padding(.horizontal, Spacing.xl)
@@ -76,6 +84,19 @@ struct HomeView: View {
         }
         .fullScreenCover(isPresented: $isPresentingStats) {
             StatsView()
+        }
+        .fullScreenCover(isPresented: $isPresentingSettings) {
+            SettingsView()
+        }
+        .onAppear {
+            // Seed the dial from the persisted default exactly once, on
+            // first appear after launch. We don't want to reset the user's
+            // current selection every time they pop back from Stats /
+            // Settings / Session.
+            if !didSeedDefaultDuration, let prefs = prefsList.first {
+                minutes = prefs.defaultDurationMinutes
+                didSeedDefaultDuration = true
+            }
         }
     }
 
