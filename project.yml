@@ -24,6 +24,18 @@ settings:
     CODE_SIGN_STYLE: Automatic
 
 targets:
+  MedityTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: MedityTests
+    dependencies:
+      - target: Medity
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_EMIT_LOC_STRINGS: NO
+
   Medity:
     type: application
     platform: iOS
