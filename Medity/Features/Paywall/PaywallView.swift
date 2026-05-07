@@ -1,19 +1,23 @@
+import StoreKit
 import SwiftUI
 
-/// Medity Plus paywall — one-time IAP at €14.99 (no subscription).
+/// Medity Plus paywall — one-time IAP, no subscription.
 ///
-/// **V1 status:** the unlock action is stubbed: tapping "Unlock" sets
-/// `prefs.hasUnlockedPlus = true` after a short artificial delay. Real
-/// StoreKit 2 wiring (`Product.purchase`, transaction listener,
-/// `Product.subscriptions` for receipts, restore) lands in a follow-up
-/// commit alongside the StoreKit configuration file.
+/// Connects to `StoreService` (StoreKit 2). Tapping "Unlock" triggers the
+/// real Apple purchase sheet; on success the verified transaction's
+/// `productID` matches the Plus product, and we set
+/// `prefs.hasUnlockedPlus = true` so the rest of the app reads the user
+/// as a paying member. The `Medity.storekit` config file in the project
+/// root drives the local sandbox during development.
 struct PaywallView: View {
     @Bindable var prefs: UserPreferences
     @Environment(\.dismiss) private var dismiss
+    @Environment(StoreService.self) private var store
     @State private var isPurchasing = false
+    @State private var errorMessage: String?
 
     private let benefits: [Benefit] = [
-        Benefit(icon: "waveform",      title: "All sounds",     subtitle: "14 nature, sacred, and noise tracks."),
+        Benefit(icon: "waveform",      title: "All sounds",     subtitle: "14 nature, music, and noise tracks."),
         Benefit(icon: "bell",          title: "All bells",      subtitle: "5 bell timbres, custom intervals."),
         Benefit(icon: "circle.dotted", title: "All themes",     subtitle: "Dawn, Dusk, Twilight, Monastery."),
         Benefit(icon: "clock.arrow.circlepath", title: "Future updates", subtitle: "New sounds and themes, on us."),
@@ -63,6 +67,9 @@ struct PaywallView: View {
             }
         }
         .interactiveDismissDisabled(isPurchasing)
+        .task {
+            await store.loadProduct()
+        }
     }
 
     private var topBar: some View {
@@ -76,6 +83,7 @@ struct PaywallView: View {
                     .glassSurface(radius: 22, interactive: true)
             }
             .buttonStyle(.plain)
+            .disabled(isPurchasing)
         }
         .padding(.horizontal, Spacing.xl)
         .padding(.top, Spacing.l)
@@ -83,12 +91,12 @@ struct PaywallView: View {
 
     private var bottomCTA: some View {
         VStack(spacing: 14) {
-            Button(action: purchase) {
+            Button(action: { Task { await purchase() } }) {
                 ZStack {
                     if isPurchasing {
                         ProgressView()
                     } else {
-                        Text("Unlock — €14.99 once")
+                        Text(buyLabel)
                             .font(Typography.body(size: 18, weight: .medium))
                             .tracking(0.2)
                             .foregroundStyle(.ink)
@@ -98,29 +106,67 @@ struct PaywallView: View {
                 .glassSurface(radius: Radius.button, tint: 0.55, interactive: true)
             }
             .buttonStyle(.plain)
-            .disabled(isPurchasing)
+            .disabled(isPurchasing || store.product == nil)
 
             Button("Restore purchase") {
-                // V1 stub — real StoreKit `restorePurchases` lands later.
-                if prefs.hasUnlockedPlus { dismiss() }
+                Task { await restore() }
             }
             .buttonStyle(.plain)
             .font(Typography.body(size: 13))
             .foregroundStyle(.inkTertiary)
+            .disabled(isPurchasing)
+
+            if let errorMessage {
+                Text(errorMessage)
+                    .font(Typography.body(size: 12))
+                    .foregroundStyle(.warmAccent)
+                    .multilineTextAlignment(.center)
+                    .transition(.opacity)
+            }
         }
         .padding(.horizontal, 28)
         .padding(.bottom, Spacing.xxl)
     }
 
-    /// Stub purchase flow — flips the local flag and dismisses. Replace
-    /// with `Product.purchase(...)` + verification when StoreKit ships.
-    private func purchase() {
+    /// Use the live App Store price when the product has loaded, fall back
+    /// to a hard-coded label otherwise so the CTA never looks broken.
+    private var buyLabel: String {
+        if let price = store.product?.displayPrice {
+            return "Unlock — \(price) once"
+        }
+        return "Unlock — €14.99 once"
+    }
+
+    // MARK: - Actions
+
+    private func purchase() async {
         isPurchasing = true
-        Task {
-            try? await Task.sleep(for: .milliseconds(800))
-            prefs.hasUnlockedPlus = true
-            isPurchasing = false
+        errorMessage = nil
+        defer { isPurchasing = false }
+        do {
+            let success = try await store.purchase()
+            if success {
+                prefs.hasUnlockedPlus = true
+                dismiss()
+            } else {
+                // Cancel / pending / unverified — silently abort, no error.
+            }
+        } catch {
+            errorMessage = "Purchase failed. \(error.localizedDescription)"
+        }
+    }
+
+    private func restore() async {
+        isPurchasing = true
+        errorMessage = nil
+        defer { isPurchasing = false }
+        await store.restore()
+        let unlocked = await store.isPlusUnlocked()
+        prefs.hasUnlockedPlus = unlocked
+        if unlocked {
             dismiss()
+        } else {
+            errorMessage = "No prior purchase found to restore."
         }
     }
 }
@@ -166,4 +212,5 @@ private struct BenefitRow: View {
 #Preview {
     @Previewable @State var prefs = UserPreferences()
     return PaywallView(prefs: prefs)
+        .environment(StoreService())
 }

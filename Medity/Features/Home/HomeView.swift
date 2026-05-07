@@ -23,6 +23,8 @@ struct HomeView: View {
     @State private var isPresentingSettings = false
     @State private var isPresentingSoundLibrary = false
     @State private var isPresentingBellsPicker = false
+
+    @Environment(StoreService.self) private var store
     /// Set on first appear so we don't reset the user's current dial value
     /// every time we come back from another screen.
     @State private var didSeedDefaultDuration = false
@@ -122,6 +124,18 @@ struct HomeView: View {
             // stay in sync — covers the case where a session ended via
             // a system kill or the app was relaunched after a long pause.
             refreshWidgetStore()
+            // Sync the StoreKit entitlement back into UserPreferences,
+            // upgrade-only: a real purchase elsewhere (or restore on a
+            // new device) flips us to true, but a transient `false` from
+            // an early entitlement check (transactions still loading)
+            // doesn't clobber the persisted state. The debug toggle in
+            // Settings keeps working under DEBUG builds.
+            Task {
+                let unlocked = await store.isPlusUnlocked()
+                if unlocked, let prefs = prefsList.first, !prefs.hasUnlockedPlus {
+                    prefs.hasUnlockedPlus = true
+                }
+            }
         }
     }
 
@@ -318,5 +332,7 @@ private struct LabeledPill<Icon: View>: View {
 #Preview {
     HomeView()
         .environment(HealthStore())
+        .environment(AudioEngine())
+        .environment(StoreService())
         .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)
 }

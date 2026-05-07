@@ -62,6 +62,7 @@ struct SettingsView: View {
 private struct SettingsContent: View {
     @Bindable var prefs: UserPreferences
     @Environment(HealthStore.self) private var healthStore
+    @Environment(StoreService.self) private var store
     private let scheduler = ReminderScheduler()
 
     @State private var presentingSheet: SheetTarget?
@@ -199,7 +200,12 @@ private struct SettingsContent: View {
             SettingsRow(
                 label: "Restore purchases",
                 accent: true,
-                onTap: { /* StoreKit restore — wired with the real Product API */ }
+                onTap: {
+                    Task {
+                        await store.restore()
+                        prefs.hasUnlockedPlus = await store.isPlusUnlocked()
+                    }
+                }
             )
             SettingsRow(
                 label: prefs.hasUnlockedPlus ? "Medity Plus" : "Unlock Medity Plus",
@@ -548,5 +554,6 @@ private struct DurationPicker: View {
 #Preview {
     SettingsView()
         .environment(HealthStore())
+        .environment(StoreService())
         .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)
 }

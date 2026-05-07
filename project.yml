@@ -13,6 +13,27 @@ configs:
   Debug: debug
   Release: release
 
+schemes:
+  Medity:
+    build:
+      targets:
+        Medity: all
+        MedityWidgets: all
+    run:
+      config: Debug
+      storeKitConfiguration: Medity.storekit
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - MedityTests
+    profile:
+      config: Release
+    archive:
+      config: Release
+    analyze:
+      config: Debug
+
 settings:
   base:
     SWIFT_VERSION: "6.0"
