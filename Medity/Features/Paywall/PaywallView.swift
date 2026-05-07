@@ -19,8 +19,7 @@ struct PaywallView: View {
     private let benefits: [Benefit] = [
         Benefit(icon: "waveform",      title: "All sounds",     subtitle: "14 nature, music, and noise tracks."),
         Benefit(icon: "bell",          title: "All bells",      subtitle: "5 bell timbres, custom intervals."),
-        Benefit(icon: "circle.dotted", title: "All themes",     subtitle: "Dawn, Dusk, Twilight, Monastery."),
-        Benefit(icon: "clock.arrow.circlepath", title: "Future updates", subtitle: "New sounds and themes, on us."),
+        Benefit(icon: "clock.arrow.circlepath", title: "Future updates", subtitle: "New sounds, on us."),
     ]
 
     var body: some View {
