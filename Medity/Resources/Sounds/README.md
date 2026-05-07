@@ -3,12 +3,12 @@
 Drop ambient audio files here to upgrade the procedural fallbacks from
 `AudioEngine`. Files take precedence over the synth — when a matching
 file is present, sessions play the recording; when absent, the engine
-falls back to the procedural generator (or silence for the Sacred set).
+falls back to the procedural generator (or silence for unsupported ids).
 
 ## Naming convention
 
 The file's name (without extension) must match the `fileName` declared
-in `SoundCatalog.swift`. Mapping reference:
+in `SoundCatalog.swift`:
 
 | Sound id          | Expected file name     |
 |-------------------|------------------------|
@@ -30,58 +30,64 @@ in `SoundCatalog.swift`. Mapping reference:
 ## File format
 
 Tried in order: `.caf` → `.m4a` → `.mp3` → `.wav`. Pick whichever is
-most convenient.
+most convenient. The current bundle uses `.m4a` (AAC in MP4) since
+`afconvert` / `ffmpeg`'s AAC-in-CAF path is fragile; `.m4a` is iOS-native.
 
-- **`.caf`** — Apple's preferred container. Smallest decode cost. Convert
-  with: `afconvert -f caff -d aac -b 96000 input.wav output.caf`
-- **`.m4a`** — best size/quality trade-off; AAC at ~96 kbps is plenty for
-  ambient.
-- **`.mp3`** / **`.wav`** — work, but heavier. `.wav` will balloon the app size.
+Recommended: 96 kbps mono AAC. For an ambient bed mono is plenty,
+and 96 kbps is the sweet spot between artifacts and size.
+
+```sh
+ffmpeg -i input.ogg -c:a aac -b:a 96k -ac 1 output.m4a
+```
 
 ## Length
 
 Aim for **30 s – 2 min** of seamlessly-loopable content per sound. The
 engine reads the file fully into memory and loops via
-`scheduleBuffer(.loops)`, so very long files cost RAM. Short looped
-files are perfect — in a meditation context the loop point being noticeable
-is the only quality concern.
+`scheduleBuffer(.loops)`. For seamless loops, edit so the start sample
+matches the end sample (crossfade the last 1 s onto the first 1 s of
+itself in Audacity → Effect → Crossfade Tracks).
 
-For seamless loops, edit so the start sample matches the end sample
-(crossfade the last 1 s onto the first 1 s of itself).
+## Where to find files
 
-## Where to find files (free / CC / royalty-free)
-
-- **freesound.org** — huge CC-licensed library. Best for nature recordings.
-  Search "rain", "ocean waves", "tibetan bowl", "om chant", etc.
-  *Check each file's license — most are CC0 or CC-BY (attribution required).*
+- **commons.wikimedia.org** — Public Domain / CC-BY / CC-BY-SA, direct
+  download URLs (predictable upload.wikimedia.org/wikipedia/commons/X/XY/Filename
+  pattern). Best source for tibetan bowls, om chants, nature recordings.
+- **archive.org** — public domain audio collections, long-form recordings.
+- **freesound.org** — large CC-licensed library, requires account.
 - **pixabay.com/sound-effects** — royalty-free, no attribution required.
 - **mixkit.co/free-sound-effects** — clean catalog, free for commercial use.
-- **soundbible.com** — public-domain mixed bag.
-- **bbc.co.uk/sound-effects** — BBC archive, free for personal/educational
-  (commercial requires a license).
-- **zapsplat.com** — free with account, attribution required.
 
 ## Adding a file
 
-1. Drop `rain-light.caf` (or any matching name) into this directory.
-2. Run `xcodegen generate` from the project root — xcodegen will pick up
-   the file and add it to the bundle's resources phase.
-3. Build & run. Pick the sound in the library; you'll hear the recording.
+1. Drop `your-sound.m4a` (matching the catalog name) into this directory.
+2. Run `xcodegen generate` from the project root — xcodegen picks up the
+   file and adds it to the bundle's resources phase.
+3. Build & run. Pick the sound in the library; you'll hear the recording
+   instead of the procedural fallback.
 
-To remove and fall back to the procedural version, just delete the file
-and regenerate.
+To revert to the procedural version, just delete the file and regenerate.
 
-## Attribution
+## Bundled files
 
-Track license info for each file in this README so we don't lose it.
-Format:
+| File                | Source                                   | Artist                            | License            |
+|---------------------|------------------------------------------|-----------------------------------|--------------------|
+| `tibetan-bowls.m4a` | [Wikimedia](https://commons.wikimedia.org/wiki/File:Small_tibetan_singing_bowl.ogg) | Cassa342                          | CC BY-SA 4.0       |
+| `ocean-waves.m4a`   | [Wikimedia](https://commons.wikimedia.org/wiki/File:Waves.ogg) | Dsw4                              | Public Domain      |
+| `forest.m4a`        | [Wikimedia](https://commons.wikimedia.org/wiki/File:20090610_0_ambience.ogg) | nille                             | Public Domain      |
+| `fire.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg) | Glaneur de sons (freesound.org)   | CC BY 3.0          |
+| `rain-light.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg) | cori                              | Public Domain      |
 
-```
-- rain-light.caf — freesound.org/people/<author>/sounds/<id>/ — CC-BY 3.0
-```
+The CC-licensed files (BY / BY-SA) require attribution somewhere in the
+shipping app — typically a "Sound credits" entry in the About / Acknowledgements
+screen.
 
-(Append entries below as you add files.)
+### Still procedural (no recording yet)
 
-### Files
-
-(none yet)
+- `rain.heavy` — heavier filtered noise + extra bass
+- `ocean.shore` — same generator, slower LFO period
+- `wind` — pink noise with 9 s amplitude LFO
+- `river` — brown noise with HF emphasis
+- `om-chant` — TODO, sourceable from Wikimedia "Audio files of Buddhist chants"
+- `temple` — TODO, search "monastery ambience"
+- `noise.*` — always procedural by design (they're math, not recordings)
