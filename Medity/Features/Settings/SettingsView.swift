@@ -79,6 +79,9 @@ private struct SettingsContent: View {
                 healthSection
                 plusSection
                 aboutSection
+                #if DEBUG
+                debugSection
+                #endif
             }
             .padding(.top, 12)
             .padding(.bottom, 30)
@@ -212,6 +215,23 @@ private struct SettingsContent: View {
             SettingsRow(label: "Version", detail: appVersion, isLast: true)
         }
     }
+
+    #if DEBUG
+    /// Build-only shortcuts. Lets us test locked content without StoreKit.
+    /// Stripped from release builds entirely via the `#if DEBUG`.
+    private var debugSection: some View {
+        SettingsGroup(
+            header: "Debug",
+            footer: "Local-only shortcuts. Stripped from release builds."
+        ) {
+            SettingsRow(
+                label: "Plus unlocked",
+                toggle: $prefs.hasUnlockedPlus,
+                isLast: true
+            )
+        }
+    }
+    #endif
 
     private var appVersion: String {
         let info = Bundle.main.infoDictionary
