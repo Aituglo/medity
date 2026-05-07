@@ -25,8 +25,8 @@ final class SessionViewModel {
     /// Current state. Drives view branching.
     private(set) var phase: Phase = .running
 
-    // Wall-clock bookkeeping — see `recomputeRemaining` for the model.
-    private var startDate: Date?
+    // Wall-clock bookkeeping — see `tick()` for the model.
+    private(set) var startDate: Date?
     private var pauseStartDate: Date?
     private var accumulatedPauseSeconds: TimeInterval = 0
 
@@ -52,7 +52,9 @@ final class SessionViewModel {
         tickTask = Task { [weak self] in
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
-                await self?.tick()
+                // Task inherits the enclosing main-actor context, so `tick`
+                // can be called synchronously — no actor hop needed.
+                self?.tick()
             }
         }
     }

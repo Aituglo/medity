@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 import UIKit
 
@@ -15,7 +16,11 @@ struct SessionView: View {
     let minutes: Int
 
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    @Environment(HealthStore.self) private var healthStore
     @State private var vm: SessionViewModel
+    /// Guard against double-persisting on rapid phase transitions.
+    @State private var persistedThisSession = false
 
     init(minutes: Int) {
         self.minutes = minutes
@@ -47,9 +52,41 @@ struct SessionView: View {
         }
         .onChange(of: vm.phase) { _, new in
             if new == .completed {
-                Task { await playCompletionHaptic() }
+                Task {
+                    async let haptic: Void = playCompletionHaptic()
+                    async let persist: Void = persistSession()
+                    _ = await (haptic, persist)
+                }
             }
         }
+    }
+
+    /// Persists the session to SwiftData and mirrors it to HealthKit.
+    /// Sessions shorter than a minute are dropped — they're almost always
+    /// accidental taps and would pollute streak / stats data.
+    private func persistSession() async {
+        guard !persistedThisSession else { return }
+        persistedThisSession = true
+
+        guard let startDate = vm.startDate else { return }
+        let endDate = Date()
+        let actual = vm.elapsedSeconds
+
+        guard actual >= 60 else { return }
+
+        let session = Session(
+            startedAt: startDate,
+            endedAt: endDate,
+            plannedDurationSeconds: vm.totalSeconds,
+            actualDurationSeconds: actual,
+            soundIdentifier: nil,
+            bellIdentifier: "tibetan-bowl",
+            completed: actual >= vm.totalSeconds
+        )
+        modelContext.insert(session)
+        try? modelContext.save()
+
+        await healthStore.saveSession(start: startDate, end: endDate)
     }
 
     // MARK: - Running
@@ -227,4 +264,6 @@ private struct ParticleMist: View {
 
 #Preview("Running") {
     SessionView(minutes: 1)
+        .environment(HealthStore())
+        .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)
 }

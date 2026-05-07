@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 /// Home screen — the timer setup surface.
@@ -18,8 +19,14 @@ struct HomeView: View {
     @State private var minutes: Int = 20
     @State private var soundName: String = "Rain · Light"
     @State private var bellsSummary: String = "Start & End"
-    @State private var streak: Int = 12
     @State private var isPresentingSession = false
+
+    /// All recorded sessions, newest first. Used to compute the live streak.
+    @Query(sort: \Session.endedAt, order: .reverse) private var sessions: [Session]
+
+    private var streak: Int {
+        Session.currentStreak(from: sessions)
+    }
 
     var body: some View {
         ZStack {
@@ -144,7 +151,9 @@ private struct HomeTopBar: View {
             iconButton(systemName: "gearshape") { /* settings */ }
             Spacer()
             HStack(spacing: 8) {
-                streakPill
+                if streak > 0 {
+                    streakPill
+                }
                 iconButton(systemName: "chart.bar") { /* stats */ }
             }
         }
@@ -229,4 +238,6 @@ private struct LabeledPill<Icon: View>: View {
 
 #Preview {
     HomeView()
+        .environment(HealthStore())
+        .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)
 }

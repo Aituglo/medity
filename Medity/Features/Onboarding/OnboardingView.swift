@@ -13,6 +13,7 @@ struct OnboardingView: View {
     let onComplete: () -> Void
 
     @State private var page: Int = 0
+    @Environment(HealthStore.self) private var healthStore
 
     var body: some View {
         ZStack {
@@ -103,13 +104,14 @@ struct OnboardingView: View {
         page += 1
     }
 
-    /// V1 wiring: only request notifications inline. HealthKit auth will
-    /// move here once `HealthStore` lands — adding it now would require
-    /// dragging in entitlements + Info.plist usage strings ahead of the
-    /// service layer that actually consumes the permission.
+    /// Surfaces the two system permission sheets sequentially: notifications
+    /// first (cheap, almost always granted), then HealthKit. `Skip for now`
+    /// bypasses both — the rest of the app degrades gracefully when neither
+    /// is granted.
     private func requestPermissions() async {
         let center = UNUserNotificationCenter.current()
         _ = try? await center.requestAuthorization(options: [.alert, .sound])
+        await healthStore.requestAuthorization()
     }
 }
 
@@ -406,4 +408,5 @@ private struct PermRow: View {
 
 #Preview("Onboarding") {
     OnboardingView { }
+        .environment(HealthStore())
 }
