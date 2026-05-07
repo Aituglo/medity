@@ -230,7 +230,10 @@ Medity/
 
 ```sh
 xcodegen generate
+git add Medity.xcodeproj
 ```
+
+`Medity.xcodeproj/` est **commité** (pas dans `.gitignore`) parce que Xcode Cloud / App Store Connect attendent le projet à la racine du repo. `project.yml` reste la source de vérité ; on commit le `.xcodeproj` regenerated pour que le remote ait toujours un projet up-to-date.
 
 Important : xcodegen liste les fichiers explicitement dans le `.pbxproj` à la génération. Il **ne synchronise pas en continu**. Donc tout fichier ajouté pendant qu'Xcode est ouvert n'apparaîtra pas tant qu'on n'a pas régénéré (et redémarré Xcode si nécessaire).
 
