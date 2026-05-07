@@ -47,11 +47,6 @@ struct CairnMark: Shape {
     }
 }
 
-#Preview {
-    ZStack {
-        Backdrop(.dawn)
-        CairnMark()
-            .fill(Color.ink)
-            .frame(width: 80, height: 84)
-    }
-}
+// Preview omitted intentionally: this file is shared with the widget
+// extension, which doesn't build the main app's design-system types
+// (Backdrop, etc.). Preview the cairn from any main-app file instead.

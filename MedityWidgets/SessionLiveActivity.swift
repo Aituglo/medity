@@ -163,6 +163,12 @@ private struct ProgressRing: View {
                 .trim(from: 0, to: max(0, min(1, fraction)))
                 .stroke(Color(hex: 0x9CC2FF), style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
                 .rotationEffect(.degrees(-90))
+            // Cairn motif at the centre — same shape as the app icon, in
+            // a single soft white tone. Scaled to ~50 % of the ring's
+            // bounding box so it sits visually inside the stroke.
+            CairnMark()
+                .fill(Color.white.opacity(0.85))
+                .padding(8)
         }
     }
 }

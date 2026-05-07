@@ -99,10 +99,9 @@ struct SessionView: View {
             }
         }
         .onChange(of: vm.remainingSeconds) { _, new in
-            // Push periodic updates so the lock screen + Dynamic Island
-            // countdowns stay in sync. Only every 5 s — Activity updates
-            // are rate-limited and we don't want to burn budget.
-            guard vm.phase == .running, new % 5 == 0 else { return }
+            // Push every-second updates so the Dynamic Island and Lock
+            // Screen countdowns tick smoothly with the in-app timer.
+            guard vm.phase == .running else { return }
             Task {
                 await liveActivity.update(
                     remainingSeconds: new,

@@ -12,7 +12,7 @@ enum SoundCatalog {
     enum Category: String, CaseIterable {
         case nature    = "Nature"
         case noise     = "Noise"
-        case sacred    = "Sacred"
+        case music     = "Music"
         case stillness = "Stillness"
     }
 
@@ -46,11 +46,13 @@ enum SoundCatalog {
         Sound(id: "noise.pink",   displayName: "Pink",          category: .noise,     isPremium: false, fileName: nil),
         Sound(id: "noise.white",  displayName: "White",         category: .noise,     isPremium: false, fileName: nil),
 
-        // Sacred — Plus-only.
-        Sound(id: "tibetan-bowls", displayName: "Tibetan Bowls",     category: .sacred, isPremium: true, fileName: "tibetan-bowls"),
-        Sound(id: "om-chant",      displayName: "Om Chant",          category: .sacred, isPremium: true, fileName: "om-chant"),
-        Sound(id: "temple",        displayName: "Temple Ambience",   category: .sacred, isPremium: true, fileName: "temple"),
-        Sound(id: "suikinkutsu",   displayName: "Suikinkutsu",       category: .sacred, isPremium: true, fileName: "suikinkutsu"),
+        // Music — composed meditation tracks. Plus-only.
+        Sound(id: "calm",      displayName: "Calm",      category: .music, isPremium: true, fileName: "calm"),
+        Sound(id: "illusions", displayName: "Illusions", category: .music, isPremium: true, fileName: "illusions"),
+        Sound(id: "japanese",  displayName: "Japanese",  category: .music, isPremium: true, fileName: "japanese"),
+        Sound(id: "moonlight", displayName: "Moonlight", category: .music, isPremium: true, fileName: "moonlight"),
+        Sound(id: "reverie",   displayName: "Reverie",   category: .music, isPremium: true, fileName: "reverie"),
+        Sound(id: "spatium",   displayName: "Spatium",   category: .music, isPremium: true, fileName: "spatium"),
 
         // Stillness — sentinel, no playback.
         Sound(id: "silence",       displayName: "Silence",           category: .stillness, isPremium: false, fileName: nil),

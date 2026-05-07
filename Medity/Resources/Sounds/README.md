@@ -20,10 +20,12 @@ in `SoundCatalog.swift`:
 | `river`           | `river`                |
 | `fire`            | `fire`                 |
 | `wind`            | `wind`                 |
-| `tibetan-bowls`   | `tibetan-bowls`        |
-| `om-chant`        | `om-chant`             |
-| `temple`          | `temple`               |
-| `suikinkutsu`     | `suikinkutsu`          |
+| `calm`            | `calm`                 |
+| `illusions`       | `illusions`            |
+| `japanese`        | `japanese`             |
+| `moonlight`       | `moonlight`            |
+| `reverie`         | `reverie`              |
+| `spatium`         | `spatium`              |
 
 The session bell (rung at start + end) also looks for a bundled
 `bell.{caf,m4a,mp3,wav}`. When present, it replaces the synthesized
@@ -78,18 +80,20 @@ To revert to the procedural version, just delete the file and regenerate.
 
 | File                | Source                                   | Artist                            | License            |
 |---------------------|------------------------------------------|-----------------------------------|--------------------|
-| `tibetan-bowls.m4a` | [Wikimedia](https://commons.wikimedia.org/wiki/File:Small_tibetan_singing_bowl.ogg) | Cassa342                          | CC BY-SA 4.0       |
 | `ocean-waves.m4a`   | [Wikimedia](https://commons.wikimedia.org/wiki/File:Waves.ogg) | Dsw4                              | Public Domain      |
 | `forest.m4a`        | [Wikimedia](https://commons.wikimedia.org/wiki/File:20090610_0_ambience.ogg) | nille                             | Public Domain      |
 | `fire.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg) | Glaneur de sons (freesound.org)   | CC BY 3.0          |
 | `rain-light.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg) | cori                              | Public Domain      |
-| `temple.m4a`        | [Wikimedia](https://commons.wikimedia.org/wiki/File:Monks_chanting,_Drepung_monastery,_Tibet.webm) | Maris Burbergs                    | CC BY 3.0          |
-| `om-chant.m4a`      | [Wikimedia](https://commons.wikimedia.org/wiki/File:Schola_Gregoriana-Pater_Noster.ogg) | Schola Gregoriana                 | CC BY-SA 3.0       |
 | `bell.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Meditation_Gong.ogg) | Marble Toast                      | CC0                |
-| `suikinkutsu.m4a`   | [Wikimedia](https://commons.wikimedia.org/wiki/File:Suikinkutsu-LS100128.ogg) | Fg2                               | Public Domain      |
 | `rain-heavy.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Regen_op_een_pannendak_-_SoundCloud_-_Beeld_en_Geluid.ogg) | Beeld en Geluid (NL audiovisual archive) | CC BY-SA 3.0 |
 | `river.m4a`         | [Wikimedia](https://commons.wikimedia.org/wiki/File:Water_on_Rocks.ogg) | Dsw4                              | CC BY 3.0          |
 | `wind.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Howling_wind.ogg) | Tvabutzku1234                     | CC0                |
+| `calm.m4a`          | User-supplied (~/Downloads/meditation/calm.mp3)                | —                                 | TBD                |
+| `illusions.m4a`     | User-supplied (~/Downloads/meditation/illusions.mp3)           | —                                 | TBD                |
+| `japanese.m4a`      | User-supplied (~/Downloads/meditation/japanese.mp3)            | —                                 | TBD                |
+| `moonlight.m4a`     | User-supplied (~/Downloads/meditation/moonlight.mp3)           | —                                 | TBD                |
+| `reverie.m4a`       | User-supplied (~/Downloads/meditation/reverie.mp3)             | —                                 | TBD                |
+| `spatium.m4a`       | User-supplied (~/Downloads/meditation/spatium.mp3)             | —                                 | TBD                |
 
 The CC-licensed files (BY / BY-SA) require attribution somewhere in the
 shipping app — typically a "Sound credits" entry in the About / Acknowledgements
