@@ -30,6 +30,22 @@ extension Color {
     static let hairlineStrong = Color(hex: 0x0F1B2D, opacity: 0.10)
 }
 
+// Re-exposed as `ShapeStyle` so call sites like `.foregroundStyle(.ink)` and
+// `.fill(.accent)` work without having to write the `Color` qualifier. Mirrors
+// what the system does for `.primary`, `.secondary`, etc.
+extension ShapeStyle where Self == Color {
+    static var appBackground:    Color { Color.appBackground }
+    static var ink:              Color { Color.ink }
+    static var inkSecondary:     Color { Color.inkSecondary }
+    static var inkTertiary:      Color { Color.inkTertiary }
+    static var accent:           Color { Color.accent }
+    static var warmAccent:       Color { Color.warmAccent }
+    static var warmAccentSoft:   Color { Color.warmAccentSoft }
+    static var aura:             Color { Color.aura }
+    static var hairline:         Color { Color.hairline }
+    static var hairlineStrong:   Color { Color.hairlineStrong }
+}
+
 // MARK: - Typography
 
 enum Typography {

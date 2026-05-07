@@ -228,13 +228,13 @@ Medity/
 
 ### Génération du projet Xcode
 
-À chaque modification de `project.yml` ou ajout de cible :
+À chaque ajout/suppression de fichier `.swift` ou de modification de `project.yml` :
 
 ```sh
 xcodegen generate
 ```
 
-Puis ouvrir `Medity.xcodeproj`. Le projet utilise des **synchronized groups** : ajouter un fichier dans `Medity/` le rend automatiquement visible dans Xcode (pas besoin de regen pour les fichiers).
+Important : xcodegen liste les fichiers explicitement dans le `.pbxproj` à la génération. Il **ne synchronise pas en continu**. Donc tout fichier ajouté pendant qu'Xcode est ouvert n'apparaîtra pas tant qu'on n'a pas régénéré (et redémarré Xcode si nécessaire).
 
 ### Build CLI
 
@@ -271,4 +271,5 @@ Ordre d'implémentation suggéré (ne pas tout faire d'un coup) :
 
 (Ajouter ici les pièges et corrections au fil du dev. Format : `[YYYY-MM-DD] CONTEXT → LESSON`)
 
-— vide pour l'instant —
+- [2026-05-07] CONTEXT: Couleurs définies uniquement comme `static let` sur `Color` ne fonctionnent pas dans `.foregroundStyle(.ink)` car ce dernier attend un `ShapeStyle` → LESSON: Toujours dupliquer chaque token couleur dans une `extension ShapeStyle where Self == Color` pour permettre les usages `.foregroundStyle(.token)` / `.fill(.token)` sans qualifier.
+- [2026-05-07] CONTEXT: Après ajout de `TimerRing.swift`, le build échoue avec "cannot find 'TimerRing' in scope" → LESSON: xcodegen liste explicitement les fichiers dans le pbxproj, il ne synchronise pas. Toujours `xcodegen generate` après création/suppression d'un fichier `.swift`.
