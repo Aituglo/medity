@@ -14,6 +14,7 @@ import SwiftUI
 struct StatsView: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Session.endedAt, order: .reverse) private var sessions: [Session]
+    @State private var isPresentingAchievements = false
 
     var body: some View {
         ZStack {
@@ -26,6 +27,9 @@ struct StatsView: View {
                     populated
                 }
             }
+        }
+        .fullScreenCover(isPresented: $isPresentingAchievements) {
+            AchievementsView()
         }
     }
 
@@ -46,7 +50,14 @@ struct StatsView: View {
                 .font(Typography.body(size: 18))
                 .foregroundStyle(.ink)
             Spacer()
-            Color.clear.frame(width: 44, height: 44)
+            Button { isPresentingAchievements = true } label: {
+                Image(systemName: "rosette")
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundStyle(.ink)
+                    .frame(width: 44, height: 44)
+                    .glassSurface(radius: 22, interactive: true)
+            }
+            .buttonStyle(.plain)
         }
         .padding(.horizontal, Spacing.xl)
         .padding(.top, Spacing.l)
