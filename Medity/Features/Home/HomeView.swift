@@ -79,8 +79,12 @@ struct HomeView: View {
 
     /// Horizontally scrollable preset chips. The currently-selected value gets
     /// the prominent style.
+    ///
+    /// `scrollClipDisabled` is required: without it, the chips' glass shadows
+    /// and Liquid Glass extents get clipped to the ScrollView's bounds, which
+    /// rendered as a faint gray "rail" behind the row in iOS 26.
     private var presetRow: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal) {
             HStack(spacing: 8) {
                 ForEach(presets, id: \.self) { value in
                     PresetChip(value: value, isSelected: minutes == value) {
@@ -89,7 +93,10 @@ struct HomeView: View {
                 }
             }
             .padding(.horizontal, 28)
+            .padding(.vertical, 8)
         }
+        .scrollIndicators(.hidden)
+        .scrollClipDisabled()
     }
 
     /// Side-by-side eyebrow-titled pills for the current sound and bells.
@@ -181,7 +188,7 @@ private struct PresetChip: View {
                 .padding(.vertical, 10)
                 .glassSurface(
                     radius: Radius.pill,
-                    tint: isSelected ? 0.55 : 0.18,
+                    tint: isSelected ? 0.45 : 0,
                     interactive: true
                 )
         }
