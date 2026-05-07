@@ -32,7 +32,7 @@ struct PrimaryButton: View {
                     .background(Circle().fill(Color.ink.opacity(0.06)))
             }
             .frame(maxWidth: .infinity, minHeight: 64)
-            .glassSurface(radius: Radius.button, tint: 0.65)
+            .glassSurface(radius: Radius.button, tint: 0.40, interactive: true)
         }
         .buttonStyle(.plain)
     }

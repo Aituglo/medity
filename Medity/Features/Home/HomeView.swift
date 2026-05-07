@@ -36,7 +36,11 @@ struct HomeView: View {
                     TimerRing(minutes: $minutes)
                     timerLabel
                 }
-                .padding(.horizontal, Spacing.xl)
+                // Cap the ZStack to the ring's intrinsic size. Without this
+                // the AuraView (440 pt) would dictate the parent VStack's
+                // width and push every sibling — top bar, chips, CTA — past
+                // the screen edges on a 393 pt iPhone.
+                .frame(width: 350, height: 350)
 
                 presetRow
                     .padding(.top, Spacing.xl)
@@ -146,7 +150,7 @@ private struct HomeTopBar: View {
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)
-        .glassSurface(radius: Radius.pill, tint: 0.55)
+        .glassSurface(radius: Radius.pill)
     }
 
     private func iconButton(systemName: String, action: @escaping () -> Void) -> some View {
@@ -155,7 +159,7 @@ private struct HomeTopBar: View {
                 .font(.system(size: 16, weight: .regular))
                 .foregroundStyle(.ink)
                 .frame(width: 44, height: 44)
-                .glassSurface(radius: 22, tint: 0.55)
+                .glassSurface(radius: 22, interactive: true)
         }
         .buttonStyle(.plain)
     }
@@ -177,7 +181,8 @@ private struct PresetChip: View {
                 .padding(.vertical, 10)
                 .glassSurface(
                     radius: Radius.pill,
-                    tint: isSelected ? 0.92 : 0.50
+                    tint: isSelected ? 0.55 : 0.18,
+                    interactive: true
                 )
         }
         .buttonStyle(.plain)
@@ -207,7 +212,7 @@ private struct LabeledPill<Icon: View>: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
-        .glassSurface(radius: 20, tint: 0.55)
+        .glassSurface(radius: 20)
     }
 }
 
