@@ -121,7 +121,7 @@
 
 /* Begin PBXFileReference section */
 		006FF76DEF09D95597F7BEC8 /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
-		018545A3003AB34857410E54 /* bell.m4a */ = {isa = PBXFileReference; path = bell.m4a; sourceTree = "<group>"; };
+		018545A3003AB34857410E54 /* bell.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bell.m4a; sourceTree = "<group>"; };
 		0A74BEB1B8F8AA7A77E80FF7 /* SoundLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundLibraryView.swift; sourceTree = "<group>"; };
 		0BFB9CF97309FB114107E5DD /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 		10815E88BDD0983BFEC2C157 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -130,8 +130,8 @@
 		189E58B67B50E80A539A728D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		18DEA62FBB9DE060E392A55E /* Medity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Medity.entitlements; sourceTree = "<group>"; };
 		1B0075CD4DE7B87AE2D97FDF /* Geist-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Medium.otf"; sourceTree = "<group>"; };
-		1DCA6A6DE3B2A6306528960A /* rain-light.m4a */ = {isa = PBXFileReference; path = "rain-light.m4a"; sourceTree = "<group>"; };
-		21EB9FE1214AD2B59F50C307 /* reverie.m4a */ = {isa = PBXFileReference; path = reverie.m4a; sourceTree = "<group>"; };
+		1DCA6A6DE3B2A6306528960A /* rain-light.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "rain-light.m4a"; sourceTree = "<group>"; };
+		21EB9FE1214AD2B59F50C307 /* reverie.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = reverie.m4a; sourceTree = "<group>"; };
 		25733462004D668C616E1FEB /* Backdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backdrop.swift; sourceTree = "<group>"; };
 		26B3D086F790FAE0DDED0A75 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		27B887441DA05A6735F92E3C /* MedityUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MedityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,35 +140,35 @@
 		3489C14C51195E7160EF0426 /* BellSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellSynth.swift; sourceTree = "<group>"; };
 		34CB98B617CA7B6159F3BF2E /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		39B6A5CCF1C15AEED3B16572 /* AuraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraView.swift; sourceTree = "<group>"; };
-		42124A18432D6CD333498C9E /* moonlight.m4a */ = {isa = PBXFileReference; path = moonlight.m4a; sourceTree = "<group>"; };
+		42124A18432D6CD333498C9E /* moonlight.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = moonlight.m4a; sourceTree = "<group>"; };
 		4260C830D235A0A12B1AF090 /* SharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
-		44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */ = {isa = PBXFileReference; path = "rain-heavy.m4a"; sourceTree = "<group>"; };
+		44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "rain-heavy.m4a"; sourceTree = "<group>"; };
 		47B72F9152C4A5CC021AF7D3 /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
 		4969C51CB23569DB69FB76B5 /* Geist-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Regular.otf"; sourceTree = "<group>"; };
 		4A227550A360DB7B68C6A984 /* Geist-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Thin.otf"; sourceTree = "<group>"; };
-		4E1BABC26143AC54DC67E12A /* forest.m4a */ = {isa = PBXFileReference; path = forest.m4a; sourceTree = "<group>"; };
+		4E1BABC26143AC54DC67E12A /* forest.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = forest.m4a; sourceTree = "<group>"; };
 		4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityController.swift; sourceTree = "<group>"; };
 		50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassSurface.swift; sourceTree = "<group>"; };
 		551F1AC62710E313E077B43D /* SoundGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundGenerator.swift; sourceTree = "<group>"; };
 		5644316087C570548CD72340 /* MedityWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MedityWidgets.entitlements; sourceTree = "<group>"; };
-		5AF1AC724637E18592AAB3D3 /* japanese.m4a */ = {isa = PBXFileReference; path = japanese.m4a; sourceTree = "<group>"; };
-		5E95BC3009626DD10F345E90 /* illusions.m4a */ = {isa = PBXFileReference; path = illusions.m4a; sourceTree = "<group>"; };
+		5AF1AC724637E18592AAB3D3 /* japanese.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = japanese.m4a; sourceTree = "<group>"; };
+		5E95BC3009626DD10F345E90 /* illusions.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = illusions.m4a; sourceTree = "<group>"; };
 		652BD31F0E7BCD4AB696AA78 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		674FC1138CE5A8543A38AB21 /* BellsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellsPickerView.swift; sourceTree = "<group>"; };
 		685F6CC2C9FC2541EA2210A9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		6AC744DCEDC93206824A0D74 /* NoiseGenerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseGenerators.swift; sourceTree = "<group>"; };
 		6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		706148A12387994A794C714A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
-		79C0873C7F3E08B3767FF5F0 /* spatium.m4a */ = {isa = PBXFileReference; path = spatium.m4a; sourceTree = "<group>"; };
+		79C0873C7F3E08B3767FF5F0 /* spatium.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = spatium.m4a; sourceTree = "<group>"; };
 		7B1A4B6DDBFDDBDC62321EFB /* UserPreferences+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPreferences+Display.swift"; sourceTree = "<group>"; };
-		7BA992B1590D922A0EA17B63 /* Medity.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Medity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BA992B1590D922A0EA17B63 /* Medity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Medity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CC9844B714976E034995C43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7F51DD7013894907D723B72F /* SoundCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCatalog.swift; sourceTree = "<group>"; };
 		89EDDDB83503F9D6F6830684 /* AchievementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementDetailView.swift; sourceTree = "<group>"; };
 		8D35904E25066F131084563C /* MedityTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MedityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-SemiBold.otf"; sourceTree = "<group>"; };
 		9D5D5C10556B09B18FCCC350 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		A0534973F30956949F013335 /* MedityWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MedityWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0534973F30956949F013335 /* MedityWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MedityWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0D0BABAA822A7BB8EE1D4A3 /* SessionStreakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStreakTests.swift; sourceTree = "<group>"; };
 		A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionActivityAttributes.swift; sourceTree = "<group>"; };
 		B0AD44E9CC5F360A0B9CF516 /* SessionLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLiveActivity.swift; sourceTree = "<group>"; };
@@ -180,18 +180,18 @@
 		D1BBA46375C48FC77060FB3C /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
 		D401200C1FDA34C12FA8FC78 /* AchievementEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementEngine.swift; sourceTree = "<group>"; };
 		D7C473F3495E84163E13C778 /* CairnMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CairnMark.swift; sourceTree = "<group>"; };
-		D88EB88483F0E8716199D85A /* ocean-waves.m4a */ = {isa = PBXFileReference; path = "ocean-waves.m4a"; sourceTree = "<group>"; };
+		D88EB88483F0E8716199D85A /* ocean-waves.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ocean-waves.m4a"; sourceTree = "<group>"; };
 		D935CB5303A2A1CF5D88BB96 /* ReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderScheduler.swift; sourceTree = "<group>"; };
 		DC68479C643AF4F40BEE1359 /* Geist-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Light.otf"; sourceTree = "<group>"; };
-		E32769551DE87D693D50143F /* river.m4a */ = {isa = PBXFileReference; path = river.m4a; sourceTree = "<group>"; };
+		E32769551DE87D693D50143F /* river.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = river.m4a; sourceTree = "<group>"; };
 		E32D25FE80965C6856EEEA9D /* BellCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellCatalog.swift; sourceTree = "<group>"; };
 		EACA99615132A7B796F88F3C /* Session+Streak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+Streak.swift"; sourceTree = "<group>"; };
-		EE643DD1CAE0D6297ECAB19B /* fire.m4a */ = {isa = PBXFileReference; path = fire.m4a; sourceTree = "<group>"; };
+		EE643DD1CAE0D6297ECAB19B /* fire.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = fire.m4a; sourceTree = "<group>"; };
 		EF14BD276419D36AF28701E3 /* MedityWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedityWidgets.swift; sourceTree = "<group>"; };
 		F228E5CB2E99DF6E09C58E91 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		F500A83CFD2DAB84DD66719C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		FB7DBE4C4DB324CE7AA74377 /* calm.m4a */ = {isa = PBXFileReference; path = calm.m4a; sourceTree = "<group>"; };
-		FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */ = {isa = PBXFileReference; path = wind.m4a; sourceTree = "<group>"; };
+		FB7DBE4C4DB324CE7AA74377 /* calm.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = calm.m4a; sourceTree = "<group>"; };
+		FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = wind.m4a; sourceTree = "<group>"; };
 		FECF874F2FEB350F361F6276 /* Geist-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-ExtraLight.otf"; sourceTree = "<group>"; };
 		FFE59215B614621427299474 /* MedityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedityApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -755,6 +755,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MedityWidgets/MedityWidgets.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 85Q3MAPQ75;
 				INFOPLIST_FILE = MedityWidgets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -776,6 +777,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = MedityWidgets/MedityWidgets.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 85Q3MAPQ75;
 				INFOPLIST_FILE = MedityWidgets/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -866,23 +868,15 @@
 				CODE_SIGN_ENTITLEMENTS = Medity/Medity.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 85Q3MAPQ75;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Medity;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Medity reads your heart rate during sessions to give a fuller picture of your practice.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Medity saves your sessions to Apple Health as Mindful Minutes so they count toward your day.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
-				INFOPLIST_KEY_UIAppFonts = (
-					"Geist-Thin.otf",
-					"Geist-ExtraLight.otf",
-					"Geist-Light.otf",
-					"Geist-Regular.otf",
-					"Geist-Medium.otf",
-					"Geist-SemiBold.otf",
-				);
+				INFOPLIST_KEY_UIAppFonts = "Geist-Thin.otf Geist-ExtraLight.otf Geist-Light.otf Geist-Regular.otf Geist-Medium.otf Geist-SemiBold.otf";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UIBackgroundModes = (
-					audio,
-				);
+				INFOPLIST_KEY_UIBackgroundModes = audio;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
@@ -984,23 +978,15 @@
 				CODE_SIGN_ENTITLEMENTS = Medity/Medity.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 85Q3MAPQ75;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = Medity;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "Medity reads your heart rate during sessions to give a fuller picture of your practice.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Medity saves your sessions to Apple Health as Mindful Minutes so they count toward your day.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
-				INFOPLIST_KEY_UIAppFonts = (
-					"Geist-Thin.otf",
-					"Geist-ExtraLight.otf",
-					"Geist-Light.otf",
-					"Geist-Regular.otf",
-					"Geist-Medium.otf",
-					"Geist-SemiBold.otf",
-				);
+				INFOPLIST_KEY_UIAppFonts = "Geist-Thin.otf Geist-ExtraLight.otf Geist-Light.otf Geist-Regular.otf Geist-Medium.otf Geist-SemiBold.otf";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UIBackgroundModes = (
-					audio,
-				);
+				INFOPLIST_KEY_UIBackgroundModes = audio;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;

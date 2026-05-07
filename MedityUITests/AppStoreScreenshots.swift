@@ -94,10 +94,24 @@ final class AppStoreScreenshots: XCTestCase {
     /// Take a screenshot of the whole window (not just the app's frame),
     /// name it for export, and keep it on the test result bundle.
     private func snapshot(_ name: String, from app: XCUIApplication) {
+        dismissTopBanner(in: app)
+        // Brief settle so the dismiss animation is offscreen by capture.
+        Thread.sleep(forTimeInterval: 0.4)
         let screenshot = XCUIScreen.main.screenshot()
         let attachment = XCTAttachment(screenshot: screenshot)
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+
+    /// Swipe from the very top of the screen upward, off-screen. Cheap and
+    /// idempotent: when an Apple Intelligence / system notification banner
+    /// is present, this dismisses it; when it's not, the gesture has no
+    /// visible effect on the app since it starts above any tappable
+    /// content.
+    private func dismissTopBanner(in app: XCUIApplication) {
+        let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.04))
+        let end   = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: -0.10))
+        start.press(forDuration: 0.05, thenDragTo: end)
     }
 }
