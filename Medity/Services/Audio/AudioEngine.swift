@@ -182,9 +182,12 @@ final class AudioEngine {
         engine.attach(filePlayer)
         engine.attach(bellPlayer)
         engine.connect(sourceNode, to: engine.mainMixerNode, format: format)
-        // `format: nil` lets the file player negotiate its own format with
-        // the main mixer — files can be any sample rate / channel count.
-        engine.connect(filePlayer, to: engine.mainMixerNode, format: nil)
+        // Pin the file player's output to our standard mono format. With
+        // `format: nil`, the negotiated format defaults to the main mixer's
+        // input (stereo) and `scheduleBuffer` raises an NSException when
+        // we hand it a mono buffer. The format mismatch path is closed by
+        // running everything through `AVAudioConverter` at load time.
+        engine.connect(filePlayer, to: engine.mainMixerNode, format: format)
         engine.connect(bellPlayer, to: engine.mainMixerNode, format: format)
         bellBuffer = BellSynth.renderBuffer(format: format)
     }
@@ -247,22 +250,58 @@ final class AudioEngine {
         return nil
     }
 
-    /// Reads an audio file fully into memory. Required for seamless
-    /// looping via `scheduleBuffer(.loops)` — `scheduleFile` doesn't
-    /// support loops, and short buffers ≤ a few minutes fit comfortably.
+    /// Reads an audio file fully into memory **in the engine's standard
+    /// playback format**. Required for seamless looping via
+    /// `scheduleBuffer(.loops)`, and required so the buffer matches
+    /// `filePlayer`'s connection format (mismatch → NSException).
+    /// Conversion is a no-op for files already encoded as mono 44.1 kHz.
     private func loadFileAsBuffer(url: URL) -> AVAudioPCMBuffer? {
         guard let file = try? AVAudioFile(forReading: url) else { return nil }
-        let frameCount = AVAudioFrameCount(file.length)
-        guard frameCount > 0,
-              let buffer = AVAudioPCMBuffer(pcmFormat: file.processingFormat, frameCapacity: frameCount)
+        let sourceFormat = file.processingFormat
+        let totalFrames = AVAudioFrameCount(file.length)
+        guard totalFrames > 0,
+              let sourceBuffer = AVAudioPCMBuffer(pcmFormat: sourceFormat, frameCapacity: totalFrames)
         else { return nil }
         do {
-            try file.read(into: buffer)
-            return buffer
+            try file.read(into: sourceBuffer)
         } catch {
             print("AudioEngine: failed to read \(url.lastPathComponent): \(error)")
             return nil
         }
+
+        // Fast path — bundled files are already in the right format.
+        if sourceFormat.sampleRate == format.sampleRate
+            && sourceFormat.channelCount == format.channelCount
+            && sourceFormat.commonFormat == format.commonFormat {
+            return sourceBuffer
+        }
+        return convert(buffer: sourceBuffer, to: format)
+    }
+
+    /// One-shot conversion of a PCM buffer to `target`. Used as a safety
+    /// net for any future audio asset that doesn't ship as mono 44.1 kHz.
+    private func convert(buffer source: AVAudioPCMBuffer, to target: AVAudioFormat) -> AVAudioPCMBuffer? {
+        guard let converter = AVAudioConverter(from: source.format, to: target) else { return nil }
+        let ratio = target.sampleRate / source.format.sampleRate
+        let outFrames = AVAudioFrameCount(Double(source.frameLength) * ratio + 1024)
+        guard let dest = AVAudioPCMBuffer(pcmFormat: target, frameCapacity: outFrames) else { return nil }
+
+        var consumed = false
+        var error: NSError?
+        converter.convert(to: dest, error: &error) { _, status in
+            if consumed {
+                status.pointee = .endOfStream
+                return nil
+            }
+            consumed = true
+            status.pointee = .haveData
+            return source
+        }
+        if let error {
+            print("AudioEngine: format conversion failed: \(error)")
+            return nil
+        }
+        return dest
     }
 
     // MARK: - Generator selection
