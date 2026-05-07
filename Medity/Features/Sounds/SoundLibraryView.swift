@@ -9,6 +9,7 @@ import SwiftUI
 struct SoundLibraryView: View {
     @Bindable var prefs: UserPreferences
     @Environment(\.dismiss) private var dismiss
+    @Environment(AudioEngine.self) private var audio
 
     var body: some View {
         ZStack {
@@ -30,6 +31,14 @@ struct SoundLibraryView: View {
                 }
                 .scrollIndicators(.hidden)
             }
+        }
+        .onAppear {
+            // Preview whatever is currently selected, so opening the sheet
+            // immediately tells the user "this is what your sessions sound like".
+            audio.playBackground(soundId: prefs.defaultSoundIdentifier)
+        }
+        .onDisappear {
+            audio.stopAll()
         }
     }
 
@@ -79,6 +88,8 @@ struct SoundLibraryView: View {
         // Locked sounds are visually dimmed — guard against tap anyway.
         guard !sound.isPremium || prefs.hasUnlockedPlus else { return }
         prefs.defaultSoundIdentifier = sound.id
+        // Preview live so the user can compare options without committing.
+        audio.playBackground(soundId: sound.id)
     }
 }
 
@@ -192,4 +203,5 @@ private struct PlusUpsellCard: View {
 #Preview {
     @Previewable @State var prefs = UserPreferences()
     return SoundLibraryView(prefs: prefs)
+        .environment(AudioEngine())
 }

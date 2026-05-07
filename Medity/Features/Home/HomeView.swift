@@ -80,7 +80,10 @@ struct HomeView: View {
             }
         }
         .fullScreenCover(isPresented: $isPresentingSession) {
-            SessionView(minutes: minutes)
+            SessionView(
+                minutes: minutes,
+                soundId: prefsList.first?.defaultSoundIdentifier
+            )
         }
         .fullScreenCover(isPresented: $isPresentingStats) {
             StatsView()

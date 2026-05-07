@@ -14,16 +14,19 @@ import UIKit
 /// dim mid-session. We re-enable it on disappear.
 struct SessionView: View {
     let minutes: Int
+    let soundId: String?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Environment(HealthStore.self) private var healthStore
+    @Environment(AudioEngine.self) private var audio
     @State private var vm: SessionViewModel
     /// Guard against double-persisting on rapid phase transitions.
     @State private var persistedThisSession = false
 
-    init(minutes: Int) {
+    init(minutes: Int, soundId: String?) {
         self.minutes = minutes
+        self.soundId = soundId
         _vm = State(initialValue: SessionViewModel(minutes: minutes))
     }
 
@@ -45,13 +48,21 @@ struct SessionView: View {
             // in a meditation room.
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             UIApplication.shared.isIdleTimerDisabled = true
+            audio.playBackground(soundId: soundId)
+            audio.playBell()
             vm.start()
         }
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
+            audio.stopAll()
         }
         .onChange(of: vm.phase) { _, new in
             if new == .completed {
+                // Closing bell + slow fade of the ambient — let the room
+                // return to quiet before the "Well done." view appears.
+                audio.playBell()
+                Task { await audio.fadeOutBackground(over: 3.0) }
+
                 Task {
                     async let haptic: Void = playCompletionHaptic()
                     async let persist: Void = persistSession()
@@ -263,7 +274,8 @@ private struct ParticleMist: View {
 }
 
 #Preview("Running") {
-    SessionView(minutes: 1)
+    SessionView(minutes: 1, soundId: "rain.light")
         .environment(HealthStore())
+        .environment(AudioEngine())
         .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)
 }

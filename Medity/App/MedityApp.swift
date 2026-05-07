@@ -7,8 +7,9 @@ struct MedityApp: App {
     /// the user finishes onboarding — by tapping the final CTA or "Skip".
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
-    /// Single shared HealthKit wrapper; injected via `.environment`.
+    /// Shared services injected via `.environment` so any view can read them.
     @State private var healthStore = HealthStore()
+    @State private var audioEngine = AudioEngine()
 
     var body: some Scene {
         WindowGroup {
@@ -25,6 +26,7 @@ struct MedityApp: App {
             }
             .animation(.easeInOut(duration: 0.5), value: hasCompletedOnboarding)
             .environment(healthStore)
+            .environment(audioEngine)
         }
         // Local-only persistence in V1. Switching to CloudKit-synced is a
         // single-line change to a `ModelConfiguration` once the developer
