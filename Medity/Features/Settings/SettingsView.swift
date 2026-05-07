@@ -62,20 +62,19 @@ struct SettingsView: View {
 private struct SettingsContent: View {
     @Bindable var prefs: UserPreferences
     @Environment(HealthStore.self) private var healthStore
-    @Environment(StoreService.self) private var store
     @Environment(\.openURL) private var openURL
     private let scheduler = ReminderScheduler()
 
     @State private var presentingSheet: SheetTarget?
 
     enum SheetTarget: Identifiable {
-        case time, days, duration, sound, bells, paywall, acknowledgements
+        case time, days, duration, sound, bells, acknowledgements
         var id: Self { self }
     }
 
     /// Sheets that need the full available height instead of the
     /// duration-picker-style medium detent.
-    private let largeSheets: Set<SheetTarget> = [.sound, .bells, .paywall, .acknowledgements]
+    private let largeSheets: Set<SheetTarget> = [.sound, .bells, .acknowledgements]
 
     var body: some View {
         ScrollView {
@@ -83,11 +82,7 @@ private struct SettingsContent: View {
                 reminderSection
                 defaultsSection
                 healthSection
-                plusSection
                 aboutSection
-                #if DEBUG
-                debugSection
-                #endif
             }
             .padding(.top, 12)
             .padding(.bottom, 30)
@@ -112,7 +107,6 @@ private struct SettingsContent: View {
         case .duration:         DurationPicker(prefs: prefs)
         case .sound:            SoundLibraryView(prefs: prefs)
         case .bells:            BellsPickerView(prefs: prefs)
-        case .paywall:          PaywallView(prefs: prefs)
         case .acknowledgements: AcknowledgementsView()
         }
     }
@@ -195,31 +189,6 @@ private struct SettingsContent: View {
         }
     }
 
-    // MARK: Plus
-
-    private var plusSection: some View {
-        SettingsGroup(header: "Medity Plus") {
-            SettingsRow(
-                label: "Restore purchases",
-                accent: true,
-                onTap: {
-                    Task {
-                        await store.restore()
-                        prefs.hasUnlockedPlus = await store.isPlusUnlocked()
-                    }
-                }
-            )
-            SettingsRow(
-                label: prefs.hasUnlockedPlus ? "Medity Plus" : "Unlock Medity Plus",
-                detail: prefs.hasUnlockedPlus ? "Active" : "€14.99",
-                chevron: !prefs.hasUnlockedPlus,
-                accent: true,
-                isLast: true,
-                onTap: prefs.hasUnlockedPlus ? nil : { presentingSheet = .paywall }
-            )
-        }
-    }
-
     // MARK: About
 
     private var aboutSection: some View {
@@ -245,23 +214,6 @@ private struct SettingsContent: View {
         guard let url = URL(string: "https://aituglo.github.io/medity/privacy") else { return }
         openURL(url)
     }
-
-    #if DEBUG
-    /// Build-only shortcuts. Lets us test locked content without StoreKit.
-    /// Stripped from release builds entirely via the `#if DEBUG`.
-    private var debugSection: some View {
-        SettingsGroup(
-            header: "Debug",
-            footer: "Local-only shortcuts. Stripped from release builds."
-        ) {
-            SettingsRow(
-                label: "Plus unlocked",
-                toggle: $prefs.hasUnlockedPlus,
-                isLast: true
-            )
-        }
-    }
-    #endif
 
     private var appVersion: String {
         let info = Bundle.main.infoDictionary
@@ -572,6 +524,5 @@ private struct DurationPicker: View {
 #Preview {
     SettingsView()
         .environment(HealthStore())
-        .environment(StoreService())
         .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)
 }

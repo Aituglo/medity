@@ -21,7 +21,6 @@ schemes:
         MedityWidgets: all
     run:
       config: Debug
-      storeKitConfiguration: Medity.storekit
     test:
       config: Debug
       gatherCoverageData: true

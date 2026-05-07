@@ -22,8 +22,6 @@ enum SoundCatalog {
         /// User-facing label (display only — never used as a key).
         let displayName: String
         let category: Category
-        /// `true` when the sound is part of the Medity Plus IAP.
-        let isPremium: Bool
         /// Bundle resource name (without extension) for the looping asset.
         /// `nil` means the sound is procedural (noise) or silent.
         let fileName: String?
@@ -32,30 +30,30 @@ enum SoundCatalog {
     /// All sounds, in the order they should appear inside their section.
     static let all: [Sound] = [
         // Nature
-        Sound(id: "rain.light",   displayName: "Rain · Light",  category: .nature,    isPremium: false, fileName: "rain-light"),
-        Sound(id: "rain.heavy",   displayName: "Rain · Heavy",  category: .nature,    isPremium: false, fileName: "rain-heavy"),
-        Sound(id: "ocean.waves",  displayName: "Ocean Waves",   category: .nature,    isPremium: false, fileName: "ocean-waves"),
-        Sound(id: "ocean.shore",  displayName: "Ocean Shore",   category: .nature,    isPremium: false, fileName: "ocean-shore"),
-        Sound(id: "forest",       displayName: "Forest",        category: .nature,    isPremium: false, fileName: "forest"),
-        Sound(id: "river",        displayName: "River",         category: .nature,    isPremium: false, fileName: "river"),
-        Sound(id: "fire",         displayName: "Fire",          category: .nature,    isPremium: true,  fileName: "fire"),
-        Sound(id: "wind",         displayName: "Wind",          category: .nature,    isPremium: true,  fileName: "wind"),
+        Sound(id: "rain.light",   displayName: "Rain · Light",  category: .nature, fileName: "rain-light"),
+        Sound(id: "rain.heavy",   displayName: "Rain · Heavy",  category: .nature, fileName: "rain-heavy"),
+        Sound(id: "ocean.waves",  displayName: "Ocean Waves",   category: .nature, fileName: "ocean-waves"),
+        Sound(id: "ocean.shore",  displayName: "Ocean Shore",   category: .nature, fileName: "ocean-shore"),
+        Sound(id: "forest",       displayName: "Forest",        category: .nature, fileName: "forest"),
+        Sound(id: "river",        displayName: "River",         category: .nature, fileName: "river"),
+        Sound(id: "fire",         displayName: "Fire",          category: .nature, fileName: "fire"),
+        Sound(id: "wind",         displayName: "Wind",          category: .nature, fileName: "wind"),
 
         // Noise — generated procedurally, no bundled file.
-        Sound(id: "noise.brown",  displayName: "Brown",         category: .noise,     isPremium: false, fileName: nil),
-        Sound(id: "noise.pink",   displayName: "Pink",          category: .noise,     isPremium: false, fileName: nil),
-        Sound(id: "noise.white",  displayName: "White",         category: .noise,     isPremium: false, fileName: nil),
+        Sound(id: "noise.brown",  displayName: "Brown",         category: .noise,  fileName: nil),
+        Sound(id: "noise.pink",   displayName: "Pink",          category: .noise,  fileName: nil),
+        Sound(id: "noise.white",  displayName: "White",         category: .noise,  fileName: nil),
 
-        // Music — composed meditation tracks. Plus-only.
-        Sound(id: "calm",      displayName: "Calm",      category: .music, isPremium: true, fileName: "calm"),
-        Sound(id: "illusions", displayName: "Illusions", category: .music, isPremium: true, fileName: "illusions"),
-        Sound(id: "japanese",  displayName: "Japanese",  category: .music, isPremium: true, fileName: "japanese"),
-        Sound(id: "moonlight", displayName: "Moonlight", category: .music, isPremium: true, fileName: "moonlight"),
-        Sound(id: "reverie",   displayName: "Reverie",   category: .music, isPremium: true, fileName: "reverie"),
-        Sound(id: "spatium",   displayName: "Spatium",   category: .music, isPremium: true, fileName: "spatium"),
+        // Music — composed meditation tracks.
+        Sound(id: "calm",         displayName: "Calm",          category: .music,  fileName: "calm"),
+        Sound(id: "illusions",    displayName: "Illusions",     category: .music,  fileName: "illusions"),
+        Sound(id: "japanese",     displayName: "Japanese",      category: .music,  fileName: "japanese"),
+        Sound(id: "moonlight",    displayName: "Moonlight",     category: .music,  fileName: "moonlight"),
+        Sound(id: "reverie",      displayName: "Reverie",       category: .music,  fileName: "reverie"),
+        Sound(id: "spatium",      displayName: "Spatium",       category: .music,  fileName: "spatium"),
 
         // Stillness — sentinel, no playback.
-        Sound(id: "silence",       displayName: "Silence",           category: .stillness, isPremium: false, fileName: nil),
+        Sound(id: "silence",      displayName: "Silence",       category: .stillness, fileName: nil),
     ]
 
     /// O(n) lookup by identifier. The catalog is small enough that this

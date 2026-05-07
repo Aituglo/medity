@@ -22,15 +22,15 @@ the app handles, where it goes, and what choices you have.
   grant permission and never leave your device.
 - **Notifications** are local-only. We don't push notifications from a
   server.
-- **In-app purchases** are processed by Apple. We never see or store your
-  payment details.
+- **No in-app purchases.** Medity is fully free. There is nothing to buy
+  inside the app.
 
 ## What data Medity stores
 
 | Data | Where it's stored | Why |
 |------|-------------------|-----|
 | Meditation sessions (start/end time, duration, sound choice) | Locally on your device, optionally synced via your iCloud account (CloudKit private database) | Compute streak, statistics, heatmap |
-| Default sound, bell, reminder schedule, Plus unlock | Locally on device, optionally synced via your iCloud | Persist your preferences across launches and devices |
+| Default sound, bell, reminder schedule | Locally on device, optionally synced via your iCloud | Persist your preferences across launches and devices |
 | HealthKit "Mindful Minutes" sample, one per completed session | Apple Health on your device | Surface meditation in the system Health app |
 | HealthKit heart-rate / HRV (if you grant permission) | Read locally during a session, never persisted by Medity | Display heart-rate context on the post-session view |
 
@@ -77,13 +77,6 @@ you choose. No remote push, no server, no notification provider.
 
 Medity is suitable for all ages. No personal data of any kind is
 collected, so we don't make any age-specific provisions.
-
-## In-app purchase
-
-Medity Plus is a one-time purchase processed entirely by Apple's
-StoreKit. We never see your credit card or Apple ID. The only piece of
-data Medity stores after a purchase is a local boolean ("you own Plus")
-and Apple's verified entitlement record.
 
 ## Data deletion
 

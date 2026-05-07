@@ -10,7 +10,6 @@ struct MedityApp: App {
     /// Shared services injected via `.environment` so any view can read them.
     @State private var healthStore = HealthStore()
     @State private var audioEngine = AudioEngine()
-    @State private var storeService = StoreService()
 
     /// Persistence container — CloudKit-backed when the device is signed
     /// in to iCloud and the container is reachable; falls back to local
@@ -34,7 +33,6 @@ struct MedityApp: App {
             .animation(.easeInOut(duration: 0.5), value: hasCompletedOnboarding)
             .environment(healthStore)
             .environment(audioEngine)
-            .environment(storeService)
         }
         .modelContainer(modelContainer)
     }

@@ -1,17 +1,14 @@
 import SwiftUI
-import UIKit
 
 /// Bottom sheet listing every sound by section, with a check on the
 /// currently-selected one. Tapping a row updates `prefs.defaultSoundIdentifier`
-/// and dismisses; tapping a Plus-locked row is a no-op for now (the paywall
-/// will plug in here later).
+/// and the previewed audio switches immediately.
 ///
 /// Designed to be presented with `.presentationDetents([.large])`.
 struct SoundLibraryView: View {
     @Bindable var prefs: UserPreferences
     @Environment(\.dismiss) private var dismiss
     @Environment(AudioEngine.self) private var audio
-    @State private var isPresentingPaywall = false
 
     var body: some View {
         ZStack {
@@ -22,11 +19,6 @@ struct SoundLibraryView: View {
                     VStack(alignment: .leading, spacing: 18) {
                         ForEach(SoundCatalog.Category.allCases, id: \.self) { category in
                             section(for: category)
-                        }
-                        if !prefs.hasUnlockedPlus {
-                            PlusUpsellCard { isPresentingPaywall = true }
-                                .padding(.horizontal, 14)
-                                .padding(.top, 4)
                         }
                     }
                     .padding(.bottom, 24)
@@ -41,11 +33,6 @@ struct SoundLibraryView: View {
         }
         .onDisappear {
             audio.stopAll()
-        }
-        .sheet(isPresented: $isPresentingPaywall) {
-            PaywallView(prefs: prefs)
-                .presentationDetents([.large])
-                .presentationDragIndicator(.visible)
         }
     }
 
@@ -81,7 +68,6 @@ struct SoundLibraryView: View {
                         sound: sound,
                         isSelected: prefs.defaultSoundIdentifier == sound.id,
                         isLast: index == sounds.count - 1,
-                        isUnlocked: !sound.isPremium || prefs.hasUnlockedPlus,
                         onTap: { select(sound) }
                     )
                 }
@@ -92,12 +78,6 @@ struct SoundLibraryView: View {
     }
 
     private func select(_ sound: SoundCatalog.Sound) {
-        // Locked sounds are visually dimmed — guard against tap anyway.
-        guard !sound.isPremium || prefs.hasUnlockedPlus else {
-            UINotificationFeedbackGenerator().notificationOccurred(.warning)
-            isPresentingPaywall = true
-            return
-        }
         prefs.defaultSoundIdentifier = sound.id
         // Preview live so the user can compare options without committing.
         audio.playBackground(soundId: sound.id)
@@ -110,7 +90,6 @@ private struct SoundRow: View {
     let sound: SoundCatalog.Sound
     let isSelected: Bool
     let isLast: Bool
-    let isUnlocked: Bool
     let onTap: () -> Void
 
     var body: some View {
@@ -127,11 +106,6 @@ private struct SoundRow: View {
                         .font(.system(size: 14, weight: .medium))
                         .foregroundStyle(.accent)
                 }
-                if !isUnlocked {
-                    Image(systemName: "lock.fill")
-                        .font(.system(size: 11))
-                        .foregroundStyle(.inkTertiary)
-                }
             }
             .contentShape(Rectangle())
             .padding(.horizontal, 20)
@@ -144,7 +118,6 @@ private struct SoundRow: View {
             }
         }
         .buttonStyle(.plain)
-        .opacity(isUnlocked ? 1 : 0.55)
     }
 }
 
@@ -168,46 +141,6 @@ private struct MiniWaveform: View {
                     .frame(width: 1.4, height: Self.heights[i])
             }
         }
-    }
-}
-
-// MARK: - Plus upsell card
-
-private struct PlusUpsellCard: View {
-    let onTap: () -> Void
-
-    var body: some View {
-        Button(action: onTap) {
-            HStack(spacing: 14) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(LinearGradient(
-                            colors: [Color(hex: 0xDDE6F3), Color(hex: 0xB6C8DE)],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        ))
-                        .frame(width: 44, height: 44)
-                    Circle()
-                        .stroke(Color.ink, lineWidth: 1)
-                        .frame(width: 18, height: 18)
-                }
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Medity Plus")
-                        .font(Typography.display(size: 18, weight: .regular))
-                        .foregroundStyle(.ink)
-                    Text("Unlock all sounds, bells, themes.")
-                        .font(Typography.body(size: 13))
-                        .foregroundStyle(.inkSecondary)
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundStyle(.inkTertiary)
-            }
-            .padding(18)
-            .glassSurface(radius: 22, tint: 0.40, interactive: true)
-        }
-        .buttonStyle(.plain)
     }
 }
 

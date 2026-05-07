@@ -35,9 +35,6 @@ final class UserPreferences {
     /// Bit 0 = Sunday, bit 6 = Saturday. Default = all seven days.
     var reminderDaysBitmask: Int = 0b1111111
 
-    /// Whether the user has unlocked the Medity Plus IAP.
-    var hasUnlockedPlus: Bool = false
-
     init() {}
 }
 

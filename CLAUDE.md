@@ -10,7 +10,7 @@
 
 **Auteur** : Aituglo (solo)
 **Plateformes** : iOS uniquement (V1). Pas d'iPad ni de Watch en V1.
-**Cible commerciale** : Free + un IAP one-time "Medity Plus" (€14.99) qui débloque sons/bells/thèmes premium.
+**Cible commerciale** : entièrement gratuite, sans publicité, sans IAP. App perso de l'auteur, partagée librement.
 
 ---
 
@@ -20,7 +20,6 @@
 - **iOS 26.0+** minimum (Xcode 26 / Swift 6.3+) — pour avoir l'API native Liquid Glass (`.glassEffect()`).
 - **SwiftData + CloudKit** pour le stockage offline-first avec sync iCloud (DB privée).
 - **HealthKit** : write `mindfulSession` à chaque méditation. Read si dispo (HRV / heart rate / sleep — l'utilisateur porte une Oura ring qui écrit dans HealthKit).
-- **StoreKit 2** pour le one-time IAP.
 - **WidgetKit** pour les widgets home + lock screen (streak, dernière session, semaine).
 - **ActivityKit** pour la Live Activity (Dynamic Island pendant une session).
 - **AVFoundation** pour les sons d'ambiance (loop seamless) et les cloches.
@@ -69,7 +68,7 @@ Medity/
     │   ├── HealthKit/
     │   ├── Haptics/
     │   ├── Notifications/
-    │   └── Store/                # StoreKit 2
+    │   └── (no IAP)
     └── Resources/
         ├── Assets.xcassets/
         ├── Fonts/                # Geist (à ajouter)
@@ -109,7 +108,6 @@ Medity/
     var reminderEnabled: Bool
     var reminderTime: Date            // time-of-day component
     var reminderDays: Int              // bitfield 0b1111111 = all days
-    var hasUnlockedPlus: Bool
 }
 ```
 
@@ -174,10 +172,10 @@ Medity/
 
 ### Audio
 
-**Bibliothèque sons d'ambiance** (loop seamless) :
-- Nature : Rain Light, Rain Heavy, Ocean Waves, Ocean Shore, Forest, River, Fire (Plus), Wind (Plus)
+**Bibliothèque sons d'ambiance** (loop seamless, tout gratuit) :
+- Nature : Rain Light, Rain Heavy, Ocean Waves, Ocean Shore, Forest, River, Fire, Wind
 - Noise : Brown, Pink, White
-- Sacred (Plus) : Tibetan Bowls, Om Chant, Temple Ambience
+- Music : Calm, Illusions, Japanese, Moonlight, Reverie, Spatium
 - Stillness : Silence
 
 **Cloches** (start / end / interval) : Tibetan bowl, Japanese bell, Gong, Soft chime, Deep bell, Wood block.
@@ -259,16 +257,15 @@ xcodebuild -project Medity.xcodeproj -scheme Medity -destination 'platform=iOS S
 7. ✅ **Bells picker** — 5 timbres (4 synth + 1 file), interval bells 5/10/15 min, ducking pendant la cloche
 8. ✅ **Stats** — streak hero, heatmap 26 weeks, 4 metrics 2x2, line graph 30 jours, empty state "First stone"
 9. ✅ **Achievements** — 9 markers dérivés des sessions, grille + detail sheet
-10. ✅ **Settings** — reminder schedule + ReminderScheduler, defaults, Health, paywall hook, About, debug toggle Plus
-11. ✅ **Paywall** — UI complète, achat stubbé (à wirer avec StoreKit 2)
-12. ✅ **Widgets** — Streak (small/medium/large + lock-screen accessories), App Group `group.com.aituglo.medity`
-13. ✅ **Live Activity** — Dynamic Island compact/minimal/expanded + Lock Screen, ActivityKit
-14. ✅ **App icon** — cairn 1024x1024, gradient radial bleu doux
+10. ✅ **Settings** — reminder schedule + ReminderScheduler, defaults, Health, About, Acknowledgements
+11. ✅ **Widgets** — Streak (small/medium/large + lock-screen accessories), App Group `group.com.aituglo.medity`
+12. ✅ **Live Activity** — Dynamic Island compact/minimal/expanded + Lock Screen, ActivityKit
+13. ✅ **App icon** — cairn 1024x1024, gradient radial bleu doux
+14. ✅ **CloudKit sync** — entitlement iCloud + ModelConfiguration `.private` (provisioning côté Apple Developer Portal)
+15. ✅ **GitHub Pages** — privacy + acknowledgements à `aituglo.github.io/medity`
 
 ### Restant pour la prod
 
-- **StoreKit 2 réel** — Product config + transaction listener + restore (achat actuellement stub)
-- **CloudKit sync** — entitlement iCloud + container provisionné (modèles déjà compatibles)
 - **Tests UI** (purement V2)
 
 ---
