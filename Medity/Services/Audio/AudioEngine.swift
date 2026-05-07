@@ -33,9 +33,15 @@ private final class AmbientControl: @unchecked Sendable {
 ///   - `AmbientControl.volume` — applied per-sample in the source node.
 ///   - `filePlayer.volume`     — separate path direct to the main mixer.
 ///   - `bellPlayer.volume`     — bell stays at full level during ducking.
-@MainActor
+///
+/// **Not `@MainActor`** — historically that caused libdispatch assertions
+/// when AVFoundation invoked back into our state from its own queues. The
+/// type is `@unchecked Sendable` instead; we treat all public methods as
+/// effectively single-threaded (called from the SwiftUI view layer, which
+/// is always on main) and protect cross-thread state through
+/// `AmbientControl` (file-scope, non-isolated, atomic-on-ARM64 fields).
 @Observable
-final class AudioEngine {
+final class AudioEngine: @unchecked Sendable {
     private let engine = AVAudioEngine()
     private let bellPlayer = AVAudioPlayerNode()
     private let filePlayer = AVAudioPlayerNode()
@@ -65,6 +71,12 @@ final class AudioEngine {
     /// sounds stop. Bundled files take precedence over procedural
     /// generators when both exist.
     func playBackground(soundId: String?) {
+        // The engine has to be running before we touch the player nodes —
+        // scheduling a buffer or calling `play()` on a node attached to a
+        // stopped engine has tripped libdispatch queue assertions in the
+        // past. Bring it up first, then mutate state.
+        ensureRunning()
+
         // Stop whichever path was active.
         ambient.generator = nil
         if filePlayer.isPlaying { filePlayer.stop() }
@@ -77,7 +89,6 @@ final class AudioEngine {
         // 1) Bundled audio file, looped.
         if let buffer = loadBundledLoop(for: soundId) {
             filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
-            ensureRunning()
             if !filePlayer.isPlaying { filePlayer.play() }
             setAmbientVolume(1.0)
             currentSoundId = soundId
@@ -89,7 +100,6 @@ final class AudioEngine {
             ambient.generator = generator
             setAmbientVolume(1.0)
             currentSoundId = soundId
-            ensureRunning()
             return
         }
 
