@@ -1,6 +1,22 @@
 import AVFoundation
 import Observation
 
+/// Mutable state shared between the main thread (writes) and the audio
+/// render thread (reads).
+///
+/// Defined at file scope rather than inside `AudioEngine` so it does NOT
+/// inherit `@MainActor` isolation — the render thread reads
+/// `generator` / `volume` every frame and would trigger a libdispatch
+/// "block expected to execute on queue" assertion if either property was
+/// main-actor isolated. `@unchecked Sendable` opts out of the compile-time
+/// isolation check; correctness comes from the fact that class-reference
+/// and `Float` writes are atomic on ARM64, and one stale frame on a swap
+/// is inaudible (~23 µs at 44.1 kHz).
+private final class AmbientControl: @unchecked Sendable {
+    var generator: SoundGenerator?
+    var volume: Float = 1.0
+}
+
 /// Single audio engine for the whole app.
 ///
 /// The graph is built **once** in `init` and never mutated again — playing a
@@ -18,14 +34,6 @@ import Observation
 @MainActor
 @Observable
 final class AudioEngine {
-    /// Holds the live generator and ambient gain. Both audio thread (read)
-    /// and main thread (write) touch it; class-reference and `Float` writes
-    /// are atomic on iOS, and one stale frame on a swap is inaudible.
-    private final class AmbientControl: @unchecked Sendable {
-        var generator: SoundGenerator?
-        var volume: Float = 1.0
-    }
-
     private let engine = AVAudioEngine()
     private let bellPlayer = AVAudioPlayerNode()
     private let ambient = AmbientControl()
