@@ -19,6 +19,7 @@ struct HomeView: View {
     @State private var soundName: String = "Rain · Light"
     @State private var bellsSummary: String = "Start & End"
     @State private var streak: Int = 12
+    @State private var isPresentingSession = false
 
     var body: some View {
         ZStack {
@@ -52,11 +53,14 @@ struct HomeView: View {
                 Spacer(minLength: 0)
 
                 PrimaryButton("\(minutes) min session", icon: .play) {
-                    // Hooked up when SessionView lands.
+                    isPresentingSession = true
                 }
                 .padding(.horizontal, 28)
                 .padding(.bottom, Spacing.xxl)
             }
+        }
+        .fullScreenCover(isPresented: $isPresentingSession) {
+            SessionView(minutes: minutes)
         }
     }
 
