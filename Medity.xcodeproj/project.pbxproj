@@ -12,6 +12,7 @@
 		04F17C828F2357CA05030FD5 /* BellsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674FC1138CE5A8543A38AB21 /* BellsPickerView.swift */; };
 		058721EB7D52F20554018197 /* Geist-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */; };
 		091B23DF6B282595FB645BE8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10815E88BDD0983BFEC2C157 /* SettingsView.swift */; };
+		0EFDAE9AD5EEFEE12A9EE785 /* AppStoreScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134533C8F3B3266657A56525 /* AppStoreScreenshots.swift */; };
 		139715B8F283AA06768C354C /* moonlight.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42124A18432D6CD333498C9E /* moonlight.m4a */; };
 		1994D69DAD9789955F87E840 /* spatium.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 79C0873C7F3E08B3767FF5F0 /* spatium.m4a */; };
 		1C0DE986230531022E78DCCA /* GlassSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */; };
@@ -23,6 +24,7 @@
 		2F2724E468D7446AF1D8A5EB /* UserPreferences+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A4B6DDBFDDBDC62321EFB /* UserPreferences+Display.swift */; };
 		3439726E34FC849112BFC13D /* AuraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6A5CCF1C15AEED3B16572 /* AuraView.swift */; };
 		3522267AD7874D67D7FE5547 /* rain-light.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1DCA6A6DE3B2A6306528960A /* rain-light.m4a */; };
+		3CB2DC1924E12A5CCC409621 /* MockDataSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC98F997F41ECA62B278AEE /* MockDataSeeder.swift */; };
 		3EC735A7D0D260226AABBDCF /* SessionStreakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D0BABAA822A7BB8EE1D4A3 /* SessionStreakTests.swift */; };
 		41976C7767C6C03547485482 /* LiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */; };
 		46CDBAB731129362B4115702 /* MedityWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF14BD276419D36AF28701E3 /* MedityWidgets.swift */; };
@@ -94,6 +96,13 @@
 			remoteGlobalIDString = 26F0F38CA20DD06D5EE51DA9;
 			remoteInfo = MedityWidgets;
 		};
+		93CD6C67E78135B5C5B0DDC6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E530E64DC3F0DF39F673792B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C01BF9725FB688EF11B6020A;
+			remoteInfo = Medity;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -116,6 +125,7 @@
 		0A74BEB1B8F8AA7A77E80FF7 /* SoundLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundLibraryView.swift; sourceTree = "<group>"; };
 		0BFB9CF97309FB114107E5DD /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 		10815E88BDD0983BFEC2C157 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		134533C8F3B3266657A56525 /* AppStoreScreenshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreScreenshots.swift; sourceTree = "<group>"; };
 		15F63691A29939B5093A970E /* AcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsView.swift; sourceTree = "<group>"; };
 		189E58B67B50E80A539A728D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		18DEA62FBB9DE060E392A55E /* Medity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Medity.entitlements; sourceTree = "<group>"; };
@@ -124,7 +134,9 @@
 		21EB9FE1214AD2B59F50C307 /* reverie.m4a */ = {isa = PBXFileReference; path = reverie.m4a; sourceTree = "<group>"; };
 		25733462004D668C616E1FEB /* Backdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backdrop.swift; sourceTree = "<group>"; };
 		26B3D086F790FAE0DDED0A75 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
+		27B887441DA05A6735F92E3C /* MedityUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MedityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB7B5C737E82AB4AF93DA42 /* TimerRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRing.swift; sourceTree = "<group>"; };
+		2DC98F997F41ECA62B278AEE /* MockDataSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSeeder.swift; sourceTree = "<group>"; };
 		3489C14C51195E7160EF0426 /* BellSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellSynth.swift; sourceTree = "<group>"; };
 		34CB98B617CA7B6159F3BF2E /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		39B6A5CCF1C15AEED3B16572 /* AuraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraView.swift; sourceTree = "<group>"; };
@@ -198,6 +210,7 @@
 			children = (
 				7BA992B1590D922A0EA17B63 /* Medity.app */,
 				8D35904E25066F131084563C /* MedityTests.xctest */,
+				27B887441DA05A6735F92E3C /* MedityUITests.xctest */,
 				A0534973F30956949F013335 /* MedityWidgets.appex */,
 			);
 			name = Products;
@@ -378,6 +391,7 @@
 			children = (
 				75FF8086B335A22A2565A88F /* Medity */,
 				1527B15AFA814AC8DC5AEB1A /* MedityTests */,
+				F799D945814E42C528C21748 /* MedityUITests */,
 				8C2ABC6C260ABB1014F64433 /* MedityWidgets */,
 				14A8CA0BB4A8D3E849CCA094 /* Products */,
 			);
@@ -420,6 +434,7 @@
 				D16C19E7E5988C5CE7C30D16 /* Audio */,
 				26B3D086F790FAE0DDED0A75 /* HealthStore.swift */,
 				4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */,
+				2DC98F997F41ECA62B278AEE /* MockDataSeeder.swift */,
 				D935CB5303A2A1CF5D88BB96 /* ReminderScheduler.swift */,
 			);
 			path = Services;
@@ -436,6 +451,14 @@
 				4A227550A360DB7B68C6A984 /* Geist-Thin.otf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		F799D945814E42C528C21748 /* MedityUITests */ = {
+			isa = PBXGroup;
+			children = (
+				134533C8F3B3266657A56525 /* AppStoreScreenshots.swift */,
+			);
+			path = MedityUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,6 +499,24 @@
 			productReference = A0534973F30956949F013335 /* MedityWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		479A6CE85FA619205B29088D /* MedityUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D49F1645ECC39341CE7091DE /* Build configuration list for PBXNativeTarget "MedityUITests" */;
+			buildPhases = (
+				4D62F2AE33E08A0CDED5E99C /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D505AC6B764454D22F9C587B /* PBXTargetDependency */,
+			);
+			name = MedityUITests;
+			packageProductDependencies = (
+			);
+			productName = MedityUITests;
+			productReference = 27B887441DA05A6735F92E3C /* MedityUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		C01BF9725FB688EF11B6020A /* Medity */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DCE965540D21757541E1CC2F /* Build configuration list for PBXNativeTarget "Medity" */;
@@ -511,6 +552,10 @@
 					26F0F38CA20DD06D5EE51DA9 = {
 						ProvisioningStyle = Automatic;
 					};
+					479A6CE85FA619205B29088D = {
+						ProvisioningStyle = Automatic;
+						TestTargetID = C01BF9725FB688EF11B6020A;
+					};
 					C01BF9725FB688EF11B6020A = {
 						ProvisioningStyle = Automatic;
 					};
@@ -532,6 +577,7 @@
 			targets = (
 				C01BF9725FB688EF11B6020A /* Medity */,
 				0934D365BD40DC9D3B0B3C04 /* MedityTests */,
+				479A6CE85FA619205B29088D /* MedityUITests */,
 				26F0F38CA20DD06D5EE51DA9 /* MedityWidgets */,
 			);
 		};
@@ -593,6 +639,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4D62F2AE33E08A0CDED5E99C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EFDAE9AD5EEFEE12A9EE785 /* AppStoreScreenshots.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CB50CEBE54EA7C02397A79DD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -615,6 +669,7 @@
 				60994760F550A45CAE976D71 /* HomeView.swift in Sources */,
 				41976C7767C6C03547485482 /* LiveActivityController.swift in Sources */,
 				E38FEA7F867367D1E63EF96A /* MedityApp.swift in Sources */,
+				3CB2DC1924E12A5CCC409621 /* MockDataSeeder.swift in Sources */,
 				A9FE2851E692C04CA81C663D /* NoiseGenerators.swift in Sources */,
 				C9ACE7CF970E771568B770E9 /* OnboardingView.swift in Sources */,
 				BCE3B0174D51B0F6A8CA3240 /* PrimaryButton.swift in Sources */,
@@ -645,6 +700,11 @@
 			isa = PBXTargetDependency;
 			target = C01BF9725FB688EF11B6020A /* Medity */;
 			targetProxy = 3E82E8C9094A98B5E8AFECB1 /* PBXContainerItemProxy */;
+		};
+		D505AC6B764454D22F9C587B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C01BF9725FB688EF11B6020A /* Medity */;
+			targetProxy = 93CD6C67E78135B5C5B0DDC6 /* PBXContainerItemProxy */;
 		};
 		E3E0BDA368B2E7D1A888645E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -836,6 +896,24 @@
 			};
 			name = Debug;
 		};
+		A2BE542452C5DF0D4917A16F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.MedityUITests;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Medity;
+			};
+			name = Release;
+		};
 		CB86A674B9B13667965B0B65 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -933,6 +1011,24 @@
 			};
 			name = Release;
 		};
+		D6F7064BA557FEDB4F627860 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.MedityUITests;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Medity;
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -950,6 +1046,15 @@
 			buildConfigurations = (
 				988ECF824F63CE73622515D0 /* Debug */,
 				CB86A674B9B13667965B0B65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D49F1645ECC39341CE7091DE /* Build configuration list for PBXNativeTarget "MedityUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6F7064BA557FEDB4F627860 /* Debug */,
+				A2BE542452C5DF0D4917A16F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

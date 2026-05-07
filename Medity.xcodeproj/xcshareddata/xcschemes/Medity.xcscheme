@@ -65,6 +65,17 @@
                ReferencedContainer = "container:Medity.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "479A6CE85FA619205B29088D"
+               BuildableName = "MedityUITests.xctest"
+               BlueprintName = "MedityUITests"
+               ReferencedContainer = "container:Medity.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

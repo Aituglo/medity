@@ -26,6 +26,7 @@ schemes:
       gatherCoverageData: true
       targets:
         - MedityTests
+        - MedityUITests
     profile:
       config: Release
     archive:
@@ -55,6 +56,19 @@ targets:
       base:
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_EMIT_LOC_STRINGS: NO
+
+  MedityUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: MedityUITests
+    dependencies:
+      - target: Medity
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_EMIT_LOC_STRINGS: NO
+        TEST_TARGET_NAME: Medity
 
   MedityWidgets:
     type: app-extension

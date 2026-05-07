@@ -27,6 +27,8 @@ struct HomeView: View {
     /// every time we come back from another screen.
     @State private var didSeedDefaultDuration = false
 
+    @Environment(\.modelContext) private var modelContext
+
     /// All recorded sessions, newest first. Used to compute the live streak.
     @Query(sort: \Session.endedAt, order: .reverse) private var sessions: [Session]
 
@@ -109,6 +111,9 @@ struct HomeView: View {
             }
         }
         .onAppear {
+            // Mock-seed for App Store screenshots — no-op unless launched
+            // with `-seedMockSessions YES`.
+            MockDataSeeder.seedIfRequested(in: modelContext)
             // Seed the dial from the persisted default exactly once, on
             // first appear after launch. We don't want to reset the user's
             // current selection every time they pop back from Stats /
