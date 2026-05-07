@@ -199,7 +199,20 @@ final class AudioEngine: @unchecked Sendable {
         // running everything through `AVAudioConverter` at load time.
         engine.connect(filePlayer, to: engine.mainMixerNode, format: format)
         engine.connect(bellPlayer, to: engine.mainMixerNode, format: format)
-        bellBuffer = BellSynth.renderBuffer(format: format)
+        bellBuffer = loadBellBuffer()
+    }
+
+    /// Load the bell sound. Prefers a bundled `bell.{caf,m4a,mp3,wav}`
+    /// recording (warmer, more characterful) and falls back to the
+    /// procedural `BellSynth` if no file is present.
+    private func loadBellBuffer() -> AVAudioPCMBuffer? {
+        for ext in ["caf", "m4a", "mp3", "wav"] {
+            if let url = Bundle.main.url(forResource: "bell", withExtension: ext),
+               let buffer = loadFileAsBuffer(url: url) {
+                return buffer
+            }
+        }
+        return BellSynth.renderBuffer(format: format)
     }
 
     private func ensureRunning() {
