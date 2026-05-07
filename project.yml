@@ -36,11 +36,31 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_EMIT_LOC_STRINGS: NO
 
+  MedityWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: MedityWidgets
+      - path: Medity/Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aituglo.medity.widgets
+        PRODUCT_NAME: MedityWidgets
+        TARGETED_DEVICE_FAMILY: "1"
+        SUPPORTS_MACCATALYST: NO
+        CODE_SIGN_ENTITLEMENTS: MedityWidgets/MedityWidgets.entitlements
+        INFOPLIST_FILE: MedityWidgets/Info.plist
+        SKIP_INSTALL: YES
+        CURRENT_PROJECT_VERSION: "1"
+        MARKETING_VERSION: "1.0"
+
   Medity:
     type: application
     platform: iOS
     sources:
       - path: Medity
+    dependencies:
+      - target: MedityWidgets
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.aituglo.medity
@@ -61,3 +81,4 @@ targets:
         INFOPLIST_KEY_UIStatusBarStyle: UIStatusBarStyleDefault
         INFOPLIST_KEY_NSHealthShareUsageDescription: "Medity reads your heart rate during sessions to give a fuller picture of your practice."
         INFOPLIST_KEY_NSHealthUpdateUsageDescription: "Medity saves your sessions to Apple Health as Mindful Minutes so they count toward your day."
+        INFOPLIST_KEY_NSSupportsLiveActivities: YES

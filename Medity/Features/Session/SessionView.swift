@@ -1,6 +1,7 @@
 import SwiftData
 import SwiftUI
 import UIKit
+import WidgetKit
 
 /// Full-screen meditation session — countdown, ambient particles, pause/end.
 ///
@@ -25,6 +26,7 @@ struct SessionView: View {
     @State private var vm: SessionViewModel
     /// Guard against double-persisting on rapid phase transitions.
     @State private var persistedThisSession = false
+    @State private var liveActivity = LiveActivityController()
 
     init(minutes: Int, soundId: String?, bellId: String? = nil, intervalBellMinutes: Int? = nil) {
         self.minutes = minutes
@@ -55,10 +57,17 @@ struct SessionView: View {
             audio.playBackground(soundId: soundId)
             audio.playBell(id: bellId)
             vm.start()
+            liveActivity.start(
+                totalSeconds: vm.totalSeconds,
+                soundName: SoundCatalog.sound(for: soundId ?? "")?.displayName ?? "Silence",
+                bellName: BellCatalog.bell(for: bellId ?? "")?.displayName ?? "Bell",
+                remainingSeconds: vm.remainingSeconds
+            )
         }
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
             audio.stopAll()
+            Task { await liveActivity.end() }
         }
         .onChange(of: vm.phase) { _, new in
             if new == .completed {
@@ -71,7 +80,27 @@ struct SessionView: View {
                     async let haptic: Void = playCompletionHaptic()
                     async let persist: Void = persistSession()
                     _ = await (haptic, persist)
+                    await liveActivity.end()
                 }
+            } else {
+                Task {
+                    await liveActivity.update(
+                        remainingSeconds: vm.remainingSeconds,
+                        isPaused: vm.phase == .paused
+                    )
+                }
+            }
+        }
+        .onChange(of: vm.remainingSeconds) { _, new in
+            // Push periodic updates so the lock screen + Dynamic Island
+            // countdowns stay in sync. Only every 5 s — Activity updates
+            // are rate-limited and we don't want to burn budget.
+            guard vm.phase == .running, new % 5 == 0 else { return }
+            Task {
+                await liveActivity.update(
+                    remainingSeconds: new,
+                    isPaused: false
+                )
             }
         }
         .onChange(of: vm.intervalBellCount) { _, _ in
@@ -105,6 +134,26 @@ struct SessionView: View {
         try? modelContext.save()
 
         await healthStore.saveSession(start: startDate, end: endDate)
+        refreshWidgetStore()
+    }
+
+    /// Pushes the latest aggregates to the App Group store and asks the
+    /// system to reload widget timelines. Errors here are non-fatal —
+    /// widgets just continue to show stale data until the next session.
+    private func refreshWidgetStore() {
+        let descriptor = FetchDescriptor<Session>()
+        guard let sessions = try? modelContext.fetch(descriptor) else { return }
+        let weekSessions = Session.thisWeek(sessions)
+        let last = sessions.max(by: { $0.endedAt < $1.endedAt })
+        SharedStore.write(
+            streak: Session.currentStreak(from: sessions),
+            totalMinutes: Session.totalSeconds(in: sessions) / 60,
+            weekMinutes: Session.totalSeconds(in: weekSessions) / 60,
+            sessionsThisWeek: weekSessions.count,
+            lastSessionDurationMinutes: last.map { $0.actualDurationSeconds / 60 },
+            lastSessionEndedAt: last?.endedAt
+        )
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     // MARK: - Running

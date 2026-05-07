@@ -90,14 +90,5 @@ enum Spacing {
     static let xxl: CGFloat = 36
 }
 
-// MARK: - Hex initializer
-
-extension Color {
-    /// `Color(hex: 0x4A6FA5)` reads more directly than three CGFloat divisions.
-    init(hex: UInt32, opacity: Double = 1.0) {
-        let r = Double((hex >> 16) & 0xFF) / 255.0
-        let g = Double((hex >> 8)  & 0xFF) / 255.0
-        let b = Double( hex        & 0xFF) / 255.0
-        self.init(.sRGB, red: r, green: g, blue: b, opacity: opacity)
-    }
-}
+// `Color(hex:)` initializer lives in `Shared/Color+Hex.swift` so the
+// widget extension can use it too. Color tokens above depend on it.
