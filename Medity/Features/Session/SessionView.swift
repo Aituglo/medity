@@ -69,7 +69,14 @@ struct SessionView: View {
             audio.stopAll()
             Task { await liveActivity.end() }
         }
-        .onChange(of: vm.phase) { _, new in
+        .onChange(of: vm.phase) { old, new in
+            // Pause / resume audio in lockstep with the timer state.
+            switch (old, new) {
+            case (_, .paused):                 audio.pause()
+            case (.paused, .running):          audio.resume()
+            default: break
+            }
+
             if new == .completed {
                 // Closing bell + slow fade of the ambient — let the room
                 // return to quiet before the "Well done." view appears.
@@ -145,14 +152,20 @@ struct SessionView: View {
         guard let sessions = try? modelContext.fetch(descriptor) else { return }
         let weekSessions = Session.thisWeek(sessions)
         let last = sessions.max(by: { $0.endedAt < $1.endedAt })
+        let streak = Session.currentStreak(from: sessions)
         SharedStore.write(
-            streak: Session.currentStreak(from: sessions),
+            streak: streak,
             totalMinutes: Session.totalSeconds(in: sessions) / 60,
             weekMinutes: Session.totalSeconds(in: weekSessions) / 60,
             sessionsThisWeek: weekSessions.count,
             lastSessionDurationMinutes: last.map { $0.actualDurationSeconds / 60 },
             lastSessionEndedAt: last?.endedAt
         )
+        // Round-trip read so we know the App Group container actually
+        // accepted the write — if these don't match, the entitlement
+        // didn't take effect (free dev accounts on simulator usually OK).
+        let echoed = SharedStore.streak
+        print("[Widget] refresh streak=\(streak) sessions=\(sessions.count) echoed=\(echoed)")
         WidgetCenter.shared.reloadAllTimelines()
     }
 

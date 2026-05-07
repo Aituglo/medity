@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import WidgetKit
 
 /// Home screen — the timer setup surface.
 ///
@@ -116,7 +117,29 @@ struct HomeView: View {
                 minutes = prefs.defaultDurationMinutes
                 didSeedDefaultDuration = true
             }
+            // Refresh the widget on every home appearance so the streak
+            // pill on the home screen and the widgets on the lock screen
+            // stay in sync — covers the case where a session ended via
+            // a system kill or the app was relaunched after a long pause.
+            refreshWidgetStore()
         }
+    }
+
+    /// Push the latest aggregates to the App Group `UserDefaults` and ask
+    /// the system to reload widgets. Mirrors the version inside
+    /// `SessionView` — they refresh from the same query.
+    private func refreshWidgetStore() {
+        let weekSessions = Session.thisWeek(sessions)
+        let last = sessions.max(by: { $0.endedAt < $1.endedAt })
+        SharedStore.write(
+            streak: Session.currentStreak(from: sessions),
+            totalMinutes: Session.totalSeconds(in: sessions) / 60,
+            weekMinutes: Session.totalSeconds(in: weekSessions) / 60,
+            sessionsThisWeek: weekSessions.count,
+            lastSessionDurationMinutes: last.map { $0.actualDurationSeconds / 60 },
+            lastSessionEndedAt: last?.endedAt
+        )
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     // MARK: - Pieces

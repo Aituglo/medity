@@ -154,6 +154,19 @@ final class AudioEngine: @unchecked Sendable {
         if engine.isRunning { engine.stop() }
     }
 
+    /// Suspend rendering. The engine, the generator state, and the file
+    /// player's scheduled buffer all freeze in place; `resume()` picks up
+    /// from the same sample.
+    func pause() {
+        if engine.isRunning { engine.pause() }
+    }
+
+    /// Resume audio after a `pause()`. Cheap — `engine.start()` skips
+    /// re-attaching nodes when the graph hasn't changed.
+    func resume() {
+        ensureRunning()
+    }
+
     // MARK: - Setup
 
     private func configureSession() {
