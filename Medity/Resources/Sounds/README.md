@@ -77,6 +77,8 @@ To revert to the procedural version, just delete the file and regenerate.
 | `forest.m4a`        | [Wikimedia](https://commons.wikimedia.org/wiki/File:20090610_0_ambience.ogg) | nille                             | Public Domain      |
 | `fire.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Campfire_sound_ambience.ogg) | Glaneur de sons (freesound.org)   | CC BY 3.0          |
 | `rain-light.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Rain_against_the_window.ogg) | cori                              | Public Domain      |
+| `temple.m4a`        | [Wikimedia](https://commons.wikimedia.org/wiki/File:Chanting_at_Lingyin_Temple,_Hangzhou.ogg) | LouiseBrown1981                   | CC BY-SA 3.0       |
+| `om-chant.m4a`      | [Wikimedia](https://commons.wikimedia.org/wiki/File:Heart_Sutra.oga) | kennymiyoshi                      | CC BY 3.0          |
 
 The CC-licensed files (BY / BY-SA) require attribution somewhere in the
 shipping app — typically a "Sound credits" entry in the About / Acknowledgements
@@ -88,6 +90,4 @@ screen.
 - `ocean.shore` — same generator, slower LFO period
 - `wind` — pink noise with 9 s amplitude LFO
 - `river` — brown noise with HF emphasis
-- `om-chant` — TODO, sourceable from Wikimedia "Audio files of Buddhist chants"
-- `temple` — TODO, search "monastery ambience"
 - `noise.*` — always procedural by design (they're math, not recordings)
