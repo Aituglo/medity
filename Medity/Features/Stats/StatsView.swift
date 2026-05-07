@@ -178,25 +178,33 @@ private struct Heatmap: View {
     let sessions: [Session]
 
     private static let weeks = 26
-    private static let cellSize: CGFloat = 11.6
-    private static let gap: CGFloat = 3
+    /// Gap is expressed as a fraction of cell side. With a constant ratio,
+    /// the aspect ratio of the whole grid stays fixed regardless of width,
+    /// so we can lock it once and let the cells scale to fit.
+    private static let gapRatio: CGFloat = 0.20
+    private static let aspectRatio: CGFloat =
+        (CGFloat(weeks) + CGFloat(weeks - 1) * gapRatio) /
+        (7 + 6 * gapRatio)
 
     var body: some View {
         let columns = buildColumns()
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Self.gap) {
-                ForEach(columns.indices, id: \.self) { week in
-                    VStack(spacing: Self.gap) {
-                        ForEach(0..<7, id: \.self) { day in
-                            RoundedRectangle(cornerRadius: 2.5)
-                                .fill(Self.color(for: columns[week][day]))
-                                .frame(width: Self.cellSize, height: Self.cellSize)
-                        }
-                    }
+        Canvas { context, size in
+            // Total width = weeks·cell + (weeks-1)·gap, gap = gapRatio·cell.
+            let cell = size.width / (CGFloat(Self.weeks) + CGFloat(Self.weeks - 1) * Self.gapRatio)
+            let gap = cell * Self.gapRatio
+            let radius = cell * 0.22
+
+            for week in 0..<Self.weeks {
+                for day in 0..<7 {
+                    let x = CGFloat(week) * (cell + gap)
+                    let y = CGFloat(day) * (cell + gap)
+                    let rect = CGRect(x: x, y: y, width: cell, height: cell)
+                    let path = Path(roundedRect: rect, cornerRadius: radius)
+                    context.fill(path, with: .color(Self.color(for: columns[week][day])))
                 }
             }
         }
-        .scrollClipDisabled()
+        .aspectRatio(Self.aspectRatio, contentMode: .fit)
     }
 
     /// 26 columns × 7 rows, each cell carrying its level (0–4) based on
