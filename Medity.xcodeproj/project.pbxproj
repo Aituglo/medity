@@ -1,0 +1,978 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01F25C78AC34E8926A90646A /* wind.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */; };
+		04EB526CC9C89A9E258F4C71 /* BellSynth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3489C14C51195E7160EF0426 /* BellSynth.swift */; };
+		04F17C828F2357CA05030FD5 /* BellsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674FC1138CE5A8543A38AB21 /* BellsPickerView.swift */; };
+		058721EB7D52F20554018197 /* Geist-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */; };
+		091B23DF6B282595FB645BE8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10815E88BDD0983BFEC2C157 /* SettingsView.swift */; };
+		139715B8F283AA06768C354C /* moonlight.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42124A18432D6CD333498C9E /* moonlight.m4a */; };
+		1994D69DAD9789955F87E840 /* spatium.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 79C0873C7F3E08B3767FF5F0 /* spatium.m4a */; };
+		1C0DE986230531022E78DCCA /* GlassSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */; };
+		1D20F530157FF6BBD8E2293C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 189E58B67B50E80A539A728D /* README.md */; };
+		20900698800A1407F972DA09 /* AcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F63691A29939B5093A970E /* AcknowledgementsView.swift */; };
+		25AB70E3562977CADF782A78 /* TimerRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB7B5C737E82AB4AF93DA42 /* TimerRing.swift */; };
+		2B150B44BA448689EAF8A6A1 /* Geist-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC68479C643AF4F40BEE1359 /* Geist-Light.otf */; };
+		2D44EB47F1CB064D8632C0FD /* Achievement.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BBA46375C48FC77060FB3C /* Achievement.swift */; };
+		2F2724E468D7446AF1D8A5EB /* UserPreferences+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A4B6DDBFDDBDC62321EFB /* UserPreferences+Display.swift */; };
+		3439726E34FC849112BFC13D /* AuraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B6A5CCF1C15AEED3B16572 /* AuraView.swift */; };
+		3522267AD7874D67D7FE5547 /* rain-light.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 1DCA6A6DE3B2A6306528960A /* rain-light.m4a */; };
+		3EC735A7D0D260226AABBDCF /* SessionStreakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D0BABAA822A7BB8EE1D4A3 /* SessionStreakTests.swift */; };
+		41976C7767C6C03547485482 /* LiveActivityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */; };
+		46CDBAB731129362B4115702 /* MedityWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF14BD276419D36AF28701E3 /* MedityWidgets.swift */; };
+		4D17517A3529B07E11C03356 /* BellCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32D25FE80965C6856EEEA9D /* BellCatalog.swift */; };
+		4F2D16C291AC6E8533877D0B /* AchievementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B72F9152C4A5CC021AF7D3 /* AchievementsView.swift */; };
+		5029FD434A33D8A66D009F5D /* Session+Streak.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACA99615132A7B796F88F3C /* Session+Streak.swift */; };
+		50B62DD498F7F27686C1C26A /* MedityWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A0534973F30956949F013335 /* MedityWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		513CB862F4738FE32D9B876C /* ReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D935CB5303A2A1CF5D88BB96 /* ReminderScheduler.swift */; };
+		5742A65022BEC14594B67582 /* Geist-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4A227550A360DB7B68C6A984 /* Geist-Thin.otf */; };
+		59F73A0D66C5521E11E1246E /* Session+Aggregates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58FF6311BA68428F8E0F446 /* Session+Aggregates.swift */; };
+		5DA5CB8794BCA3536B507BD6 /* bell.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 018545A3003AB34857410E54 /* bell.m4a */; };
+		60994760F550A45CAE976D71 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D5C10556B09B18FCCC350 /* HomeView.swift */; };
+		701D06B9E6E9C977B5C9311F /* illusions.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5E95BC3009626DD10F345E90 /* illusions.m4a */; };
+		72054CA08A5A7070166F8364 /* SoundLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74BEB1B8F8AA7A77E80FF7 /* SoundLibraryView.swift */; };
+		739932661C5A9A2A516E4E07 /* CairnMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C473F3495E84163E13C778 /* CairnMark.swift */; };
+		77E487549842B75056A1DD1C /* StreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87ADBD69DBDE2BCFD9CFF1D /* StreakWidget.swift */; };
+		77F9077B9FFA655A8EC99B71 /* river.m4a in Resources */ = {isa = PBXBuildFile; fileRef = E32769551DE87D693D50143F /* river.m4a */; };
+		7AF30B227F493931720E6959 /* HealthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B3D086F790FAE0DDED0A75 /* HealthStore.swift */; };
+		7B5BAF72D0C3A5CD5113651A /* forest.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4E1BABC26143AC54DC67E12A /* forest.m4a */; };
+		7F1E99F41948DD2695742C30 /* Geist-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1B0075CD4DE7B87AE2D97FDF /* Geist-Medium.otf */; };
+		86CAE4133130AD219866A6F4 /* SessionAggregatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C481FB2AAEE4A6D8730A29 /* SessionAggregatesTests.swift */; };
+		875943EB847BC1444E49515D /* reverie.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 21EB9FE1214AD2B59F50C307 /* reverie.m4a */; };
+		876965C3F9A02ECF7B1DF20C /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260C830D235A0A12B1AF090 /* SharedStore.swift */; };
+		8A6ECCB20279EF3081DF4030 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BD31F0E7BCD4AB696AA78 /* UserPreferences.swift */; };
+		8AC9C7F6F629C359B163FC48 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */; };
+		8B376A812A991E2D8A2B122A /* SoundCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F51DD7013894907D723B72F /* SoundCatalog.swift */; };
+		98BEE5BE5D8F4B97C80E17C5 /* AchievementDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89EDDDB83503F9D6F6830684 /* AchievementDetailView.swift */; };
+		993416184AA45ED2D2ED4AAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B64F96F984127A102200484F /* Assets.xcassets */; };
+		9B62B7065F1AD2BA442FCEBB /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */; };
+		9B99772B1A6DBAE698324887 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F228E5CB2E99DF6E09C58E91 /* SessionView.swift */; };
+		9E56E5336338566480C24F3E /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFB9CF97309FB114107E5DD /* AudioEngine.swift */; };
+		9EC52462D919E471177BBEA7 /* SessionLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD44E9CC5F360A0B9CF516 /* SessionLiveActivity.swift */; };
+		A5166A0FB6D2E01862EEF495 /* CairnMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C473F3495E84163E13C778 /* CairnMark.swift */; };
+		A6B6408D255F713559C70B9D /* AchievementEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D401200C1FDA34C12FA8FC78 /* AchievementEngine.swift */; };
+		A9FE2851E692C04CA81C663D /* NoiseGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC744DCEDC93206824A0D74 /* NoiseGenerators.swift */; };
+		ABE9992A3D53AA0FB05CB74B /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FF76DEF09D95597F7BEC8 /* SessionViewModel.swift */; };
+		AEE9E47C996A3D7933AFD010 /* Backdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25733462004D668C616E1FEB /* Backdrop.swift */; };
+		AF3837F2FB38B0B0E15C0AEA /* SessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */; };
+		B67F548151AAD5876ECB027D /* fire.m4a in Resources */ = {isa = PBXBuildFile; fileRef = EE643DD1CAE0D6297ECAB19B /* fire.m4a */; };
+		BCA1D8DF9E8EC8F6839AF004 /* calm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FB7DBE4C4DB324CE7AA74377 /* calm.m4a */; };
+		BCE3B0174D51B0F6A8CA3240 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7033E27967DF4A25BB3AB9 /* PrimaryButton.swift */; };
+		C471260C140725552462876B /* SessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */; };
+		C9ACE7CF970E771568B770E9 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706148A12387994A794C714A /* OnboardingView.swift */; };
+		D244ECF3B2DC3F5D3DBE61DA /* japanese.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AF1AC724637E18592AAB3D3 /* japanese.m4a */; };
+		D3AF75CB9BF37A6370A22715 /* Geist-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = FECF874F2FEB350F361F6276 /* Geist-ExtraLight.otf */; };
+		DCA17F42BB5BCD3ED869EE9A /* rain-heavy.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */; };
+		DE8489072D5D38A8F3B22B83 /* Geist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4969C51CB23569DB69FB76B5 /* Geist-Regular.otf */; };
+		E38FEA7F867367D1E63EF96A /* MedityApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFE59215B614621427299474 /* MedityApp.swift */; };
+		EB90345539A1B72E5C6D0C8D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F500A83CFD2DAB84DD66719C /* Session.swift */; };
+		EFCDF1E5E41D57122082EB84 /* SoundGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551F1AC62710E313E077B43D /* SoundGenerator.swift */; };
+		F03D38EEE3485F17FA868247 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260C830D235A0A12B1AF090 /* SharedStore.swift */; };
+		FA3C1D53E5A03ABAD4AC989B /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB98B617CA7B6159F3BF2E /* Tokens.swift */; };
+		FEA854A540F1DF9CF6D04CB2 /* ocean-waves.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D88EB88483F0E8716199D85A /* ocean-waves.m4a */; };
+		FEAA6BAFC5BDB67F87D28131 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685F6CC2C9FC2541EA2210A9 /* StatsView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3E82E8C9094A98B5E8AFECB1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E530E64DC3F0DF39F673792B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C01BF9725FB688EF11B6020A;
+			remoteInfo = Medity;
+		};
+		4CFB411C7245F37E65B3E6C8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E530E64DC3F0DF39F673792B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 26F0F38CA20DD06D5EE51DA9;
+			remoteInfo = MedityWidgets;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A0FDC3D8ECB7FED97F68DE51 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				50B62DD498F7F27686C1C26A /* MedityWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		006FF76DEF09D95597F7BEC8 /* SessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewModel.swift; sourceTree = "<group>"; };
+		018545A3003AB34857410E54 /* bell.m4a */ = {isa = PBXFileReference; path = bell.m4a; sourceTree = "<group>"; };
+		0A74BEB1B8F8AA7A77E80FF7 /* SoundLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundLibraryView.swift; sourceTree = "<group>"; };
+		0BFB9CF97309FB114107E5DD /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+		10815E88BDD0983BFEC2C157 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		15F63691A29939B5093A970E /* AcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcknowledgementsView.swift; sourceTree = "<group>"; };
+		189E58B67B50E80A539A728D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		18DEA62FBB9DE060E392A55E /* Medity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Medity.entitlements; sourceTree = "<group>"; };
+		1B0075CD4DE7B87AE2D97FDF /* Geist-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Medium.otf"; sourceTree = "<group>"; };
+		1DCA6A6DE3B2A6306528960A /* rain-light.m4a */ = {isa = PBXFileReference; path = "rain-light.m4a"; sourceTree = "<group>"; };
+		21EB9FE1214AD2B59F50C307 /* reverie.m4a */ = {isa = PBXFileReference; path = reverie.m4a; sourceTree = "<group>"; };
+		25733462004D668C616E1FEB /* Backdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backdrop.swift; sourceTree = "<group>"; };
+		26B3D086F790FAE0DDED0A75 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
+		2BB7B5C737E82AB4AF93DA42 /* TimerRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRing.swift; sourceTree = "<group>"; };
+		3489C14C51195E7160EF0426 /* BellSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellSynth.swift; sourceTree = "<group>"; };
+		34CB98B617CA7B6159F3BF2E /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
+		39B6A5CCF1C15AEED3B16572 /* AuraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraView.swift; sourceTree = "<group>"; };
+		42124A18432D6CD333498C9E /* moonlight.m4a */ = {isa = PBXFileReference; path = moonlight.m4a; sourceTree = "<group>"; };
+		4260C830D235A0A12B1AF090 /* SharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
+		44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */ = {isa = PBXFileReference; path = "rain-heavy.m4a"; sourceTree = "<group>"; };
+		47B72F9152C4A5CC021AF7D3 /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
+		4969C51CB23569DB69FB76B5 /* Geist-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Regular.otf"; sourceTree = "<group>"; };
+		4A227550A360DB7B68C6A984 /* Geist-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Thin.otf"; sourceTree = "<group>"; };
+		4E1BABC26143AC54DC67E12A /* forest.m4a */ = {isa = PBXFileReference; path = forest.m4a; sourceTree = "<group>"; };
+		4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityController.swift; sourceTree = "<group>"; };
+		50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassSurface.swift; sourceTree = "<group>"; };
+		551F1AC62710E313E077B43D /* SoundGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundGenerator.swift; sourceTree = "<group>"; };
+		5644316087C570548CD72340 /* MedityWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MedityWidgets.entitlements; sourceTree = "<group>"; };
+		5AF1AC724637E18592AAB3D3 /* japanese.m4a */ = {isa = PBXFileReference; path = japanese.m4a; sourceTree = "<group>"; };
+		5E95BC3009626DD10F345E90 /* illusions.m4a */ = {isa = PBXFileReference; path = illusions.m4a; sourceTree = "<group>"; };
+		652BD31F0E7BCD4AB696AA78 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
+		674FC1138CE5A8543A38AB21 /* BellsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellsPickerView.swift; sourceTree = "<group>"; };
+		685F6CC2C9FC2541EA2210A9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		6AC744DCEDC93206824A0D74 /* NoiseGenerators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoiseGenerators.swift; sourceTree = "<group>"; };
+		6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		706148A12387994A794C714A /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		79C0873C7F3E08B3767FF5F0 /* spatium.m4a */ = {isa = PBXFileReference; path = spatium.m4a; sourceTree = "<group>"; };
+		7B1A4B6DDBFDDBDC62321EFB /* UserPreferences+Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPreferences+Display.swift"; sourceTree = "<group>"; };
+		7BA992B1590D922A0EA17B63 /* Medity.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Medity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CC9844B714976E034995C43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7F51DD7013894907D723B72F /* SoundCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCatalog.swift; sourceTree = "<group>"; };
+		89EDDDB83503F9D6F6830684 /* AchievementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementDetailView.swift; sourceTree = "<group>"; };
+		8D35904E25066F131084563C /* MedityTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MedityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-SemiBold.otf"; sourceTree = "<group>"; };
+		9D5D5C10556B09B18FCCC350 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		A0534973F30956949F013335 /* MedityWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MedityWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0D0BABAA822A7BB8EE1D4A3 /* SessionStreakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStreakTests.swift; sourceTree = "<group>"; };
+		A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionActivityAttributes.swift; sourceTree = "<group>"; };
+		B0AD44E9CC5F360A0B9CF516 /* SessionLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLiveActivity.swift; sourceTree = "<group>"; };
+		B1C481FB2AAEE4A6D8730A29 /* SessionAggregatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionAggregatesTests.swift; sourceTree = "<group>"; };
+		B58FF6311BA68428F8E0F446 /* Session+Aggregates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+Aggregates.swift"; sourceTree = "<group>"; };
+		B64F96F984127A102200484F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B87ADBD69DBDE2BCFD9CFF1D /* StreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakWidget.swift; sourceTree = "<group>"; };
+		BA7033E27967DF4A25BB3AB9 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		D1BBA46375C48FC77060FB3C /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
+		D401200C1FDA34C12FA8FC78 /* AchievementEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementEngine.swift; sourceTree = "<group>"; };
+		D7C473F3495E84163E13C778 /* CairnMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CairnMark.swift; sourceTree = "<group>"; };
+		D88EB88483F0E8716199D85A /* ocean-waves.m4a */ = {isa = PBXFileReference; path = "ocean-waves.m4a"; sourceTree = "<group>"; };
+		D935CB5303A2A1CF5D88BB96 /* ReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderScheduler.swift; sourceTree = "<group>"; };
+		DC68479C643AF4F40BEE1359 /* Geist-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Light.otf"; sourceTree = "<group>"; };
+		E32769551DE87D693D50143F /* river.m4a */ = {isa = PBXFileReference; path = river.m4a; sourceTree = "<group>"; };
+		E32D25FE80965C6856EEEA9D /* BellCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellCatalog.swift; sourceTree = "<group>"; };
+		EACA99615132A7B796F88F3C /* Session+Streak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+Streak.swift"; sourceTree = "<group>"; };
+		EE643DD1CAE0D6297ECAB19B /* fire.m4a */ = {isa = PBXFileReference; path = fire.m4a; sourceTree = "<group>"; };
+		EF14BD276419D36AF28701E3 /* MedityWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedityWidgets.swift; sourceTree = "<group>"; };
+		F228E5CB2E99DF6E09C58E91 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
+		F500A83CFD2DAB84DD66719C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		FB7DBE4C4DB324CE7AA74377 /* calm.m4a */ = {isa = PBXFileReference; path = calm.m4a; sourceTree = "<group>"; };
+		FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */ = {isa = PBXFileReference; path = wind.m4a; sourceTree = "<group>"; };
+		FECF874F2FEB350F361F6276 /* Geist-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-ExtraLight.otf"; sourceTree = "<group>"; };
+		FFE59215B614621427299474 /* MedityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedityApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		072658C28D1B19C636B5646D /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				0A74BEB1B8F8AA7A77E80FF7 /* SoundLibraryView.swift */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		14A8CA0BB4A8D3E849CCA094 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BA992B1590D922A0EA17B63 /* Medity.app */,
+				8D35904E25066F131084563C /* MedityTests.xctest */,
+				A0534973F30956949F013335 /* MedityWidgets.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1527B15AFA814AC8DC5AEB1A /* MedityTests */ = {
+			isa = PBXGroup;
+			children = (
+				B1C481FB2AAEE4A6D8730A29 /* SessionAggregatesTests.swift */,
+				A0D0BABAA822A7BB8EE1D4A3 /* SessionStreakTests.swift */,
+			);
+			path = MedityTests;
+			sourceTree = "<group>";
+		};
+		2486F278C232D151352FC4A3 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FFE59215B614621427299474 /* MedityApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		28B48A40B8A9165B769CC625 /* Achievements */ = {
+			isa = PBXGroup;
+			children = (
+				89EDDDB83503F9D6F6830684 /* AchievementDetailView.swift */,
+				47B72F9152C4A5CC021AF7D3 /* AchievementsView.swift */,
+			);
+			path = Achievements;
+			sourceTree = "<group>";
+		};
+		290BC6A156DF631B4DD82185 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				15F63691A29939B5093A970E /* AcknowledgementsView.swift */,
+				10815E88BDD0983BFEC2C157 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		683C2254D37465583E5B6869 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				706148A12387994A794C714A /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		69D5700AAF109B44AD708B11 /* Bells */ = {
+			isa = PBXGroup;
+			children = (
+				674FC1138CE5A8543A38AB21 /* BellsPickerView.swift */,
+			);
+			path = Bells;
+			sourceTree = "<group>";
+		};
+		75FF8086B335A22A2565A88F /* Medity */ = {
+			isa = PBXGroup;
+			children = (
+				2486F278C232D151352FC4A3 /* App */,
+				846F8345DA4950C27BD50BF0 /* DesignSystem */,
+				A46CC560D9CCCE7152AD9A08 /* Features */,
+				9AD03132FB33B9F85FE320FD /* Models */,
+				9DD67279CF85ABFC00E3C4CD /* Resources */,
+				E99436E844A42E8E90BD0447 /* Services */,
+				D750B86D2F966CC3FB1DD1B4 /* Shared */,
+				18DEA62FBB9DE060E392A55E /* Medity.entitlements */,
+			);
+			path = Medity;
+			sourceTree = "<group>";
+		};
+		78B9390137EE5FFA6262C1B8 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				018545A3003AB34857410E54 /* bell.m4a */,
+				FB7DBE4C4DB324CE7AA74377 /* calm.m4a */,
+				EE643DD1CAE0D6297ECAB19B /* fire.m4a */,
+				4E1BABC26143AC54DC67E12A /* forest.m4a */,
+				5E95BC3009626DD10F345E90 /* illusions.m4a */,
+				5AF1AC724637E18592AAB3D3 /* japanese.m4a */,
+				42124A18432D6CD333498C9E /* moonlight.m4a */,
+				D88EB88483F0E8716199D85A /* ocean-waves.m4a */,
+				44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */,
+				1DCA6A6DE3B2A6306528960A /* rain-light.m4a */,
+				189E58B67B50E80A539A728D /* README.md */,
+				21EB9FE1214AD2B59F50C307 /* reverie.m4a */,
+				E32769551DE87D693D50143F /* river.m4a */,
+				79C0873C7F3E08B3767FF5F0 /* spatium.m4a */,
+				FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
+		8388593AD3331C2DF036A97F /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				685F6CC2C9FC2541EA2210A9 /* StatsView.swift */,
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		846F8345DA4950C27BD50BF0 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				39B6A5CCF1C15AEED3B16572 /* AuraView.swift */,
+				25733462004D668C616E1FEB /* Backdrop.swift */,
+				50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */,
+				BA7033E27967DF4A25BB3AB9 /* PrimaryButton.swift */,
+				2BB7B5C737E82AB4AF93DA42 /* TimerRing.swift */,
+				34CB98B617CA7B6159F3BF2E /* Tokens.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		8C2ABC6C260ABB1014F64433 /* MedityWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				7CC9844B714976E034995C43 /* Info.plist */,
+				5644316087C570548CD72340 /* MedityWidgets.entitlements */,
+				EF14BD276419D36AF28701E3 /* MedityWidgets.swift */,
+				B0AD44E9CC5F360A0B9CF516 /* SessionLiveActivity.swift */,
+				B87ADBD69DBDE2BCFD9CFF1D /* StreakWidget.swift */,
+			);
+			path = MedityWidgets;
+			sourceTree = "<group>";
+		};
+		91359C797891926F29AAC88C /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9D5D5C10556B09B18FCCC350 /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9AD03132FB33B9F85FE320FD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D1BBA46375C48FC77060FB3C /* Achievement.swift */,
+				D401200C1FDA34C12FA8FC78 /* AchievementEngine.swift */,
+				E32D25FE80965C6856EEEA9D /* BellCatalog.swift */,
+				F500A83CFD2DAB84DD66719C /* Session.swift */,
+				B58FF6311BA68428F8E0F446 /* Session+Aggregates.swift */,
+				EACA99615132A7B796F88F3C /* Session+Streak.swift */,
+				7F51DD7013894907D723B72F /* SoundCatalog.swift */,
+				652BD31F0E7BCD4AB696AA78 /* UserPreferences.swift */,
+				7B1A4B6DDBFDDBDC62321EFB /* UserPreferences+Display.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9DD67279CF85ABFC00E3C4CD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EDA26159E8BDCE572CD89AF7 /* Fonts */,
+				78B9390137EE5FFA6262C1B8 /* Sounds */,
+				B64F96F984127A102200484F /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A46CC560D9CCCE7152AD9A08 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				28B48A40B8A9165B769CC625 /* Achievements */,
+				69D5700AAF109B44AD708B11 /* Bells */,
+				91359C797891926F29AAC88C /* Home */,
+				683C2254D37465583E5B6869 /* Onboarding */,
+				E5C2E5BB8CFE465536506AE2 /* Session */,
+				290BC6A156DF631B4DD82185 /* Settings */,
+				072658C28D1B19C636B5646D /* Sounds */,
+				8388593AD3331C2DF036A97F /* Stats */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B8C9D88FFBF050A770A8D57F = {
+			isa = PBXGroup;
+			children = (
+				75FF8086B335A22A2565A88F /* Medity */,
+				1527B15AFA814AC8DC5AEB1A /* MedityTests */,
+				8C2ABC6C260ABB1014F64433 /* MedityWidgets */,
+				14A8CA0BB4A8D3E849CCA094 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D16C19E7E5988C5CE7C30D16 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				0BFB9CF97309FB114107E5DD /* AudioEngine.swift */,
+				3489C14C51195E7160EF0426 /* BellSynth.swift */,
+				6AC744DCEDC93206824A0D74 /* NoiseGenerators.swift */,
+				551F1AC62710E313E077B43D /* SoundGenerator.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		D750B86D2F966CC3FB1DD1B4 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				D7C473F3495E84163E13C778 /* CairnMark.swift */,
+				6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */,
+				A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */,
+				4260C830D235A0A12B1AF090 /* SharedStore.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		E5C2E5BB8CFE465536506AE2 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				F228E5CB2E99DF6E09C58E91 /* SessionView.swift */,
+				006FF76DEF09D95597F7BEC8 /* SessionViewModel.swift */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		E99436E844A42E8E90BD0447 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D16C19E7E5988C5CE7C30D16 /* Audio */,
+				26B3D086F790FAE0DDED0A75 /* HealthStore.swift */,
+				4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */,
+				D935CB5303A2A1CF5D88BB96 /* ReminderScheduler.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EDA26159E8BDCE572CD89AF7 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FECF874F2FEB350F361F6276 /* Geist-ExtraLight.otf */,
+				DC68479C643AF4F40BEE1359 /* Geist-Light.otf */,
+				1B0075CD4DE7B87AE2D97FDF /* Geist-Medium.otf */,
+				4969C51CB23569DB69FB76B5 /* Geist-Regular.otf */,
+				96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */,
+				4A227550A360DB7B68C6A984 /* Geist-Thin.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0934D365BD40DC9D3B0B3C04 /* MedityTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1925E3689D3B69CE3DEF054 /* Build configuration list for PBXNativeTarget "MedityTests" */;
+			buildPhases = (
+				3BA1DBE47DAB33059EA7B24B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D02CEB79E4E1D1297656EF52 /* PBXTargetDependency */,
+			);
+			name = MedityTests;
+			packageProductDependencies = (
+			);
+			productName = MedityTests;
+			productReference = 8D35904E25066F131084563C /* MedityTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		26F0F38CA20DD06D5EE51DA9 /* MedityWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1F79B637694DE6E61CC628A6 /* Build configuration list for PBXNativeTarget "MedityWidgets" */;
+			buildPhases = (
+				1082F28BC27FC9697263CE17 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MedityWidgets;
+			packageProductDependencies = (
+			);
+			productName = MedityWidgets;
+			productReference = A0534973F30956949F013335 /* MedityWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C01BF9725FB688EF11B6020A /* Medity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DCE965540D21757541E1CC2F /* Build configuration list for PBXNativeTarget "Medity" */;
+			buildPhases = (
+				CB50CEBE54EA7C02397A79DD /* Sources */,
+				5C98FA32AB2B44434A8B7FE8 /* Resources */,
+				A0FDC3D8ECB7FED97F68DE51 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3E0BDA368B2E7D1A888645E /* PBXTargetDependency */,
+			);
+			name = Medity;
+			packageProductDependencies = (
+			);
+			productName = Medity;
+			productReference = 7BA992B1590D922A0EA17B63 /* Medity.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E530E64DC3F0DF39F673792B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0934D365BD40DC9D3B0B3C04 = {
+						ProvisioningStyle = Automatic;
+					};
+					26F0F38CA20DD06D5EE51DA9 = {
+						ProvisioningStyle = Automatic;
+					};
+					C01BF9725FB688EF11B6020A = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = B8BF683EEE805EF9D77D7240 /* Build configuration list for PBXProject "Medity" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = B8C9D88FFBF050A770A8D57F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 14A8CA0BB4A8D3E849CCA094 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C01BF9725FB688EF11B6020A /* Medity */,
+				0934D365BD40DC9D3B0B3C04 /* MedityTests */,
+				26F0F38CA20DD06D5EE51DA9 /* MedityWidgets */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5C98FA32AB2B44434A8B7FE8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				993416184AA45ED2D2ED4AAB /* Assets.xcassets in Resources */,
+				D3AF75CB9BF37A6370A22715 /* Geist-ExtraLight.otf in Resources */,
+				2B150B44BA448689EAF8A6A1 /* Geist-Light.otf in Resources */,
+				7F1E99F41948DD2695742C30 /* Geist-Medium.otf in Resources */,
+				DE8489072D5D38A8F3B22B83 /* Geist-Regular.otf in Resources */,
+				058721EB7D52F20554018197 /* Geist-SemiBold.otf in Resources */,
+				5742A65022BEC14594B67582 /* Geist-Thin.otf in Resources */,
+				1D20F530157FF6BBD8E2293C /* README.md in Resources */,
+				5DA5CB8794BCA3536B507BD6 /* bell.m4a in Resources */,
+				BCA1D8DF9E8EC8F6839AF004 /* calm.m4a in Resources */,
+				B67F548151AAD5876ECB027D /* fire.m4a in Resources */,
+				7B5BAF72D0C3A5CD5113651A /* forest.m4a in Resources */,
+				701D06B9E6E9C977B5C9311F /* illusions.m4a in Resources */,
+				D244ECF3B2DC3F5D3DBE61DA /* japanese.m4a in Resources */,
+				139715B8F283AA06768C354C /* moonlight.m4a in Resources */,
+				FEA854A540F1DF9CF6D04CB2 /* ocean-waves.m4a in Resources */,
+				DCA17F42BB5BCD3ED869EE9A /* rain-heavy.m4a in Resources */,
+				3522267AD7874D67D7FE5547 /* rain-light.m4a in Resources */,
+				875943EB847BC1444E49515D /* reverie.m4a in Resources */,
+				77F9077B9FFA655A8EC99B71 /* river.m4a in Resources */,
+				1994D69DAD9789955F87E840 /* spatium.m4a in Resources */,
+				01F25C78AC34E8926A90646A /* wind.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1082F28BC27FC9697263CE17 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5166A0FB6D2E01862EEF495 /* CairnMark.swift in Sources */,
+				9B62B7065F1AD2BA442FCEBB /* Color+Hex.swift in Sources */,
+				46CDBAB731129362B4115702 /* MedityWidgets.swift in Sources */,
+				AF3837F2FB38B0B0E15C0AEA /* SessionActivityAttributes.swift in Sources */,
+				9EC52462D919E471177BBEA7 /* SessionLiveActivity.swift in Sources */,
+				F03D38EEE3485F17FA868247 /* SharedStore.swift in Sources */,
+				77E487549842B75056A1DD1C /* StreakWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BA1DBE47DAB33059EA7B24B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				86CAE4133130AD219866A6F4 /* SessionAggregatesTests.swift in Sources */,
+				3EC735A7D0D260226AABBDCF /* SessionStreakTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CB50CEBE54EA7C02397A79DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2D44EB47F1CB064D8632C0FD /* Achievement.swift in Sources */,
+				98BEE5BE5D8F4B97C80E17C5 /* AchievementDetailView.swift in Sources */,
+				A6B6408D255F713559C70B9D /* AchievementEngine.swift in Sources */,
+				4F2D16C291AC6E8533877D0B /* AchievementsView.swift in Sources */,
+				20900698800A1407F972DA09 /* AcknowledgementsView.swift in Sources */,
+				9E56E5336338566480C24F3E /* AudioEngine.swift in Sources */,
+				3439726E34FC849112BFC13D /* AuraView.swift in Sources */,
+				AEE9E47C996A3D7933AFD010 /* Backdrop.swift in Sources */,
+				4D17517A3529B07E11C03356 /* BellCatalog.swift in Sources */,
+				04EB526CC9C89A9E258F4C71 /* BellSynth.swift in Sources */,
+				04F17C828F2357CA05030FD5 /* BellsPickerView.swift in Sources */,
+				739932661C5A9A2A516E4E07 /* CairnMark.swift in Sources */,
+				8AC9C7F6F629C359B163FC48 /* Color+Hex.swift in Sources */,
+				1C0DE986230531022E78DCCA /* GlassSurface.swift in Sources */,
+				7AF30B227F493931720E6959 /* HealthStore.swift in Sources */,
+				60994760F550A45CAE976D71 /* HomeView.swift in Sources */,
+				41976C7767C6C03547485482 /* LiveActivityController.swift in Sources */,
+				E38FEA7F867367D1E63EF96A /* MedityApp.swift in Sources */,
+				A9FE2851E692C04CA81C663D /* NoiseGenerators.swift in Sources */,
+				C9ACE7CF970E771568B770E9 /* OnboardingView.swift in Sources */,
+				BCE3B0174D51B0F6A8CA3240 /* PrimaryButton.swift in Sources */,
+				513CB862F4738FE32D9B876C /* ReminderScheduler.swift in Sources */,
+				59F73A0D66C5521E11E1246E /* Session+Aggregates.swift in Sources */,
+				5029FD434A33D8A66D009F5D /* Session+Streak.swift in Sources */,
+				EB90345539A1B72E5C6D0C8D /* Session.swift in Sources */,
+				C471260C140725552462876B /* SessionActivityAttributes.swift in Sources */,
+				9B99772B1A6DBAE698324887 /* SessionView.swift in Sources */,
+				ABE9992A3D53AA0FB05CB74B /* SessionViewModel.swift in Sources */,
+				091B23DF6B282595FB645BE8 /* SettingsView.swift in Sources */,
+				876965C3F9A02ECF7B1DF20C /* SharedStore.swift in Sources */,
+				8B376A812A991E2D8A2B122A /* SoundCatalog.swift in Sources */,
+				EFCDF1E5E41D57122082EB84 /* SoundGenerator.swift in Sources */,
+				72054CA08A5A7070166F8364 /* SoundLibraryView.swift in Sources */,
+				FEAA6BAFC5BDB67F87D28131 /* StatsView.swift in Sources */,
+				25AB70E3562977CADF782A78 /* TimerRing.swift in Sources */,
+				FA3C1D53E5A03ABAD4AC989B /* Tokens.swift in Sources */,
+				2F2724E468D7446AF1D8A5EB /* UserPreferences+Display.swift in Sources */,
+				8A6ECCB20279EF3081DF4030 /* UserPreferences.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D02CEB79E4E1D1297656EF52 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C01BF9725FB688EF11B6020A /* Medity */;
+			targetProxy = 3E82E8C9094A98B5E8AFECB1 /* PBXContainerItemProxy */;
+		};
+		E3E0BDA368B2E7D1A888645E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 26F0F38CA20DD06D5EE51DA9 /* MedityWidgets */;
+			targetProxy = 4CFB411C7245F37E65B3E6C8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		079BA0EF2B6A7FA10BEA9A6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.MedityTests;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Medity.app/Medity";
+			};
+			name = Debug;
+		};
+		25640C2C3B766DDF3251853E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.MedityTests;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Medity.app/Medity";
+			};
+			name = Release;
+		};
+		3EFF433C74DFB11E9A9D8ADE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MedityWidgets/MedityWidgets.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = MedityWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.medity.widgets;
+				PRODUCT_NAME = MedityWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		677B40117333211F2082113E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = MedityWidgets/MedityWidgets.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = MedityWidgets/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.medity.widgets;
+				PRODUCT_NAME = MedityWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		988ECF824F63CE73622515D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A073C4655F5EE36B4093961A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Medity/Medity.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Medity;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Medity reads your heart rate during sessions to give a fuller picture of your practice.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Medity saves your sessions to Apple Health as Mindful Minutes so they count toward your day.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_UIAppFonts = (
+					"Geist-Thin.otf",
+					"Geist-ExtraLight.otf",
+					"Geist-Light.otf",
+					"Geist-Regular.otf",
+					"Geist-Medium.otf",
+					"Geist-SemiBold.otf",
+				);
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.medity;
+				PRODUCT_NAME = Medity;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		CB86A674B9B13667965B0B65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		D56B47032C98BC0D1C06CB70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Medity/Medity.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Medity;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Medity reads your heart rate during sessions to give a fuller picture of your practice.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Medity saves your sessions to Apple Health as Mindful Minutes so they count toward your day.";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_UIAppFonts = (
+					"Geist-Thin.otf",
+					"Geist-ExtraLight.otf",
+					"Geist-Light.otf",
+					"Geist-Regular.otf",
+					"Geist-Medium.otf",
+					"Geist-SemiBold.otf",
+				);
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aituglo.medity;
+				PRODUCT_NAME = Medity;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1F79B637694DE6E61CC628A6 /* Build configuration list for PBXNativeTarget "MedityWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				677B40117333211F2082113E /* Debug */,
+				3EFF433C74DFB11E9A9D8ADE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B8BF683EEE805EF9D77D7240 /* Build configuration list for PBXProject "Medity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				988ECF824F63CE73622515D0 /* Debug */,
+				CB86A674B9B13667965B0B65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DCE965540D21757541E1CC2F /* Build configuration list for PBXNativeTarget "Medity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A073C4655F5EE36B4093961A /* Debug */,
+				D56B47032C98BC0D1C06CB70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F1925E3689D3B69CE3DEF054 /* Build configuration list for PBXNativeTarget "MedityTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				079BA0EF2B6A7FA10BEA9A6B /* Debug */,
+				25640C2C3B766DDF3251853E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E530E64DC3F0DF39F673792B /* Project object */;
+}

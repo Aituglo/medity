@@ -18,10 +18,10 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
-# Xcode project — generated from project.yml by xcodegen.
-# Source of truth is project.yml. Tracking the .xcodeproj would create
-# spurious diffs every time someone regenerates.
-Medity.xcodeproj/
+# Xcode project — generated from project.yml by xcodegen, but checked in
+# so Xcode Cloud / App Store Connect can find it at the repo root.
+# Source of truth stays project.yml; just `xcodegen generate` after
+# editing it and commit the resulting churn.
 
 # Swift Package Manager
 .build/
