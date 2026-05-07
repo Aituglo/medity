@@ -40,4 +40,18 @@ extension UserPreferences {
         else { return "Silence" }
         return sound.displayName
     }
+
+    /// Display name for the current default bell.
+    var defaultBellDisplayName: String {
+        BellCatalog.bell(for: defaultBellIdentifier)?.displayName ?? "Bell"
+    }
+
+    /// Compact one-line summary of the bell setup for the home pill: e.g.
+    /// "Start & End" when interval bells are off, "Every 10 min" otherwise.
+    var bellsSummary: String {
+        if let minutes = defaultIntervalBellsMinutes, minutes > 0 {
+            return "Every \(minutes) min"
+        }
+        return "Start & End"
+    }
 }

@@ -67,9 +67,13 @@ private struct SettingsContent: View {
     @State private var presentingSheet: SheetTarget?
 
     enum SheetTarget: Identifiable {
-        case time, days, duration, sound
+        case time, days, duration, sound, bells
         var id: Self { self }
     }
+
+    /// Sheets that need the full available height instead of the
+    /// duration-picker-style medium detent.
+    private let largeSheets: Set<SheetTarget> = [.sound, .bells]
 
     var body: some View {
         ScrollView {
@@ -93,7 +97,7 @@ private struct SettingsContent: View {
         .onChange(of: prefs.reminderDaysBitmask) { _, _ in resyncReminder() }
         .sheet(item: $presentingSheet) { target in
             sheet(for: target)
-                .presentationDetents(target == .sound ? [.large] : [.medium])
+                .presentationDetents(largeSheets.contains(target) ? [.large] : [.medium])
                 .presentationDragIndicator(.visible)
         }
     }
@@ -105,6 +109,7 @@ private struct SettingsContent: View {
         case .days:     ReminderDaysPicker(prefs: prefs)
         case .duration: DurationPicker(prefs: prefs)
         case .sound:    SoundLibraryView(prefs: prefs)
+        case .bells:    BellsPickerView(prefs: prefs)
         }
     }
 
@@ -152,10 +157,10 @@ private struct SettingsContent: View {
             )
             SettingsRow(
                 label: "Bells",
-                detail: "Start & End",
+                detail: prefs.bellsSummary,
                 chevron: true,
                 isLast: true,
-                onTap: { /* BellsPicker — TBD */ }
+                onTap: { presentingSheet = .bells }
             )
         }
     }

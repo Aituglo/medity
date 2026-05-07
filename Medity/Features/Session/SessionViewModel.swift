@@ -19,23 +19,33 @@ final class SessionViewModel {
     /// Planned duration in seconds. Set at construction, never changes.
     let totalSeconds: Int
 
+    /// Interval bell period in seconds, or `nil` when interval bells are
+    /// disabled. Set at construction.
+    let intervalBellSeconds: Int?
+
     /// Remaining time displayed in the UI. Updated each tick.
     private(set) var remainingSeconds: Int
 
     /// Current state. Drives view branching.
     private(set) var phase: Phase = .running
 
+    /// Monotonic counter incremented every time an interval bell is due.
+    /// Views observe this with `.onChange` to fire `audio.playBell()`.
+    private(set) var intervalBellCount: Int = 0
+
     // Wall-clock bookkeeping — see `tick()` for the model.
     private(set) var startDate: Date?
     private var pauseStartDate: Date?
     private var accumulatedPauseSeconds: TimeInterval = 0
+    private var lastIntervalBellAtElapsed: Int = 0
 
     private var tickTask: Task<Void, Never>?
 
-    init(minutes: Int) {
+    init(minutes: Int, intervalBellMinutes: Int? = nil) {
         let total = max(1, minutes) * 60
         self.totalSeconds = total
         self.remainingSeconds = total
+        self.intervalBellSeconds = intervalBellMinutes.flatMap { $0 > 0 ? $0 * 60 : nil }
     }
 
     // No deinit cancel: the tick task captures `self` weakly, so once the
@@ -119,6 +129,19 @@ final class SessionViewModel {
         }
         if new == 0 {
             complete()
+            return
+        }
+
+        // Interval bell trigger. Fire only while the session is mid-flight
+        // (skip the first second to avoid stacking with the start bell, and
+        // skip the final second so we don't collide with the end bell).
+        if let period = intervalBellSeconds {
+            let elapsedInt = totalSeconds - new
+            let dueAt = lastIntervalBellAtElapsed + period
+            if elapsedInt >= dueAt && elapsedInt > 1 && new > 1 {
+                lastIntervalBellAtElapsed = elapsedInt
+                intervalBellCount += 1
+            }
         }
     }
 

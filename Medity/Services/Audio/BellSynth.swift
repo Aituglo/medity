@@ -3,33 +3,76 @@ import Foundation
 
 /// Offline bell synthesis. Real bells have an inharmonic partial structure —
 /// not a clean integer harmonic series — and very long, partial-specific
-/// decays. We render five sine partials with exponential envelopes plus a
-/// short attack ramp into a single PCM buffer that the engine schedules
-/// once at the start, and again at the end, of every session.
+/// decays. We render a handful of sine partials with exponential envelopes
+/// plus a short attack ramp into a single PCM buffer, scheduled once on the
+/// engine's bell player at the appropriate moment.
+///
+/// `Preset` selects a partial profile chosen to evoke a particular timbre.
 enum BellSynth {
-    /// Renders ~4 seconds of bell into an `AVAudioPCMBuffer` matching `format`.
-    static func renderBuffer(format: AVAudioFormat) -> AVAudioPCMBuffer? {
+
+    enum Preset: String, Hashable {
+        case tibetanBowl
+        case japaneseBell
+        case softChime
+        case deepBell
+
+        /// (frequency Hz, amplitude 0-1, decay seconds). Inharmonic ratios
+        /// picked per timbre — Tibetan bowl leans warm, Japanese bell leans
+        /// brighter, soft chime sits high and short, deep bell rumbles long.
+        var partials: [(freq: Double, amp: Double, decay: Double)] {
+            switch self {
+            case .tibetanBowl:
+                return [
+                    (220,  0.55, 3.5),
+                    (440,  0.40, 2.8),
+                    (1100, 0.20, 1.8),
+                    (1760, 0.10, 1.3),
+                    (2640, 0.05, 0.9),
+                ]
+            case .japaneseBell:
+                return [
+                    (440,  0.50, 2.5),
+                    (880,  0.40, 2.0),
+                    (1320, 0.25, 1.5),
+                    (2200, 0.10, 1.0),
+                ]
+            case .softChime:
+                return [
+                    (660,  0.45, 1.8),
+                    (1320, 0.30, 1.4),
+                    (1980, 0.15, 1.0),
+                ]
+            case .deepBell:
+                return [
+                    (110,  0.60, 5.0),
+                    (220,  0.45, 4.0),
+                    (660,  0.20, 2.5),
+                    (1100, 0.10, 1.5),
+                ]
+            }
+        }
+
+        /// Buffer length (longest partial decay rounded up).
+        var renderDuration: Double {
+            let longest = partials.map(\.decay).max() ?? 4.0
+            return min(6.0, ceil(longest))
+        }
+    }
+
+    /// Render the requested bell preset into a PCM buffer at `format`.
+    static func renderBuffer(format: AVAudioFormat, preset: Preset = .tibetanBowl) -> AVAudioPCMBuffer? {
         let sampleRate = format.sampleRate
-        let duration: Double = 4.0
+        let duration = preset.renderDuration
         let frameCapacity = AVAudioFrameCount(sampleRate * duration)
         guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: frameCapacity),
               let channels = buffer.floatChannelData
         else { return nil }
         buffer.frameLength = frameCapacity
 
-        // (frequency, amplitude, decayInSeconds). Inharmonic ratios picked
-        // for a warm Tibetan-bowl-leaning sound rather than a brass bell.
-        let partials: [(freq: Double, amp: Double, decay: Double)] = [
-            (220,  0.55, 3.5),  // fundamental
-            (440,  0.40, 2.8),  // octave
-            (1100, 0.20, 1.8),  // 5× — gives the "metallic" cue
-            (1760, 0.10, 1.3),  // 8× — light shimmer
-            (2640, 0.05, 0.9),  // 12× — air on top
-        ]
-
         let frames = Int(frameCapacity)
         let attackSeconds: Double = 0.008
         let masterGain: Double = 0.45
+        let partials = preset.partials
 
         for frame in 0..<frames {
             let t = Double(frame) / sampleRate

@@ -15,6 +15,8 @@ import UIKit
 struct SessionView: View {
     let minutes: Int
     let soundId: String?
+    let bellId: String?
+    let intervalBellMinutes: Int?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
@@ -24,10 +26,12 @@ struct SessionView: View {
     /// Guard against double-persisting on rapid phase transitions.
     @State private var persistedThisSession = false
 
-    init(minutes: Int, soundId: String?) {
+    init(minutes: Int, soundId: String?, bellId: String? = nil, intervalBellMinutes: Int? = nil) {
         self.minutes = minutes
         self.soundId = soundId
-        _vm = State(initialValue: SessionViewModel(minutes: minutes))
+        self.bellId = bellId
+        self.intervalBellMinutes = intervalBellMinutes
+        _vm = State(initialValue: SessionViewModel(minutes: minutes, intervalBellMinutes: intervalBellMinutes))
     }
 
     var body: some View {
@@ -49,7 +53,7 @@ struct SessionView: View {
             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
             UIApplication.shared.isIdleTimerDisabled = true
             audio.playBackground(soundId: soundId)
-            audio.playBell()
+            audio.playBell(id: bellId)
             vm.start()
         }
         .onDisappear {
@@ -60,7 +64,7 @@ struct SessionView: View {
             if new == .completed {
                 // Closing bell + slow fade of the ambient — let the room
                 // return to quiet before the "Well done." view appears.
-                audio.playBell()
+                audio.playBell(id: bellId)
                 Task { await audio.fadeOutBackground(over: 3.0) }
 
                 Task {
@@ -69,6 +73,9 @@ struct SessionView: View {
                     _ = await (haptic, persist)
                 }
             }
+        }
+        .onChange(of: vm.intervalBellCount) { _, _ in
+            audio.playBell(id: bellId)
         }
     }
 
@@ -274,7 +281,7 @@ private struct ParticleMist: View {
 }
 
 #Preview("Running") {
-    SessionView(minutes: 1, soundId: "rain.light")
+    SessionView(minutes: 1, soundId: "rain.light", bellId: "tibetan-bowl")
         .environment(HealthStore())
         .environment(AudioEngine())
         .modelContainer(for: [Session.self, UserPreferences.self], inMemory: true)

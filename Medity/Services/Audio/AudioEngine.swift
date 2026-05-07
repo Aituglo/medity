@@ -47,7 +47,10 @@ final class AudioEngine: @unchecked Sendable {
     private let filePlayer = AVAudioPlayerNode()
     private let ambient = AmbientControl()
     private var sourceNode: AVAudioSourceNode!
-    private var bellBuffer: AVAudioPCMBuffer?
+    /// Bell buffers keyed by `BellCatalog.Bell.id`. Lazy-populated on first
+    /// `playBell` for each timbre and kept around — buffers are small
+    /// (≤ 5 s mono, ~880 KB) and bells are tapped repeatedly.
+    private var bellBuffers: [String: AVAudioPCMBuffer] = [:]
     private let format: AVAudioFormat
 
     /// Currently-playing background sound id (or `nil`). Exposed for
@@ -115,10 +118,12 @@ final class AudioEngine: @unchecked Sendable {
         currentSoundId = nil
     }
 
-    /// Schedule one bell ring. Multiple rings can overlap — the player
-    /// node queues them. Ducks the ambient instead of fighting it.
-    func playBell() {
-        guard let buffer = bellBuffer else { return }
+    /// Schedule one bell ring of the given timbre. Multiple rings can
+    /// overlap — the player node queues them. Ducks the ambient instead of
+    /// fighting it. Pass `nil` to use the catalog's default (Tibetan bowl).
+    func playBell(id: String? = nil) {
+        let bellId = id ?? "tibetan-bowl"
+        guard let buffer = bellBuffer(for: bellId) else { return }
         ensureRunning()
         bellPlayer.scheduleBuffer(buffer, at: nil, options: [], completionHandler: nil)
         if !bellPlayer.isPlaying { bellPlayer.play() }
@@ -199,20 +204,43 @@ final class AudioEngine: @unchecked Sendable {
         // running everything through `AVAudioConverter` at load time.
         engine.connect(filePlayer, to: engine.mainMixerNode, format: format)
         engine.connect(bellPlayer, to: engine.mainMixerNode, format: format)
-        bellBuffer = loadBellBuffer()
     }
 
-    /// Load the bell sound. Prefers a bundled `bell.{caf,m4a,mp3,wav}`
-    /// recording (warmer, more characterful) and falls back to the
-    /// procedural `BellSynth` if no file is present.
-    private func loadBellBuffer() -> AVAudioPCMBuffer? {
+    /// Returns (and caches) the buffer for the bell with `id`. Each timbre
+    /// is rendered once; subsequent rings reuse the cached PCM.
+    private func bellBuffer(for id: String) -> AVAudioPCMBuffer? {
+        if let cached = bellBuffers[id] { return cached }
+        guard let bell = BellCatalog.bell(for: id) else {
+            return fallbackBellBuffer()
+        }
+        let buffer: AVAudioPCMBuffer? = {
+            switch bell.kind {
+            case .file(let name):
+                return loadBundledFile(named: name)
+            case .synth(let preset):
+                return BellSynth.renderBuffer(format: format, preset: preset)
+            }
+        }()
+        let final = buffer ?? fallbackBellBuffer()
+        if let final { bellBuffers[id] = final }
+        return final
+    }
+
+    /// Last-resort buffer when a bell id resolves to nothing — keeps the
+    /// session audible rather than going silent.
+    private func fallbackBellBuffer() -> AVAudioPCMBuffer? {
+        BellSynth.renderBuffer(format: format, preset: .tibetanBowl)
+    }
+
+    /// Look up a bundled audio asset by base name. Tried extensions match
+    /// `loadFileAsBuffer`'s priority order.
+    private func loadBundledFile(named name: String) -> AVAudioPCMBuffer? {
         for ext in ["caf", "m4a", "mp3", "wav"] {
-            if let url = Bundle.main.url(forResource: "bell", withExtension: ext),
-               let buffer = loadFileAsBuffer(url: url) {
-                return buffer
+            if let url = Bundle.main.url(forResource: name, withExtension: ext) {
+                return loadFileAsBuffer(url: url)
             }
         }
-        return BellSynth.renderBuffer(format: format)
+        return nil
     }
 
     private func ensureRunning() {

@@ -17,11 +17,11 @@ struct HomeView: View {
     // V1 wiring: local @State. Will be lifted into a HomeViewModel + persisted
     // user preferences (SwiftData) once the persistence layer lands.
     @State private var minutes: Int = 20
-    @State private var bellsSummary: String = "Start & End"
     @State private var isPresentingSession = false
     @State private var isPresentingStats = false
     @State private var isPresentingSettings = false
     @State private var isPresentingSoundLibrary = false
+    @State private var isPresentingBellsPicker = false
     /// Set on first appear so we don't reset the user's current dial value
     /// every time we come back from another screen.
     @State private var didSeedDefaultDuration = false
@@ -82,7 +82,9 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $isPresentingSession) {
             SessionView(
                 minutes: minutes,
-                soundId: prefsList.first?.defaultSoundIdentifier
+                soundId: prefsList.first?.defaultSoundIdentifier,
+                bellId: prefsList.first?.defaultBellIdentifier,
+                intervalBellMinutes: prefsList.first?.defaultIntervalBellsMinutes
             )
         }
         .fullScreenCover(isPresented: $isPresentingStats) {
@@ -94,6 +96,13 @@ struct HomeView: View {
         .sheet(isPresented: $isPresentingSoundLibrary) {
             if let prefs = prefsList.first {
                 SoundLibraryView(prefs: prefs)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
+            }
+        }
+        .sheet(isPresented: $isPresentingBellsPicker) {
+            if let prefs = prefsList.first {
+                BellsPickerView(prefs: prefs)
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
             }
@@ -160,11 +169,14 @@ struct HomeView: View {
                 )
             }
             .buttonStyle(.plain)
-            LabeledPill(
-                eyebrow: "BELLS",
-                value: bellsSummary,
-                icon: { bellIcon }
-            )
+            Button { isPresentingBellsPicker = true } label: {
+                LabeledPill(
+                    eyebrow: "BELLS",
+                    value: prefsList.first?.bellsSummary ?? "Start & End",
+                    icon: { bellIcon }
+                )
+            }
+            .buttonStyle(.plain)
         }
     }
 
