@@ -20,6 +20,7 @@ struct HomeView: View {
     @State private var soundName: String = "Rain · Light"
     @State private var bellsSummary: String = "Start & End"
     @State private var isPresentingSession = false
+    @State private var isPresentingStats = false
 
     /// All recorded sessions, newest first. Used to compute the live streak.
     @Query(sort: \Session.endedAt, order: .reverse) private var sessions: [Session]
@@ -33,9 +34,13 @@ struct HomeView: View {
             Backdrop(.dawn)
 
             VStack(spacing: 0) {
-                HomeTopBar(streak: streak)
-                    .padding(.horizontal, Spacing.xl)
-                    .padding(.top, Spacing.l)
+                HomeTopBar(
+                    streak: streak,
+                    onSettingsTap: { /* settings — TBD */ },
+                    onStatsTap: { isPresentingStats = true }
+                )
+                .padding(.horizontal, Spacing.xl)
+                .padding(.top, Spacing.l)
 
                 Spacer(minLength: 0)
 
@@ -68,6 +73,9 @@ struct HomeView: View {
         }
         .fullScreenCover(isPresented: $isPresentingSession) {
             SessionView(minutes: minutes)
+        }
+        .fullScreenCover(isPresented: $isPresentingStats) {
+            StatsView()
         }
     }
 
@@ -145,16 +153,18 @@ struct HomeView: View {
 
 private struct HomeTopBar: View {
     let streak: Int
+    let onSettingsTap: () -> Void
+    let onStatsTap: () -> Void
 
     var body: some View {
         HStack {
-            iconButton(systemName: "gearshape") { /* settings */ }
+            iconButton(systemName: "gearshape", action: onSettingsTap)
             Spacer()
             HStack(spacing: 8) {
                 if streak > 0 {
                     streakPill
                 }
-                iconButton(systemName: "chart.bar") { /* stats */ }
+                iconButton(systemName: "chart.bar", action: onStatsTap)
             }
         }
     }
