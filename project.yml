@@ -103,3 +103,10 @@ targets:
         INFOPLIST_KEY_NSHealthShareUsageDescription: "Medity reads your heart rate during sessions to give a fuller picture of your practice."
         INFOPLIST_KEY_NSHealthUpdateUsageDescription: "Medity saves your sessions to Apple Health as Mindful Minutes so they count toward your day."
         INFOPLIST_KEY_NSSupportsLiveActivities: YES
+        INFOPLIST_KEY_UIAppFonts:
+          - Geist-Thin.otf
+          - Geist-ExtraLight.otf
+          - Geist-Light.otf
+          - Geist-Regular.otf
+          - Geist-Medium.otf
+          - Geist-SemiBold.otf

@@ -63,18 +63,19 @@ private struct SettingsContent: View {
     @Bindable var prefs: UserPreferences
     @Environment(HealthStore.self) private var healthStore
     @Environment(StoreService.self) private var store
+    @Environment(\.openURL) private var openURL
     private let scheduler = ReminderScheduler()
 
     @State private var presentingSheet: SheetTarget?
 
     enum SheetTarget: Identifiable {
-        case time, days, duration, sound, bells, paywall
+        case time, days, duration, sound, bells, paywall, acknowledgements
         var id: Self { self }
     }
 
     /// Sheets that need the full available height instead of the
     /// duration-picker-style medium detent.
-    private let largeSheets: Set<SheetTarget> = [.sound, .bells, .paywall]
+    private let largeSheets: Set<SheetTarget> = [.sound, .bells, .paywall, .acknowledgements]
 
     var body: some View {
         ScrollView {
@@ -106,12 +107,13 @@ private struct SettingsContent: View {
     @ViewBuilder
     private func sheet(for target: SheetTarget) -> some View {
         switch target {
-        case .time:     ReminderTimePicker(prefs: prefs)
-        case .days:     ReminderDaysPicker(prefs: prefs)
-        case .duration: DurationPicker(prefs: prefs)
-        case .sound:    SoundLibraryView(prefs: prefs)
-        case .bells:    BellsPickerView(prefs: prefs)
-        case .paywall:  PaywallView(prefs: prefs)
+        case .time:             ReminderTimePicker(prefs: prefs)
+        case .days:             ReminderDaysPicker(prefs: prefs)
+        case .duration:         DurationPicker(prefs: prefs)
+        case .sound:            SoundLibraryView(prefs: prefs)
+        case .bells:            BellsPickerView(prefs: prefs)
+        case .paywall:          PaywallView(prefs: prefs)
+        case .acknowledgements: AcknowledgementsView()
         }
     }
 
@@ -222,10 +224,26 @@ private struct SettingsContent: View {
 
     private var aboutSection: some View {
         SettingsGroup(header: "About") {
-            SettingsRow(label: "Privacy", chevron: true, onTap: { /* TBD */ })
-            SettingsRow(label: "Acknowledgements", chevron: true, onTap: { /* TBD */ })
+            SettingsRow(
+                label: "Privacy",
+                chevron: true,
+                onTap: { openPrivacyURL() }
+            )
+            SettingsRow(
+                label: "Acknowledgements",
+                chevron: true,
+                onTap: { presentingSheet = .acknowledgements }
+            )
             SettingsRow(label: "Version", detail: appVersion, isLast: true)
         }
+    }
+
+    /// Privacy policy lives on the marketing site (GitHub Pages). We open
+    /// it in Safari rather than embedding so the page stays the source of
+    /// truth — it's also what the App Store listing links to.
+    private func openPrivacyURL() {
+        guard let url = URL(string: "https://aituglo.github.io/medity/privacy") else { return }
+        openURL(url)
     }
 
     #if DEBUG

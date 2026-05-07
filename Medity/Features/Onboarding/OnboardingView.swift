@@ -331,38 +331,67 @@ private struct PermissionsPage: View {
         .glassSurface(radius: 28, tint: 0.30)
     }
 
-    /// Two motifs: a heart pulse on the left (Health), shimmer rings around
-    /// a dot on the right (the bell). Stays simple — the card is the focal
-    /// point, the illustration is mood, not message.
+    /// Two motifs animated continuously: a heart pulsing on a baseline
+    /// (Health), shimmer rings expanding outward from a dot (the bell).
+    /// Drives the whole illustration off a single `TimelineView`, so the
+    /// motions are phase-locked and the card mood stays cohesive.
     private var illustration: some View {
         ZStack {
             AuraView(size: 180)
 
-            HStack(spacing: 30) {
-                ZStack {
-                    PulseLine()
-                        .stroke(.accent.opacity(0.7), style: StrokeStyle(lineWidth: 1.4, lineCap: .round))
-                        .frame(width: 90, height: 30)
-                    Image(systemName: "heart.fill")
-                        .foregroundStyle(.accent.opacity(0.85))
-                        .font(.system(size: 14))
-                        .offset(x: 50)
+            TimelineView(.animation(minimumInterval: 1.0 / 30.0)) { context in
+                let t = context.date.timeIntervalSinceReferenceDate
+                HStack(spacing: 30) {
+                    heartPulse(time: t)
+                    bellShimmer(time: t)
                 }
-
-                ZStack {
-                    ForEach([30.0, 22.0, 14.0], id: \.self) { r in
-                        let ratio = (r - 14) / (30 - 14)
-                        Circle()
-                            .stroke(.warmAccent.opacity(0.5 - ratio * 0.35), lineWidth: 0.7)
-                            .frame(width: r * 2, height: r * 2)
-                    }
-                    Circle()
-                        .fill(.warmAccent)
-                        .frame(width: 12, height: 12)
-                }
-                .frame(width: 60, height: 60)
             }
         }
+    }
+
+    /// Heart on top of a baseline pulse. The heart scales `1.0 → 1.18`
+    /// twice per second on the positive lobe of a sine — a real heartbeat
+    /// shape, not a sawtooth.
+    @ViewBuilder
+    private func heartPulse(time t: TimeInterval) -> some View {
+        let beat = max(0, sin(t * 2 * .pi / 1.0)) // 1 Hz, positive lobe only
+        let heartScale = 1.0 + beat * 0.18
+        ZStack {
+            PulseLine()
+                .stroke(.accent.opacity(0.7), style: StrokeStyle(lineWidth: 1.4, lineCap: .round))
+                .frame(width: 90, height: 30)
+            Image(systemName: "heart.fill")
+                .foregroundStyle(.accent.opacity(0.85))
+                .font(.system(size: 14))
+                .scaleEffect(heartScale)
+                .offset(x: 50)
+        }
+    }
+
+    /// Three rings expanding outward continuously, staggered by 1/3 of the
+    /// cycle so a new ring leaves the centre as the previous fades.
+    /// Each ring grows from 0.5× to 2.5× while fading from 0.55 to 0
+    /// opacity over a 2.4 s cycle — slow, breathing, hypnotic.
+    @ViewBuilder
+    private func bellShimmer(time t: TimeInterval) -> some View {
+        let cycle: Double = 2.4
+        let baseRadius: CGFloat = 14
+        ZStack {
+            ForEach(0..<3, id: \.self) { i in
+                let phase = ((t + Double(i) * (cycle / 3)) / cycle).truncatingRemainder(dividingBy: 1.0)
+                let scale = 0.5 + phase * 2.0
+                let opacity = (1.0 - phase) * 0.55
+                Circle()
+                    .stroke(.warmAccent, lineWidth: 0.7)
+                    .frame(width: baseRadius * 2, height: baseRadius * 2)
+                    .scaleEffect(scale)
+                    .opacity(opacity)
+            }
+            Circle()
+                .fill(.warmAccent)
+                .frame(width: 12, height: 12)
+        }
+        .frame(width: 60, height: 60)
     }
 }
 
