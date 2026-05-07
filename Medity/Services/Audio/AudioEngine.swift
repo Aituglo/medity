@@ -1,85 +1,81 @@
 import AVFoundation
 import Observation
 
-/// Single audio engine for the whole app. Owns one `AVAudioEngine` graph,
-/// a permanent player node for bells, and a transient source node for the
-/// active background sound. Procedurally generates the supported sounds —
-/// no bundled audio files required.
+/// Single audio engine for the whole app.
 ///
-/// Two volume domains:
-///   - `ambientMixer` — only the background sound feeds into it. Ducked
-///     when a bell rings; faded out at the end of a session.
-///   - `bellPlayer`   — connects directly to the main mixer so bells
-///     remain at full volume during ducking.
+/// The graph is built **once** in `init` and never mutated again — playing a
+/// new sound just swaps a class-typed reference (`AmbientControl.generator`)
+/// that the render block reads every frame. Mutating the graph (attach /
+/// connect / disconnect) while the engine is running can throw an Obj-C
+/// exception that Swift can't catch and crashes the process; this design
+/// avoids the situation entirely.
+///
+/// Two volume knobs:
+///   - `AmbientControl.volume` — applied per-sample in the source node, used
+///     for ducking and end-of-session fade.
+///   - `bellPlayer.volume` — separate path direct to the main mixer, so the
+///     bell stays at full level while the ambient is ducked under it.
 @MainActor
 @Observable
 final class AudioEngine {
+    /// Holds the live generator and ambient gain. Both audio thread (read)
+    /// and main thread (write) touch it; class-reference and `Float` writes
+    /// are atomic on iOS, and one stale frame on a swap is inaudible.
+    private final class AmbientControl: @unchecked Sendable {
+        var generator: SoundGenerator?
+        var volume: Float = 1.0
+    }
+
     private let engine = AVAudioEngine()
-    private let ambientMixer = AVAudioMixerNode()
     private let bellPlayer = AVAudioPlayerNode()
-    private var ambientNode: AVAudioSourceNode?
+    private let ambient = AmbientControl()
+    private var sourceNode: AVAudioSourceNode!
     private var bellBuffer: AVAudioPCMBuffer?
     private let format: AVAudioFormat
 
-    /// Currently-playing background sound id (or `nil` if silent). Exposed
-    /// for diagnostics.
+    /// Currently-playing background sound id (or `nil`). Exposed for
+    /// diagnostics — the actual playback is driven by `ambient.generator`.
     private(set) var currentSoundId: String?
 
     init() {
-        // Mono sample stream is plenty — none of our generators are stereo
-        // and bell partials read fine in mono.
+        // Mono is enough for everything we play — generators output one
+        // channel and the bell partials don't need spread.
         self.format = AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1)!
+
         configureSession()
+        sourceNode = makeSourceNode()
         setupGraph()
     }
 
     // MARK: - Public API
 
     /// Start playing the sound whose id is `soundId` (see `SoundCatalog`).
-    /// Replaces any current background sound. `nil` or `"silence"` mean
-    /// "don't play anything".
+    /// `nil` or `"silence"` mean "play nothing", and previously-running
+    /// sounds stop.
     func playBackground(soundId: String?) {
-        stopBackground()
         guard let soundId, soundId != "silence",
               let generator = makeGenerator(for: soundId)
         else {
+            ambient.generator = nil
             currentSoundId = nil
             return
         }
-
-        let format = self.format
-        let node = AVAudioSourceNode(format: format) { _, _, frameCount, audioBufferList in
-            // Render thread. Must be RT-safe: no allocations, no locks.
-            let bufferList = UnsafeMutableAudioBufferListPointer(audioBufferList)
-            for buffer in bufferList {
-                let buf = UnsafeMutableBufferPointer<Float>(buffer)
-                for frame in 0..<Int(frameCount) {
-                    buf[frame] = generator.nextSample()
-                }
-            }
-            return noErr
-        }
-        engine.attach(node)
-        engine.connect(node, to: ambientMixer, format: format)
-        ambientNode = node
+        ambient.generator = generator
+        ambient.volume = 1.0
         currentSoundId = soundId
-        ambientMixer.outputVolume = 1.0
         ensureRunning()
     }
 
-    /// Disconnect and tear down the current background source. Idempotent.
+    /// Stop the background sound. The graph stays running so the bell
+    /// player can fire instantly when needed.
     func stopBackground() {
-        if let ambientNode {
-            engine.disconnectNodeOutput(ambientNode)
-            engine.detach(ambientNode)
-            self.ambientNode = nil
-        }
+        ambient.generator = nil
         currentSoundId = nil
     }
 
-    /// Schedule one ring of the bell. Multiple rings can overlap (the player
-    /// node queues them). Always at full volume — ducks the ambient instead
-    /// of competing with it.
+    /// Schedule one bell ring. Multiple rings can overlap (the player node
+    /// queues them). Always at full level — ducks the ambient instead of
+    /// fighting it.
     func playBell() {
         guard let buffer = bellBuffer else { return }
         ensureRunning()
@@ -90,24 +86,24 @@ final class AudioEngine {
         Task { await duckAmbient() }
     }
 
-    /// Smoothly drops the background to silence over `duration`, then stops.
-    /// Used at the end of a session so the room returns to quiet without a
-    /// hard cut.
+    /// Fade the background to silence over `duration`, then stop it. Used
+    /// at session end so the room returns to quiet without a hard cut.
     func fadeOutBackground(over duration: TimeInterval) async {
-        guard ambientNode != nil else { return }
+        guard ambient.generator != nil else { return }
         let steps = max(20, Int(duration * 30))   // ~30 Hz updates
         let interval = duration / Double(steps)
-        let initial = ambientMixer.outputVolume
+        let initial = ambient.volume
         for i in 1...steps {
             let progress = Float(i) / Float(steps)
-            ambientMixer.outputVolume = initial * (1 - progress)
+            ambient.volume = initial * (1 - progress)
             try? await Task.sleep(for: .seconds(interval))
         }
         stopBackground()
+        ambient.volume = 1.0
     }
 
-    /// Stops everything and tears the engine down. Call when leaving any
-    /// surface that owned audio (the session, the sound preview).
+    /// Stop everything including the engine. Call when the audio surface
+    /// is leaving (session ending, sound preview sheet dismissing).
     func stopAll() {
         stopBackground()
         bellPlayer.stop()
@@ -120,18 +116,50 @@ final class AudioEngine {
 
     private func configureSession() {
         let session = AVAudioSession.sharedInstance()
-        // `.playback` keeps audio going when the screen locks — meditation
-        // shouldn't stop because the user put the phone down.
+        // `.playback` keeps audio playing when the screen locks.
         try? session.setCategory(.playback, mode: .default, options: [])
-        try? session.setActive(true)
+        try? session.setActive(true, options: [])
+    }
+
+    /// Build the permanent source node. Captures `ambient` by reference, so
+    /// any later change to `ambient.generator` / `ambient.volume` is picked
+    /// up on the next render frame without touching the graph.
+    private func makeSourceNode() -> AVAudioSourceNode {
+        let ambient = self.ambient
+        let format = self.format
+        return AVAudioSourceNode(format: format) { _, _, frameCount, audioBufferList in
+            let buffers = UnsafeMutableAudioBufferListPointer(audioBufferList)
+            // Snapshot once per render call so a mid-call swap from the main
+            // thread can't make the loop see two different generators.
+            let generator = ambient.generator
+            let volume = ambient.volume
+            for buffer in buffers {
+                guard let raw = buffer.mData else { continue }
+                let ptr = raw.assumingMemoryBound(to: Float.self)
+                if let generator {
+                    for frame in 0..<Int(frameCount) {
+                        ptr[frame] = generator.nextSample() * volume
+                    }
+                } else {
+                    // No active sound — fill with zeros (silence).
+                    for frame in 0..<Int(frameCount) {
+                        ptr[frame] = 0
+                    }
+                }
+            }
+            return noErr
+        }
     }
 
     private func setupGraph() {
-        engine.attach(ambientMixer)
+        engine.attach(sourceNode)
         engine.attach(bellPlayer)
-        // Ambient routes through its own mixer so we can duck it without
-        // affecting the bell.
-        engine.connect(ambientMixer, to: engine.mainMixerNode, format: format)
+        // Both nodes go straight to the main mixer. We don't add a separate
+        // ambient mixer because Obj-C exceptions from `engine.connect` while
+        // running can crash the app — keeping the graph fixed at one shape
+        // sidesteps the problem and the per-sample volume in the source
+        // node gives us all the ducking control we need.
+        engine.connect(sourceNode, to: engine.mainMixerNode, format: format)
         engine.connect(bellPlayer, to: engine.mainMixerNode, format: format)
         bellBuffer = BellSynth.renderBuffer(format: format)
     }
@@ -141,8 +169,8 @@ final class AudioEngine {
         do {
             try engine.start()
         } catch {
-            // Audio failures shouldn't kill the meditation — log and
-            // continue silently.
+            // Audio failures shouldn't kill the meditation. Logging
+            // surfaces the issue during dev without bringing the app down.
             print("AudioEngine: engine.start() failed: \(error)")
         }
     }
@@ -150,18 +178,17 @@ final class AudioEngine {
     // MARK: - Bell ducking
 
     /// Quickly drops ambient volume to 40 %, holds while the bell sustains,
-    /// then restores to full. Mirrors the curve documented in the design's
-    /// "Sound & touch" sheet.
+    /// then restores it. Mirrors the curve in the design's "Sound & touch".
     private func duckAmbient() async {
         let target: Float = 0.4
 
         // Drop over ~600 ms.
         let dropSteps = 24
         let dropInterval: TimeInterval = 0.025
-        let initial = ambientMixer.outputVolume
+        let initial = ambient.volume
         for i in 1...dropSteps {
             let p = Float(i) / Float(dropSteps)
-            ambientMixer.outputVolume = initial * (1 - p) + target * p
+            ambient.volume = initial * (1 - p) + target * p
             try? await Task.sleep(for: .seconds(dropInterval))
         }
         // Hold ~1 s while the bell is at peak amplitude.
@@ -171,16 +198,16 @@ final class AudioEngine {
         let riseInterval: TimeInterval = 1.2 / Double(riseSteps)
         for i in 1...riseSteps {
             let p = Float(i) / Float(riseSteps)
-            ambientMixer.outputVolume = target * (1 - p) + 1.0 * p
+            ambient.volume = target * (1 - p) + 1.0 * p
             try? await Task.sleep(for: .seconds(riseInterval))
         }
     }
 
     // MARK: - Generator selection
 
-    /// Routes a `SoundCatalog` identifier to its generator. Sounds that need
-    /// real recordings — Tibetan Bowls, Om Chant, Temple Ambience — return
-    /// `nil` and fall back to silence until assets ship.
+    /// Routes a `SoundCatalog` identifier to its generator. Sounds that
+    /// need real recordings (Tibetan Bowls, Om Chant, Temple Ambience)
+    /// return `nil` and fall back to silence.
     private func makeGenerator(for soundId: String) -> SoundGenerator? {
         switch soundId {
         case "noise.white":  return WhiteNoiseGenerator()
