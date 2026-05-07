@@ -183,7 +183,7 @@ private struct SettingsContent: View {
             )
             SettingsRow(
                 label: "iCloud sync",
-                detail: "Local only",
+                detail: iCloudStatus,
                 isLast: true
             )
         }
@@ -213,6 +213,14 @@ private struct SettingsContent: View {
     private func openPrivacyURL() {
         guard let url = URL(string: "https://aituglo.github.io/medity/privacy") else { return }
         openURL(url)
+    }
+
+    /// Reads the iCloud account state from the file system token. The
+    /// `ubiquityIdentityToken` is non-nil when the user is signed in to
+    /// iCloud, which (combined with our CloudKit-configured
+    /// `ModelContainer` in `MedityApp`) is what activates SwiftData sync.
+    private var iCloudStatus: String {
+        FileManager.default.ubiquityIdentityToken != nil ? "On" : "Local only"
     }
 
     private var appVersion: String {

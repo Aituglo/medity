@@ -199,7 +199,7 @@ struct SessionView: View {
                     .monospacedDigit()
                     .foregroundStyle(.ink)
                     .contentTransition(.numericText(countsDown: true))
-                Text("RAIN · LIGHT")
+                Text(currentSoundLabel.uppercased())
                     .font(Typography.eyebrow(size: 11))
                     .tracking(4)
                     .foregroundStyle(.inkTertiary)
@@ -222,6 +222,16 @@ struct SessionView: View {
                 .padding(.bottom, 88)
             }
         }
+    }
+
+    /// Display label shown under the countdown — derived from the
+    /// session's `soundId`, falling back to "Silence" when nothing is
+    /// playing.
+    private var currentSoundLabel: String {
+        guard let soundId,
+              let sound = SoundCatalog.sound(for: soundId)
+        else { return "Silence" }
+        return sound.displayName
     }
 
     /// Three soft pulses, half a second apart — the design's "completion"

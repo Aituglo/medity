@@ -166,9 +166,16 @@ private struct ProgressRing: View {
             // Cairn motif at the centre — same shape as the app icon, in
             // a single soft white tone. Scaled to ~50 % of the ring's
             // bounding box so it sits visually inside the stroke.
-            CairnMark()
-                .fill(Color.white.opacity(0.85))
-                .padding(8)
+            // Cairn is bottom-heavy in its 80×84 viewBox (visual content
+            // sits at y 18–82). Pull it up by ~9.5% of the frame so it
+            // looks centred inside the progress ring instead of resting
+            // on the bottom stroke.
+            GeometryReader { geo in
+                CairnMark()
+                    .fill(Color.white.opacity(0.85))
+                    .padding(geo.size.width * 0.18)
+                    .offset(y: -geo.size.width * 0.05)
+            }
         }
     }
 }
