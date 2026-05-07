@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Bottom sheet listing every sound by section, with a check on the
 /// currently-selected one. Tapping a row updates `prefs.defaultSoundIdentifier`
@@ -92,7 +93,11 @@ struct SoundLibraryView: View {
 
     private func select(_ sound: SoundCatalog.Sound) {
         // Locked sounds are visually dimmed — guard against tap anyway.
-        guard !sound.isPremium || prefs.hasUnlockedPlus else { return }
+        guard !sound.isPremium || prefs.hasUnlockedPlus else {
+            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+            isPresentingPaywall = true
+            return
+        }
         prefs.defaultSoundIdentifier = sound.id
         // Preview live so the user can compare options without committing.
         audio.playBackground(soundId: sound.id)

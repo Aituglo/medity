@@ -250,20 +250,26 @@ xcodebuild -project Medity.xcodeproj -scheme Medity -destination 'platform=iOS S
 
 ## Roadmap V1
 
-Ordre d'implémentation suggéré (ne pas tout faire d'un coup) :
-
 1. ✅ **Bootstrap** — projet Xcode, design system fondations (Tokens, Backdrop, Aura, GlassSurface, CairnMark, PrimaryButton)
-2. **Onboarding** — 3 écrans, demande de permissions
-3. **Home** — `TimerRing` (le morceau le plus signature), presets, pills sound/bells
-4. **Session** — countdown, particules, pause, complete
-5. **Modèles + persistence** — SwiftData + CloudKit, services (HealthStore, AudioPlayer)
-6. **Sound library + Bells picker** — sheets
-7. **Stats** — heatmap, streak, métriques
-8. **Achievements + détail**
-9. **Settings + paywall (StoreKit 2)**
-10. **Widgets** (extension target)
-11. **Live Activity** (extension target)
-12. **Polish** — haptics, micro-interactions, app icon final
+2. ✅ **Onboarding** — 3 écrans, demande de permissions Health + Notifications
+3. ✅ **Home** — `TimerRing` (60 ticks, drag, breathing pulse), presets, pills sound/bells
+4. ✅ **Session** — countdown serif, particules drift-up, pause, complete, haptics, idle-timer disabled
+5. ✅ **Modèles + persistence** — SwiftData (Session + UserPreferences), HealthStore service, écriture Mindful Minutes
+6. ✅ **Sound library** — sheet, 15 sons catalogued, 11 fichiers bundlés (Wikimedia CC/PD), AudioEngine procédural fallback
+7. ✅ **Bells picker** — 5 timbres (4 synth + 1 file), interval bells 5/10/15 min, ducking pendant la cloche
+8. ✅ **Stats** — streak hero, heatmap 26 weeks, 4 metrics 2x2, line graph 30 jours, empty state "First stone"
+9. ✅ **Achievements** — 9 markers dérivés des sessions, grille + detail sheet
+10. ✅ **Settings** — reminder schedule + ReminderScheduler, defaults, Health, paywall hook, About, debug toggle Plus
+11. ✅ **Paywall** — UI complète, achat stubbé (à wirer avec StoreKit 2)
+12. ✅ **Widgets** — Streak (small/medium/large + lock-screen accessories), App Group `group.com.aituglo.medity`
+13. ✅ **Live Activity** — Dynamic Island compact/minimal/expanded + Lock Screen, ActivityKit
+14. ✅ **App icon** — cairn 1024x1024, gradient radial bleu doux
+
+### Restant pour la prod
+
+- **StoreKit 2 réel** — Product config + transaction listener + restore (achat actuellement stub)
+- **CloudKit sync** — entitlement iCloud + container provisionné (modèles déjà compatibles)
+- **Tests UI** (purement V2)
 
 ---
 
