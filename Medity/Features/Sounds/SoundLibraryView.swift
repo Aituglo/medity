@@ -10,6 +10,7 @@ struct SoundLibraryView: View {
     @Bindable var prefs: UserPreferences
     @Environment(\.dismiss) private var dismiss
     @Environment(AudioEngine.self) private var audio
+    @State private var isPresentingPaywall = false
 
     var body: some View {
         ZStack {
@@ -22,7 +23,7 @@ struct SoundLibraryView: View {
                             section(for: category)
                         }
                         if !prefs.hasUnlockedPlus {
-                            PlusUpsellCard { /* paywall — TBD */ }
+                            PlusUpsellCard { isPresentingPaywall = true }
                                 .padding(.horizontal, 14)
                                 .padding(.top, 4)
                         }
@@ -39,6 +40,11 @@ struct SoundLibraryView: View {
         }
         .onDisappear {
             audio.stopAll()
+        }
+        .sheet(isPresented: $isPresentingPaywall) {
+            PaywallView(prefs: prefs)
+                .presentationDetents([.large])
+                .presentationDragIndicator(.visible)
         }
     }
 

@@ -67,13 +67,13 @@ private struct SettingsContent: View {
     @State private var presentingSheet: SheetTarget?
 
     enum SheetTarget: Identifiable {
-        case time, days, duration, sound, bells
+        case time, days, duration, sound, bells, paywall
         var id: Self { self }
     }
 
     /// Sheets that need the full available height instead of the
     /// duration-picker-style medium detent.
-    private let largeSheets: Set<SheetTarget> = [.sound, .bells]
+    private let largeSheets: Set<SheetTarget> = [.sound, .bells, .paywall]
 
     var body: some View {
         ScrollView {
@@ -110,6 +110,7 @@ private struct SettingsContent: View {
         case .duration: DurationPicker(prefs: prefs)
         case .sound:    SoundLibraryView(prefs: prefs)
         case .bells:    BellsPickerView(prefs: prefs)
+        case .paywall:  PaywallView(prefs: prefs)
         }
     }
 
@@ -198,15 +199,15 @@ private struct SettingsContent: View {
             SettingsRow(
                 label: "Restore purchases",
                 accent: true,
-                onTap: { /* StoreKit restore — TBD */ }
+                onTap: { /* StoreKit restore — wired with the real Product API */ }
             )
             SettingsRow(
-                label: "Unlock Medity Plus",
-                detail: "€14.99",
-                chevron: true,
+                label: prefs.hasUnlockedPlus ? "Medity Plus" : "Unlock Medity Plus",
+                detail: prefs.hasUnlockedPlus ? "Active" : "€14.99",
+                chevron: !prefs.hasUnlockedPlus,
                 accent: true,
                 isLast: true,
-                onTap: { /* Paywall — TBD */ }
+                onTap: prefs.hasUnlockedPlus ? nil : { presentingSheet = .paywall }
             )
         }
     }
