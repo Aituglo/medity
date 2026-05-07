@@ -17,11 +17,11 @@ struct HomeView: View {
     // V1 wiring: local @State. Will be lifted into a HomeViewModel + persisted
     // user preferences (SwiftData) once the persistence layer lands.
     @State private var minutes: Int = 20
-    @State private var soundName: String = "Rain · Light"
     @State private var bellsSummary: String = "Start & End"
     @State private var isPresentingSession = false
     @State private var isPresentingStats = false
     @State private var isPresentingSettings = false
+    @State private var isPresentingSoundLibrary = false
     /// Set on first appear so we don't reset the user's current dial value
     /// every time we come back from another screen.
     @State private var didSeedDefaultDuration = false
@@ -88,6 +88,13 @@ struct HomeView: View {
         .fullScreenCover(isPresented: $isPresentingSettings) {
             SettingsView()
         }
+        .sheet(isPresented: $isPresentingSoundLibrary) {
+            if let prefs = prefsList.first {
+                SoundLibraryView(prefs: prefs)
+                    .presentationDetents([.large])
+                    .presentationDragIndicator(.visible)
+            }
+        }
         .onAppear {
             // Seed the dial from the persisted default exactly once, on
             // first appear after launch. We don't want to reset the user's
@@ -142,11 +149,14 @@ struct HomeView: View {
     /// Side-by-side eyebrow-titled pills for the current sound and bells.
     private var soundAndBellsRow: some View {
         HStack(spacing: 10) {
-            LabeledPill(
-                eyebrow: "SOUND",
-                value: soundName,
-                icon: { wavelengthIcon }
-            )
+            Button { isPresentingSoundLibrary = true } label: {
+                LabeledPill(
+                    eyebrow: "SOUND",
+                    value: prefsList.first?.defaultSoundDisplayName ?? "Silence",
+                    icon: { wavelengthIcon }
+                )
+            }
+            .buttonStyle(.plain)
             LabeledPill(
                 eyebrow: "BELLS",
                 value: bellsSummary,

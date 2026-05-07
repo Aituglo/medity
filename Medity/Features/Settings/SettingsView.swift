@@ -67,7 +67,7 @@ private struct SettingsContent: View {
     @State private var presentingSheet: SheetTarget?
 
     enum SheetTarget: Identifiable {
-        case time, days, duration
+        case time, days, duration, sound
         var id: Self { self }
     }
 
@@ -90,7 +90,7 @@ private struct SettingsContent: View {
         .onChange(of: prefs.reminderDaysBitmask) { _, _ in resyncReminder() }
         .sheet(item: $presentingSheet) { target in
             sheet(for: target)
-                .presentationDetents([.medium])
+                .presentationDetents(target == .sound ? [.large] : [.medium])
                 .presentationDragIndicator(.visible)
         }
     }
@@ -101,6 +101,7 @@ private struct SettingsContent: View {
         case .time:     ReminderTimePicker(prefs: prefs)
         case .days:     ReminderDaysPicker(prefs: prefs)
         case .duration: DurationPicker(prefs: prefs)
+        case .sound:    SoundLibraryView(prefs: prefs)
         }
     }
 
@@ -144,7 +145,7 @@ private struct SettingsContent: View {
                 label: "Sound",
                 detail: prefs.defaultSoundDisplayName,
                 chevron: true,
-                onTap: { /* SoundLibrary — TBD */ }
+                onTap: { presentingSheet = .sound }
             )
             SettingsRow(
                 label: "Bells",
@@ -515,51 +516,6 @@ private struct DurationPicker: View {
             }
         }
         .buttonStyle(.plain)
-    }
-}
-
-// MARK: - UserPreferences display helpers
-
-private extension UserPreferences {
-    /// Localized "h:mm a" rendering of the reminder time.
-    var reminderTimeFormatted: String {
-        var c = DateComponents()
-        c.hour = reminderHour
-        c.minute = reminderMinute
-        guard let date = Calendar.current.date(from: c) else { return "—" }
-        let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter.string(from: date)
-    }
-
-    /// Compact summary of the active days. Special-cases the common
-    /// Mon–Fri / Sat–Sun / Every day shortcuts; otherwise lists short
-    /// names separated by commas.
-    var reminderDaysSummary: String {
-        let bits = reminderDaysBitmask
-        switch bits {
-        case 0b1111111: return "Every day"
-        case 0b0111110: return "Mon–Fri"
-        case 0b1000001: return "Sat–Sun"
-        case 0:         return "None"
-        default:
-            let short = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-            var picked: [String] = []
-            for i in 0..<7 where bits & (1 << i) != 0 {
-                picked.append(short[i])
-            }
-            return picked.joined(separator: ", ")
-        }
-    }
-
-    /// Display name for the default sound; `nil` and `"silence"` map to
-    /// "Silence", otherwise we humanize "rain.light" → "Rain · Light".
-    var defaultSoundDisplayName: String {
-        guard let id = defaultSoundIdentifier, id != "silence" else { return "Silence" }
-        return id
-            .split(separator: ".")
-            .map { $0.prefix(1).uppercased() + $0.dropFirst() }
-            .joined(separator: " · ")
     }
 }
 

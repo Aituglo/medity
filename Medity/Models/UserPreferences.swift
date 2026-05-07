@@ -12,8 +12,9 @@ final class UserPreferences {
     /// Default duration the timer ring lands on when the home screen opens, in minutes.
     var defaultDurationMinutes: Int = 20
 
-    /// Default background sound identifier. `nil` = silence.
-    var defaultSoundIdentifier: String? = nil
+    /// Default background sound identifier (see `SoundCatalog`).
+    /// `nil` or `"silence"` resolve to silence.
+    var defaultSoundIdentifier: String? = "rain.light"
 
     /// Default bell timbre identifier.
     var defaultBellIdentifier: String = "tibetan-bowl"
