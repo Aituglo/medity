@@ -240,11 +240,14 @@ private struct Heatmap: View {
     }
 
     private func level(forMinutes m: Int) -> Int {
+        // Tuned for typical practice volumes — even a single 5-min session
+        // should register as more than the lightest tint, and 30+ minutes
+        // (a substantial daily practice) lands at the top.
         switch m {
         case 0: return 0
-        case 1..<10: return 1
-        case 10..<20: return 2
-        case 20..<45: return 3
+        case 1..<6: return 1
+        case 6..<16: return 2
+        case 16..<31: return 3
         default: return 4
         }
     }
