@@ -57,6 +57,12 @@ final class AudioEngine: @unchecked Sendable {
     /// diagnostics; the actual playback state lives on the nodes above.
     private(set) var currentSoundId: String?
 
+    /// Cached looping buffer for the active background sound. We keep it so
+    /// `handleInterruption` / `handleMediaServicesReset` can re-schedule on
+    /// `filePlayer` after iOS tears the engine down without having to
+    /// re-decode the asset.
+    private var currentLoopBuffer: AVAudioPCMBuffer?
+
     init() {
         // Mono 44.1 kHz is enough for everything we synth — generators
         // output one channel and the bell partials don't need spread.
@@ -65,6 +71,7 @@ final class AudioEngine: @unchecked Sendable {
         configureSession()
         sourceNode = makeSourceNode()
         setupGraph()
+        registerSessionObservers()
     }
 
     // MARK: - Public API
@@ -94,6 +101,7 @@ final class AudioEngine: @unchecked Sendable {
 
         // 1) Bundled audio file, looped.
         if let buffer = loadBundledLoop(for: soundId) {
+            currentLoopBuffer = buffer
             filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
             filePlayer.play()
             setAmbientVolume(1.0)
@@ -103,6 +111,7 @@ final class AudioEngine: @unchecked Sendable {
 
         // 2) Procedural generator.
         if let generator = makeGenerator(for: soundId) {
+            currentLoopBuffer = nil
             ambient.generator = generator
             setAmbientVolume(1.0)
             currentSoundId = soundId
@@ -110,6 +119,7 @@ final class AudioEngine: @unchecked Sendable {
         }
 
         // 3) No file, no generator — silent fallback.
+        currentLoopBuffer = nil
         currentSoundId = nil
     }
 
@@ -118,6 +128,7 @@ final class AudioEngine: @unchecked Sendable {
     func stopBackground() {
         ambient.generator = nil
         if filePlayer.isPlaying { filePlayer.stop() }
+        currentLoopBuffer = nil
         currentSoundId = nil
     }
 
@@ -177,9 +188,104 @@ final class AudioEngine: @unchecked Sendable {
 
     private func configureSession() {
         let session = AVAudioSession.sharedInstance()
-        // `.playback` keeps audio playing when the screen locks.
-        try? session.setCategory(.playback, mode: .default, options: [])
-        try? session.setActive(true, options: [])
+        // `.playback` keeps audio playing when the screen is locked or the
+        // app is backgrounded. Pair with `UIBackgroundModes = audio` in
+        // Info.plist so iOS doesn't suspend us.
+        do {
+            try session.setCategory(.playback, mode: .default, options: [])
+        } catch {
+            print("AudioEngine: setCategory(.playback) failed: \(error)")
+        }
+        do {
+            try session.setActive(true, options: [])
+        } catch {
+            print("AudioEngine: setActive(true) failed: \(error)")
+        }
+    }
+
+    /// Best-effort re-activation. iOS can deactivate the session for us on
+    /// interruption or media-services reset; calling this before each
+    /// playback start guarantees we hand the system a hot session.
+    private func activateSession() {
+        do {
+            try AVAudioSession.sharedInstance().setActive(true, options: [])
+        } catch {
+            print("AudioEngine: re-activateSession failed: \(error)")
+        }
+    }
+
+    /// Wires up the two notifications that can drop our audio out from
+    /// under us — phone calls / Siri (`interruptionNotification`) and full
+    /// media daemon restarts (`mediaServicesWereResetNotification`).
+    /// Without these the user gets silent playback after the first
+    /// interruption, and the bell never rings again until the app is
+    /// killed.
+    private func registerSessionObservers() {
+        let center = NotificationCenter.default
+        center.addObserver(
+            forName: AVAudioSession.interruptionNotification,
+            object: AVAudioSession.sharedInstance(),
+            queue: .main
+        ) { [weak self] note in
+            self?.handleInterruption(note)
+        }
+        center.addObserver(
+            forName: AVAudioSession.mediaServicesWereResetNotification,
+            object: AVAudioSession.sharedInstance(),
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleMediaServicesReset()
+        }
+    }
+
+    private func handleInterruption(_ note: Notification) {
+        guard let info = note.userInfo,
+              let raw = info[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: raw)
+        else { return }
+
+        switch type {
+        case .began:
+            // System has paused us. Nothing to do — engine is already
+            // suspended by AVAudioSession.
+            break
+        case .ended:
+            let shouldResume: Bool = {
+                guard let raw = info[AVAudioSessionInterruptionOptionKey] as? UInt
+                else { return false }
+                return AVAudioSession.InterruptionOptions(rawValue: raw)
+                    .contains(.shouldResume)
+            }()
+            guard shouldResume else { return }
+            activateSession()
+            ensureRunning()
+            // The file player loses its scheduled buffer across an
+            // interruption — re-schedule from the cached source so the
+            // ambient picks back up where it left off (close enough — a
+            // ~50 ms reset is inaudible against a continuous loop).
+            if let buffer = currentLoopBuffer {
+                filePlayer.stop()
+                filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
+                filePlayer.play()
+            }
+        @unknown default:
+            break
+        }
+    }
+
+    /// Media services can be reset by iOS — rare, but recoverable. The
+    /// session needs to be re-configured and the engine needs a fresh
+    /// `start`; if the user had a sound playing we re-schedule it on
+    /// `filePlayer` so the ambient picks back up rather than going silent.
+    private func handleMediaServicesReset() {
+        if engine.isRunning { engine.stop() }
+        configureSession()
+        ensureRunning()
+        if let buffer = currentLoopBuffer {
+            filePlayer.stop()
+            filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
+            filePlayer.play()
+        }
     }
 
     /// Build the permanent procedural source node. Captures `ambient` by
@@ -264,6 +370,10 @@ final class AudioEngine: @unchecked Sendable {
 
     private func ensureRunning() {
         guard !engine.isRunning else { return }
+        // Always re-affirm the session before starting — if iOS deactivated
+        // it (interruption, media reset), `engine.start()` raises an
+        // exception that takes the app down, so this is load-bearing.
+        activateSession()
         do {
             try engine.start()
         } catch {
@@ -308,16 +418,84 @@ final class AudioEngine: @unchecked Sendable {
 
     /// Loads the bundled looping audio for `soundId`, if one exists.
     /// Tried extensions are `.caf` (preferred for size + decode speed),
-    /// `.m4a`, `.mp3`, `.wav`.
+    /// `.m4a`, `.mp3`, `.wav`. The decoded PCM is run through
+    /// `makeSeamlessLoop` so the loop point doesn't audibly click — our
+    /// bundled `.m4a` files have AAC priming + padding silence on either
+    /// end (no `iTunSMPB` gapless atom from the ffmpeg encode), and even
+    /// without that, an equal-power crossfade hides any waveform mismatch
+    /// at the seam.
     private func loadBundledLoop(for soundId: String) -> AVAudioPCMBuffer? {
         guard let name = SoundCatalog.sound(for: soundId)?.fileName else { return nil }
         let extensions = ["caf", "m4a", "mp3", "wav"]
         for ext in extensions {
-            if let url = Bundle.main.url(forResource: name, withExtension: ext) {
-                return loadFileAsBuffer(url: url)
+            if let url = Bundle.main.url(forResource: name, withExtension: ext),
+               let raw = loadFileAsBuffer(url: url) {
+                return makeSeamlessLoop(raw) ?? raw
             }
         }
         return nil
+    }
+
+    /// Cross-fades the tail of `source` onto its head so playing the
+    /// resulting buffer with `[.loops]` produces a continuous waveform.
+    ///
+    /// Output is `fadeFrames` shorter than the input; the first
+    /// `fadeFrames` samples of the output are an equal-power blend of the
+    /// source's last `fadeFrames` samples (fading out) with the source's
+    /// first `fadeFrames` samples (fading in). The middle is copied
+    /// verbatim. Looping then plays:
+    ///
+    ///     ... s[N-F-1] → out[0] = s[N-F]·1 + s[0]·0 = s[N-F]
+    ///
+    /// — i.e. the original sample sequence around the seam is preserved.
+    /// The trailing AAC padding silence at `s[N-F .. N-1]` gets absorbed
+    /// into the fade-out of the previous loop and never plays as silence.
+    ///
+    /// 150 ms is the sweet spot — long enough to mask AAC priming
+    /// (~48 ms at 44.1 kHz) and any waveform mismatch, short enough to
+    /// stay imperceptible on tonal music tracks.
+    private func makeSeamlessLoop(_ source: AVAudioPCMBuffer, fadeMs: Double = 150) -> AVAudioPCMBuffer? {
+        let sampleRate = source.format.sampleRate
+        let fadeFrames = AVAudioFrameCount((fadeMs / 1000.0) * sampleRate)
+        let totalFrames = source.frameLength
+        guard fadeFrames > 0,
+              totalFrames > fadeFrames * 2,
+              let srcChannels = source.floatChannelData
+        else { return source }
+
+        let outFrames = totalFrames - fadeFrames
+        guard let dest = AVAudioPCMBuffer(pcmFormat: source.format, frameCapacity: outFrames),
+              let dstChannels = dest.floatChannelData
+        else { return source }
+        dest.frameLength = outFrames
+
+        let channels = Int(source.format.channelCount)
+        let fadeF = Float(fadeFrames)
+
+        for ch in 0..<channels {
+            let src = srcChannels[ch]
+            let dst = dstChannels[ch]
+            // Fade region: equal-power crossfade between source tail and head.
+            for i in 0..<Int(fadeFrames) {
+                let alpha = Float(i) / fadeF
+                let fadeOut = cosf(alpha * .pi / 2)
+                let fadeIn  = sinf(alpha * .pi / 2)
+                let tail = src[Int(outFrames) + i]
+                let head = src[i]
+                dst[i] = tail * fadeOut + head * fadeIn
+            }
+            // Verbatim middle.
+            let middleStart = Int(fadeFrames)
+            let middleEnd = Int(outFrames)
+            if middleEnd > middleStart {
+                memcpy(
+                    dst.advanced(by: middleStart),
+                    src.advanced(by: middleStart),
+                    (middleEnd - middleStart) * MemoryLayout<Float>.size
+                )
+            }
+        }
+        return dest
     }
 
     /// Reads an audio file fully into memory **in the engine's standard
