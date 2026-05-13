@@ -1,4 +1,5 @@
 import AVFoundation
+import MediaPlayer
 import Observation
 import UIKit
 
@@ -97,6 +98,7 @@ final class AudioEngine: @unchecked Sendable {
 
         guard let soundId, soundId != "silence" else {
             currentSoundId = nil
+            updateNowPlayingInfo(soundId: nil)
             return
         }
 
@@ -107,6 +109,7 @@ final class AudioEngine: @unchecked Sendable {
             filePlayer.play()
             setAmbientVolume(1.0)
             currentSoundId = soundId
+            updateNowPlayingInfo(soundId: soundId)
             return
         }
 
@@ -116,12 +119,14 @@ final class AudioEngine: @unchecked Sendable {
             ambient.generator = generator
             setAmbientVolume(1.0)
             currentSoundId = soundId
+            updateNowPlayingInfo(soundId: soundId)
             return
         }
 
         // 3) No file, no generator — silent fallback.
         currentLoopBuffer = nil
         currentSoundId = nil
+        updateNowPlayingInfo(soundId: nil)
     }
 
     /// Stop the background sound. The graph stays running so the bell
@@ -131,6 +136,7 @@ final class AudioEngine: @unchecked Sendable {
         if filePlayer.isPlaying { filePlayer.stop() }
         currentLoopBuffer = nil
         currentSoundId = nil
+        updateNowPlayingInfo(soundId: nil)
     }
 
     /// Schedule one bell ring of the given timbre. Stops any in-progress
@@ -191,13 +197,14 @@ final class AudioEngine: @unchecked Sendable {
         let session = AVAudioSession.sharedInstance()
         // `.playback` keeps audio playing when the screen is locked or the
         // app is backgrounded. Pair with `UIBackgroundModes = audio` in
-        // Info.plist so iOS doesn't suspend us. `.longFormAudio` policy
-        // tells iOS we're music-like content (vs. UI sound effects) so the
-        // OS doesn't aggressively suspend the engine when the screen
-        // locks — without this hint the daemon will sometimes stop polling
-        // the player node a few seconds after lock.
+        // Info.plist so iOS doesn't suspend us. We deliberately do NOT use
+        // `policy: .longFormAudio` — it's for AirPlay 2 routing of music
+        // apps and on real devices it tells iOS to treat us like a media
+        // player, which then suspends our audio on lock when no Now Playing
+        // info is published. The default policy gives reliable background
+        // audio without that contract.
         do {
-            try session.setCategory(.playback, mode: .default, policy: .longFormAudio, options: [])
+            try session.setCategory(.playback, mode: .default, options: [])
         } catch {
             print("AudioEngine: setCategory(.playback) failed: \(error)")
         }
@@ -206,6 +213,74 @@ final class AudioEngine: @unchecked Sendable {
         } catch {
             print("AudioEngine: setActive(true) failed: \(error)")
         }
+        configureRemoteCommands()
+    }
+
+    /// Wires up MPRemoteCommandCenter handlers. With background audio +
+    /// `.playback`, iOS treats us as a media app on the lock screen — it
+    /// expects at least play/pause handlers to be claimed. Without them the
+    /// system can decide we're not actively driving media and suspend the
+    /// engine when the screen locks. We pause/resume the ambient through
+    /// these handlers (same code path as the in-app pause button), so the
+    /// lock-screen play/pause and Control Center controls Just Work.
+    private func configureRemoteCommands() {
+        let cc = MPRemoteCommandCenter.shared()
+        // Clear any prior targets so re-init is idempotent.
+        cc.playCommand.removeTarget(nil)
+        cc.pauseCommand.removeTarget(nil)
+        cc.togglePlayPauseCommand.removeTarget(nil)
+
+        cc.playCommand.isEnabled = true
+        cc.playCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.resume()
+            self.updateNowPlayingPlaybackState(isPlaying: true)
+            return .success
+        }
+        cc.pauseCommand.isEnabled = true
+        cc.pauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.pause()
+            self.updateNowPlayingPlaybackState(isPlaying: false)
+            return .success
+        }
+        cc.togglePlayPauseCommand.isEnabled = true
+        cc.togglePlayPauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            if self.engine.isRunning {
+                self.pause()
+                self.updateNowPlayingPlaybackState(isPlaying: false)
+            } else {
+                self.resume()
+                self.updateNowPlayingPlaybackState(isPlaying: true)
+            }
+            return .success
+        }
+    }
+
+    /// Publishes minimal Now Playing info so iOS classifies us as actively
+    /// driving media. Required on device for the system to keep our audio
+    /// running when the screen locks — without an entry here, iOS will
+    /// suspend the engine after a few seconds of inactivity.
+    private func updateNowPlayingInfo(soundId: String?) {
+        let center = MPNowPlayingInfoCenter.default()
+        guard let soundId, let sound = SoundCatalog.sound(for: soundId) else {
+            center.nowPlayingInfo = nil
+            return
+        }
+        var info: [String: Any] = [:]
+        info[MPMediaItemPropertyTitle] = sound.displayName
+        info[MPMediaItemPropertyArtist] = "Medity"
+        info[MPNowPlayingInfoPropertyIsLiveStream] = true
+        info[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+        center.nowPlayingInfo = info
+    }
+
+    private func updateNowPlayingPlaybackState(isPlaying: Bool) {
+        let center = MPNowPlayingInfoCenter.default()
+        var info = center.nowPlayingInfo ?? [:]
+        info[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+        center.nowPlayingInfo = info
     }
 
     /// Best-effort re-activation. iOS can deactivate the session for us on
