@@ -1,5 +1,6 @@
 import AVFoundation
 import Observation
+import UIKit
 
 /// Mutable state shared between the main thread (writes) and the audio
 /// render thread (reads).
@@ -190,9 +191,13 @@ final class AudioEngine: @unchecked Sendable {
         let session = AVAudioSession.sharedInstance()
         // `.playback` keeps audio playing when the screen is locked or the
         // app is backgrounded. Pair with `UIBackgroundModes = audio` in
-        // Info.plist so iOS doesn't suspend us.
+        // Info.plist so iOS doesn't suspend us. `.longFormAudio` policy
+        // tells iOS we're music-like content (vs. UI sound effects) so the
+        // OS doesn't aggressively suspend the engine when the screen
+        // locks — without this hint the daemon will sometimes stop polling
+        // the player node a few seconds after lock.
         do {
-            try session.setCategory(.playback, mode: .default, options: [])
+            try session.setCategory(.playback, mode: .default, policy: .longFormAudio, options: [])
         } catch {
             print("AudioEngine: setCategory(.playback) failed: \(error)")
         }
@@ -235,6 +240,32 @@ final class AudioEngine: @unchecked Sendable {
             queue: .main
         ) { [weak self] _ in
             self?.handleMediaServicesReset()
+        }
+        // Screen lock / unlock doesn't always emit an interruption pair —
+        // sometimes iOS just drops the audio session into an inactive
+        // state and the player node stops outputting silently. Watching
+        // `didBecomeActive` is the only reliable hook to bring the engine
+        // back; we re-affirm the session and re-schedule the loop buffer
+        // so the ambient picks up where it left off when the user
+        // unlocks.
+        center.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleDidBecomeActive()
+        }
+    }
+
+    private func handleDidBecomeActive() {
+        // No active sound — nothing to recover.
+        guard currentSoundId != nil else { return }
+        activateSession()
+        ensureRunning()
+        if let buffer = currentLoopBuffer, !filePlayer.isPlaying {
+            filePlayer.stop()
+            filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
+            filePlayer.play()
         }
     }
 
@@ -329,6 +360,12 @@ final class AudioEngine: @unchecked Sendable {
         // running everything through `AVAudioConverter` at load time.
         engine.connect(filePlayer, to: engine.mainMixerNode, format: format)
         engine.connect(bellPlayer, to: engine.mainMixerNode, format: format)
+        // Pre-allocate audio buffers and warm up the render chain. Without
+        // this, the first `engine.start()` after a screen lock can take
+        // long enough that the system briefly stops polling our nodes —
+        // the audible symptom is the ambient cutting out for ~1 s right
+        // when the device locks.
+        engine.prepare()
     }
 
     /// Returns (and caches) the buffer for the bell with `id`. Each timbre
@@ -430,10 +467,71 @@ final class AudioEngine: @unchecked Sendable {
         for ext in extensions {
             if let url = Bundle.main.url(forResource: name, withExtension: ext),
                let raw = loadFileAsBuffer(url: url) {
-                return makeSeamlessLoop(raw) ?? raw
+                // Trim leading/trailing silence first (AAC priming, encoder
+                // padding, natural fade-out at the end of music tracks),
+                // then crossfade the now-meaningful boundaries.
+                let trimmed = trimSilence(raw) ?? raw
+                return makeSeamlessLoop(trimmed) ?? trimmed
             }
         }
         return nil
+    }
+
+    /// Trims silent samples from both ends of `source`. "Silent" = below
+    /// `threshold` peak amplitude — keep this conservative (~-60 dB) so we
+    /// don't clip real low-level tails.
+    ///
+    /// Music tracks encoded as AAC carry up to ~50 ms of encoder priming at
+    /// the head and a 1024-sample padding frame at the tail. Many of our
+    /// bundled tracks also have a few hundred ms of natural fade-out — the
+    /// reason a 150 ms crossfade still leaves an audible "hole" at the seam
+    /// for tonal sounds (calm, illusions, moonlight, etc.). Trimming first
+    /// puts the crossfade across actually-meaningful audio on both sides.
+    private func trimSilence(_ source: AVAudioPCMBuffer, threshold: Float = 0.001) -> AVAudioPCMBuffer? {
+        let totalFrames = Int(source.frameLength)
+        guard totalFrames > 0, let channels = source.floatChannelData else { return source }
+        let channelCount = Int(source.format.channelCount)
+
+        // Walk forward until any channel exceeds threshold.
+        var headSkip = 0
+        outer: for i in 0..<totalFrames {
+            for ch in 0..<channelCount where abs(channels[ch][i]) > threshold {
+                headSkip = i
+                break outer
+            }
+            // No channel exceeded threshold on this frame — keep scanning.
+            headSkip = i + 1
+        }
+
+        // Walk backward until any channel exceeds threshold.
+        var tailKeep = totalFrames
+        outer2: for i in stride(from: totalFrames - 1, through: 0, by: -1) {
+            for ch in 0..<channelCount where abs(channels[ch][i]) > threshold {
+                tailKeep = i + 1
+                break outer2
+            }
+            tailKeep = i
+        }
+
+        // Sanity: if scan collapsed (e.g. an entirely silent buffer) or
+        // there's nothing to trim, return the source unchanged.
+        guard tailKeep > headSkip, (headSkip > 0 || tailKeep < totalFrames) else {
+            return source
+        }
+        let outFrames = AVAudioFrameCount(tailKeep - headSkip)
+        guard let dest = AVAudioPCMBuffer(pcmFormat: source.format, frameCapacity: outFrames),
+              let dstChannels = dest.floatChannelData
+        else { return source }
+        dest.frameLength = outFrames
+
+        for ch in 0..<channelCount {
+            memcpy(
+                dstChannels[ch],
+                channels[ch].advanced(by: headSkip),
+                Int(outFrames) * MemoryLayout<Float>.size
+            )
+        }
+        return dest
     }
 
     /// Cross-fades the tail of `source` onto its head so playing the
@@ -451,10 +549,12 @@ final class AudioEngine: @unchecked Sendable {
     /// The trailing AAC padding silence at `s[N-F .. N-1]` gets absorbed
     /// into the fade-out of the previous loop and never plays as silence.
     ///
-    /// 150 ms is the sweet spot — long enough to mask AAC priming
-    /// (~48 ms at 44.1 kHz) and any waveform mismatch, short enough to
-    /// stay imperceptible on tonal music tracks.
-    private func makeSeamlessLoop(_ source: AVAudioPCMBuffer, fadeMs: Double = 150) -> AVAudioPCMBuffer? {
+    /// 800 ms is on the long side, but with `trimSilence` running first the
+    /// crossfade now sits across real audio content on both ends. Anything
+    /// shorter leaves a perceptible "hole" on tonal music tracks where the
+    /// listener notices the harmonic content swap; this length is well
+    /// past the ear's ability to lock onto the transition.
+    private func makeSeamlessLoop(_ source: AVAudioPCMBuffer, fadeMs: Double = 800) -> AVAudioPCMBuffer? {
         let sampleRate = source.format.sampleRate
         let fadeFrames = AVAudioFrameCount((fadeMs / 1000.0) * sampleRate)
         let totalFrames = source.frameLength
