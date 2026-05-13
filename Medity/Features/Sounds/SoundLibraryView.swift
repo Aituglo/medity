@@ -107,9 +107,9 @@ private struct SoundRow: View {
                         .foregroundStyle(.accent)
                 }
             }
-            .contentShape(Rectangle())
             .padding(.horizontal, 20)
             .padding(.vertical, 14)
+            .contentShape(Rectangle())
             .overlay(alignment: .bottom) {
                 if !isLast {
                     Rectangle().fill(.hairline).frame(height: 0.5)

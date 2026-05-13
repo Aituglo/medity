@@ -167,9 +167,9 @@ private struct CreditRow: View {
                     .foregroundStyle(.inkTertiary)
             }
         }
-        .contentShape(Rectangle())
         .padding(.horizontal, 18)
         .padding(.vertical, 12)
+        .contentShape(Rectangle())
         .overlay(alignment: .bottom) {
             if !isLast {
                 Rectangle().fill(.hairline).frame(height: 0.5).padding(.leading, 18)

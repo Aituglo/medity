@@ -317,6 +317,11 @@ private struct LabeledPill<Icon: View>: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
         .glassSurface(radius: 20)
+        // Glass effect doesn't register as opaque content for hit-testing,
+        // so taps on the empty right half of the pill (where the leading-
+        // aligned content doesn't draw anything) get swallowed. An explicit
+        // content shape makes the entire pill tappable.
+        .contentShape(Rectangle())
     }
 }
 
