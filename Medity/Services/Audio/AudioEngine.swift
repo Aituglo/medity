@@ -1,5 +1,7 @@
 import AVFoundation
+import MediaPlayer
 import Observation
+import UIKit
 
 /// Mutable state shared between the main thread (writes) and the audio
 /// render thread (reads).
@@ -96,6 +98,7 @@ final class AudioEngine: @unchecked Sendable {
 
         guard let soundId, soundId != "silence" else {
             currentSoundId = nil
+            updateNowPlayingInfo(soundId: nil)
             return
         }
 
@@ -106,6 +109,7 @@ final class AudioEngine: @unchecked Sendable {
             filePlayer.play()
             setAmbientVolume(1.0)
             currentSoundId = soundId
+            updateNowPlayingInfo(soundId: soundId)
             return
         }
 
@@ -115,12 +119,14 @@ final class AudioEngine: @unchecked Sendable {
             ambient.generator = generator
             setAmbientVolume(1.0)
             currentSoundId = soundId
+            updateNowPlayingInfo(soundId: soundId)
             return
         }
 
         // 3) No file, no generator — silent fallback.
         currentLoopBuffer = nil
         currentSoundId = nil
+        updateNowPlayingInfo(soundId: nil)
     }
 
     /// Stop the background sound. The graph stays running so the bell
@@ -130,6 +136,7 @@ final class AudioEngine: @unchecked Sendable {
         if filePlayer.isPlaying { filePlayer.stop() }
         currentLoopBuffer = nil
         currentSoundId = nil
+        updateNowPlayingInfo(soundId: nil)
     }
 
     /// Schedule one bell ring of the given timbre. Stops any in-progress
@@ -190,7 +197,12 @@ final class AudioEngine: @unchecked Sendable {
         let session = AVAudioSession.sharedInstance()
         // `.playback` keeps audio playing when the screen is locked or the
         // app is backgrounded. Pair with `UIBackgroundModes = audio` in
-        // Info.plist so iOS doesn't suspend us.
+        // Info.plist so iOS doesn't suspend us. We deliberately do NOT use
+        // `policy: .longFormAudio` — it's for AirPlay 2 routing of music
+        // apps and on real devices it tells iOS to treat us like a media
+        // player, which then suspends our audio on lock when no Now Playing
+        // info is published. The default policy gives reliable background
+        // audio without that contract.
         do {
             try session.setCategory(.playback, mode: .default, options: [])
         } catch {
@@ -201,6 +213,74 @@ final class AudioEngine: @unchecked Sendable {
         } catch {
             print("AudioEngine: setActive(true) failed: \(error)")
         }
+        configureRemoteCommands()
+    }
+
+    /// Wires up MPRemoteCommandCenter handlers. With background audio +
+    /// `.playback`, iOS treats us as a media app on the lock screen — it
+    /// expects at least play/pause handlers to be claimed. Without them the
+    /// system can decide we're not actively driving media and suspend the
+    /// engine when the screen locks. We pause/resume the ambient through
+    /// these handlers (same code path as the in-app pause button), so the
+    /// lock-screen play/pause and Control Center controls Just Work.
+    private func configureRemoteCommands() {
+        let cc = MPRemoteCommandCenter.shared()
+        // Clear any prior targets so re-init is idempotent.
+        cc.playCommand.removeTarget(nil)
+        cc.pauseCommand.removeTarget(nil)
+        cc.togglePlayPauseCommand.removeTarget(nil)
+
+        cc.playCommand.isEnabled = true
+        cc.playCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.resume()
+            self.updateNowPlayingPlaybackState(isPlaying: true)
+            return .success
+        }
+        cc.pauseCommand.isEnabled = true
+        cc.pauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            self.pause()
+            self.updateNowPlayingPlaybackState(isPlaying: false)
+            return .success
+        }
+        cc.togglePlayPauseCommand.isEnabled = true
+        cc.togglePlayPauseCommand.addTarget { [weak self] _ in
+            guard let self else { return .commandFailed }
+            if self.engine.isRunning {
+                self.pause()
+                self.updateNowPlayingPlaybackState(isPlaying: false)
+            } else {
+                self.resume()
+                self.updateNowPlayingPlaybackState(isPlaying: true)
+            }
+            return .success
+        }
+    }
+
+    /// Publishes minimal Now Playing info so iOS classifies us as actively
+    /// driving media. Required on device for the system to keep our audio
+    /// running when the screen locks — without an entry here, iOS will
+    /// suspend the engine after a few seconds of inactivity.
+    private func updateNowPlayingInfo(soundId: String?) {
+        let center = MPNowPlayingInfoCenter.default()
+        guard let soundId, let sound = SoundCatalog.sound(for: soundId) else {
+            center.nowPlayingInfo = nil
+            return
+        }
+        var info: [String: Any] = [:]
+        info[MPMediaItemPropertyTitle] = sound.displayName
+        info[MPMediaItemPropertyArtist] = "Medity"
+        info[MPNowPlayingInfoPropertyIsLiveStream] = true
+        info[MPNowPlayingInfoPropertyPlaybackRate] = 1.0
+        center.nowPlayingInfo = info
+    }
+
+    private func updateNowPlayingPlaybackState(isPlaying: Bool) {
+        let center = MPNowPlayingInfoCenter.default()
+        var info = center.nowPlayingInfo ?? [:]
+        info[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+        center.nowPlayingInfo = info
     }
 
     /// Best-effort re-activation. iOS can deactivate the session for us on
@@ -235,6 +315,32 @@ final class AudioEngine: @unchecked Sendable {
             queue: .main
         ) { [weak self] _ in
             self?.handleMediaServicesReset()
+        }
+        // Screen lock / unlock doesn't always emit an interruption pair —
+        // sometimes iOS just drops the audio session into an inactive
+        // state and the player node stops outputting silently. Watching
+        // `didBecomeActive` is the only reliable hook to bring the engine
+        // back; we re-affirm the session and re-schedule the loop buffer
+        // so the ambient picks up where it left off when the user
+        // unlocks.
+        center.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.handleDidBecomeActive()
+        }
+    }
+
+    private func handleDidBecomeActive() {
+        // No active sound — nothing to recover.
+        guard currentSoundId != nil else { return }
+        activateSession()
+        ensureRunning()
+        if let buffer = currentLoopBuffer, !filePlayer.isPlaying {
+            filePlayer.stop()
+            filePlayer.scheduleBuffer(buffer, at: nil, options: [.loops], completionHandler: nil)
+            filePlayer.play()
         }
     }
 
@@ -329,6 +435,12 @@ final class AudioEngine: @unchecked Sendable {
         // running everything through `AVAudioConverter` at load time.
         engine.connect(filePlayer, to: engine.mainMixerNode, format: format)
         engine.connect(bellPlayer, to: engine.mainMixerNode, format: format)
+        // Pre-allocate audio buffers and warm up the render chain. Without
+        // this, the first `engine.start()` after a screen lock can take
+        // long enough that the system briefly stops polling our nodes —
+        // the audible symptom is the ambient cutting out for ~1 s right
+        // when the device locks.
+        engine.prepare()
     }
 
     /// Returns (and caches) the buffer for the bell with `id`. Each timbre
@@ -430,10 +542,71 @@ final class AudioEngine: @unchecked Sendable {
         for ext in extensions {
             if let url = Bundle.main.url(forResource: name, withExtension: ext),
                let raw = loadFileAsBuffer(url: url) {
-                return makeSeamlessLoop(raw) ?? raw
+                // Trim leading/trailing silence first (AAC priming, encoder
+                // padding, natural fade-out at the end of music tracks),
+                // then crossfade the now-meaningful boundaries.
+                let trimmed = trimSilence(raw) ?? raw
+                return makeSeamlessLoop(trimmed) ?? trimmed
             }
         }
         return nil
+    }
+
+    /// Trims silent samples from both ends of `source`. "Silent" = below
+    /// `threshold` peak amplitude — keep this conservative (~-60 dB) so we
+    /// don't clip real low-level tails.
+    ///
+    /// Music tracks encoded as AAC carry up to ~50 ms of encoder priming at
+    /// the head and a 1024-sample padding frame at the tail. Many of our
+    /// bundled tracks also have a few hundred ms of natural fade-out — the
+    /// reason a 150 ms crossfade still leaves an audible "hole" at the seam
+    /// for tonal sounds (calm, illusions, moonlight, etc.). Trimming first
+    /// puts the crossfade across actually-meaningful audio on both sides.
+    private func trimSilence(_ source: AVAudioPCMBuffer, threshold: Float = 0.001) -> AVAudioPCMBuffer? {
+        let totalFrames = Int(source.frameLength)
+        guard totalFrames > 0, let channels = source.floatChannelData else { return source }
+        let channelCount = Int(source.format.channelCount)
+
+        // Walk forward until any channel exceeds threshold.
+        var headSkip = 0
+        outer: for i in 0..<totalFrames {
+            for ch in 0..<channelCount where abs(channels[ch][i]) > threshold {
+                headSkip = i
+                break outer
+            }
+            // No channel exceeded threshold on this frame — keep scanning.
+            headSkip = i + 1
+        }
+
+        // Walk backward until any channel exceeds threshold.
+        var tailKeep = totalFrames
+        outer2: for i in stride(from: totalFrames - 1, through: 0, by: -1) {
+            for ch in 0..<channelCount where abs(channels[ch][i]) > threshold {
+                tailKeep = i + 1
+                break outer2
+            }
+            tailKeep = i
+        }
+
+        // Sanity: if scan collapsed (e.g. an entirely silent buffer) or
+        // there's nothing to trim, return the source unchanged.
+        guard tailKeep > headSkip, (headSkip > 0 || tailKeep < totalFrames) else {
+            return source
+        }
+        let outFrames = AVAudioFrameCount(tailKeep - headSkip)
+        guard let dest = AVAudioPCMBuffer(pcmFormat: source.format, frameCapacity: outFrames),
+              let dstChannels = dest.floatChannelData
+        else { return source }
+        dest.frameLength = outFrames
+
+        for ch in 0..<channelCount {
+            memcpy(
+                dstChannels[ch],
+                channels[ch].advanced(by: headSkip),
+                Int(outFrames) * MemoryLayout<Float>.size
+            )
+        }
+        return dest
     }
 
     /// Cross-fades the tail of `source` onto its head so playing the
@@ -451,10 +624,12 @@ final class AudioEngine: @unchecked Sendable {
     /// The trailing AAC padding silence at `s[N-F .. N-1]` gets absorbed
     /// into the fade-out of the previous loop and never plays as silence.
     ///
-    /// 150 ms is the sweet spot — long enough to mask AAC priming
-    /// (~48 ms at 44.1 kHz) and any waveform mismatch, short enough to
-    /// stay imperceptible on tonal music tracks.
-    private func makeSeamlessLoop(_ source: AVAudioPCMBuffer, fadeMs: Double = 150) -> AVAudioPCMBuffer? {
+    /// 800 ms is on the long side, but with `trimSilence` running first the
+    /// crossfade now sits across real audio content on both ends. Anything
+    /// shorter leaves a perceptible "hole" on tonal music tracks where the
+    /// listener notices the harmonic content swap; this length is well
+    /// past the ear's ability to lock onto the transition.
+    private func makeSeamlessLoop(_ source: AVAudioPCMBuffer, fadeMs: Double = 800) -> AVAudioPCMBuffer? {
         let sampleRate = source.format.sampleRate
         let fadeFrames = AVAudioFrameCount((fadeMs / 1000.0) * sampleRate)
         let totalFrames = source.frameLength

@@ -333,9 +333,9 @@ private struct SettingsRow: View {
                     .foregroundStyle(.inkTertiary)
             }
         }
-        .contentShape(Rectangle())
         .padding(.horizontal, 18)
         .frame(minHeight: 50)
+        .contentShape(Rectangle())
         .overlay(alignment: .bottom) {
             if !isLast {
                 Rectangle()
@@ -513,9 +513,9 @@ private struct DurationPicker: View {
                         .foregroundStyle(.accent)
                 }
             }
-            .contentShape(Rectangle())
             .padding(.horizontal, 18)
             .frame(minHeight: 50)
+            .contentShape(Rectangle())
             .overlay(alignment: .bottom) {
                 if !isLast {
                     Rectangle()

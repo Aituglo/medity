@@ -185,9 +185,9 @@ private struct BellRow: View {
                         .foregroundStyle(.accent)
                 }
             }
-            .contentShape(Rectangle())
             .padding(.horizontal, 18)
             .padding(.vertical, 12)
+            .contentShape(Rectangle())
             .overlay(alignment: .bottom) {
                 if !isLast {
                     Rectangle().fill(.hairline).frame(height: 0.5).padding(.leading, 64)
