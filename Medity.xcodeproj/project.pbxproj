@@ -13,7 +13,7 @@
 		058721EB7D52F20554018197 /* Geist-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */; };
 		091B23DF6B282595FB645BE8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10815E88BDD0983BFEC2C157 /* SettingsView.swift */; };
 		0EFDAE9AD5EEFEE12A9EE785 /* AppStoreScreenshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 134533C8F3B3266657A56525 /* AppStoreScreenshots.swift */; };
-		139715B8F283AA06768C354C /* moonlight.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 42124A18432D6CD333498C9E /* moonlight.m4a */; };
+		1112A25AE7BD982942E84B4A /* universe.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 8FB4A8574AEEF6EAE27537E8 /* universe.m4a */; };
 		1994D69DAD9789955F87E840 /* spatium.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 79C0873C7F3E08B3767FF5F0 /* spatium.m4a */; };
 		1C0DE986230531022E78DCCA /* GlassSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */; };
 		1D20F530157FF6BBD8E2293C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 189E58B67B50E80A539A728D /* README.md */; };
@@ -37,7 +37,7 @@
 		59F73A0D66C5521E11E1246E /* Session+Aggregates.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58FF6311BA68428F8E0F446 /* Session+Aggregates.swift */; };
 		5DA5CB8794BCA3536B507BD6 /* bell.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 018545A3003AB34857410E54 /* bell.m4a */; };
 		60994760F550A45CAE976D71 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5D5C10556B09B18FCCC350 /* HomeView.swift */; };
-		701D06B9E6E9C977B5C9311F /* illusions.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5E95BC3009626DD10F345E90 /* illusions.m4a */; };
+		699EFE48D42ECB5416B880BD /* canyon.m4a in Resources */ = {isa = PBXBuildFile; fileRef = B6F65804E1DD420B95A44058 /* canyon.m4a */; };
 		72054CA08A5A7070166F8364 /* SoundLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A74BEB1B8F8AA7A77E80FF7 /* SoundLibraryView.swift */; };
 		739932661C5A9A2A516E4E07 /* CairnMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C473F3495E84163E13C778 /* CairnMark.swift */; };
 		77E487549842B75056A1DD1C /* StreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87ADBD69DBDE2BCFD9CFF1D /* StreakWidget.swift */; };
@@ -46,7 +46,6 @@
 		7B5BAF72D0C3A5CD5113651A /* forest.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4E1BABC26143AC54DC67E12A /* forest.m4a */; };
 		7F1E99F41948DD2695742C30 /* Geist-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1B0075CD4DE7B87AE2D97FDF /* Geist-Medium.otf */; };
 		86CAE4133130AD219866A6F4 /* SessionAggregatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C481FB2AAEE4A6D8730A29 /* SessionAggregatesTests.swift */; };
-		875943EB847BC1444E49515D /* reverie.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 21EB9FE1214AD2B59F50C307 /* reverie.m4a */; };
 		876965C3F9A02ECF7B1DF20C /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260C830D235A0A12B1AF090 /* SharedStore.swift */; };
 		8A6ECCB20279EF3081DF4030 /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652BD31F0E7BCD4AB696AA78 /* UserPreferences.swift */; };
 		8AC9C7F6F629C359B163FC48 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */; };
@@ -55,20 +54,20 @@
 		993416184AA45ED2D2ED4AAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B64F96F984127A102200484F /* Assets.xcassets */; };
 		9B62B7065F1AD2BA442FCEBB /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BF4FA6B24A14BA8983B8E4D /* Color+Hex.swift */; };
 		9B99772B1A6DBAE698324887 /* SessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F228E5CB2E99DF6E09C58E91 /* SessionView.swift */; };
+		9DE21CB6176864AF833C7EC4 /* classical.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 4E9CA278873496585A35D369 /* classical.m4a */; };
 		9E56E5336338566480C24F3E /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFB9CF97309FB114107E5DD /* AudioEngine.swift */; };
 		9EC52462D919E471177BBEA7 /* SessionLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD44E9CC5F360A0B9CF516 /* SessionLiveActivity.swift */; };
 		A5166A0FB6D2E01862EEF495 /* CairnMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C473F3495E84163E13C778 /* CairnMark.swift */; };
 		A6B6408D255F713559C70B9D /* AchievementEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D401200C1FDA34C12FA8FC78 /* AchievementEngine.swift */; };
 		A9FE2851E692C04CA81C663D /* NoiseGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC744DCEDC93206824A0D74 /* NoiseGenerators.swift */; };
 		ABE9992A3D53AA0FB05CB74B /* SessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006FF76DEF09D95597F7BEC8 /* SessionViewModel.swift */; };
+		AEB6256D165CE5919A378C8F /* nature.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D20BC9C84EE448C840211CAC /* nature.m4a */; };
 		AEE9E47C996A3D7933AFD010 /* Backdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25733462004D668C616E1FEB /* Backdrop.swift */; };
 		AF3837F2FB38B0B0E15C0AEA /* SessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */; };
 		B67F548151AAD5876ECB027D /* fire.m4a in Resources */ = {isa = PBXBuildFile; fileRef = EE643DD1CAE0D6297ECAB19B /* fire.m4a */; };
-		BCA1D8DF9E8EC8F6839AF004 /* calm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = FB7DBE4C4DB324CE7AA74377 /* calm.m4a */; };
 		BCE3B0174D51B0F6A8CA3240 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7033E27967DF4A25BB3AB9 /* PrimaryButton.swift */; };
 		C471260C140725552462876B /* SessionActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DF61672C6C0690078DB776 /* SessionActivityAttributes.swift */; };
 		C9ACE7CF970E771568B770E9 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706148A12387994A794C714A /* OnboardingView.swift */; };
-		D244ECF3B2DC3F5D3DBE61DA /* japanese.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AF1AC724637E18592AAB3D3 /* japanese.m4a */; };
 		D3AF75CB9BF37A6370A22715 /* Geist-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = FECF874F2FEB350F361F6276 /* Geist-ExtraLight.otf */; };
 		DCA17F42BB5BCD3ED869EE9A /* rain-heavy.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */; };
 		DE8489072D5D38A8F3B22B83 /* Geist-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4969C51CB23569DB69FB76B5 /* Geist-Regular.otf */; };
@@ -76,6 +75,7 @@
 		EB90345539A1B72E5C6D0C8D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = F500A83CFD2DAB84DD66719C /* Session.swift */; };
 		EFCDF1E5E41D57122082EB84 /* SoundGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551F1AC62710E313E077B43D /* SoundGenerator.swift */; };
 		F03D38EEE3485F17FA868247 /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4260C830D235A0A12B1AF090 /* SharedStore.swift */; };
+		F4AED1F0E186A3C384FF78AA /* fountain.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 3359F34D3D13D1139FB05FBD /* fountain.m4a */; };
 		FA3C1D53E5A03ABAD4AC989B /* Tokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CB98B617CA7B6159F3BF2E /* Tokens.swift */; };
 		FEA854A540F1DF9CF6D04CB2 /* ocean-waves.m4a in Resources */ = {isa = PBXBuildFile; fileRef = D88EB88483F0E8716199D85A /* ocean-waves.m4a */; };
 		FEAA6BAFC5BDB67F87D28131 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 685F6CC2C9FC2541EA2210A9 /* StatsView.swift */; };
@@ -131,28 +131,26 @@
 		18DEA62FBB9DE060E392A55E /* Medity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Medity.entitlements; sourceTree = "<group>"; };
 		1B0075CD4DE7B87AE2D97FDF /* Geist-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Medium.otf"; sourceTree = "<group>"; };
 		1DCA6A6DE3B2A6306528960A /* rain-light.m4a */ = {isa = PBXFileReference; path = "rain-light.m4a"; sourceTree = "<group>"; };
-		21EB9FE1214AD2B59F50C307 /* reverie.m4a */ = {isa = PBXFileReference; path = reverie.m4a; sourceTree = "<group>"; };
 		25733462004D668C616E1FEB /* Backdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Backdrop.swift; sourceTree = "<group>"; };
 		26B3D086F790FAE0DDED0A75 /* HealthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStore.swift; sourceTree = "<group>"; };
 		27B887441DA05A6735F92E3C /* MedityUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MedityUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB7B5C737E82AB4AF93DA42 /* TimerRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerRing.swift; sourceTree = "<group>"; };
 		2DC98F997F41ECA62B278AEE /* MockDataSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSeeder.swift; sourceTree = "<group>"; };
+		3359F34D3D13D1139FB05FBD /* fountain.m4a */ = {isa = PBXFileReference; path = fountain.m4a; sourceTree = "<group>"; };
 		3489C14C51195E7160EF0426 /* BellSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellSynth.swift; sourceTree = "<group>"; };
 		34CB98B617CA7B6159F3BF2E /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		39B6A5CCF1C15AEED3B16572 /* AuraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraView.swift; sourceTree = "<group>"; };
-		42124A18432D6CD333498C9E /* moonlight.m4a */ = {isa = PBXFileReference; path = moonlight.m4a; sourceTree = "<group>"; };
 		4260C830D235A0A12B1AF090 /* SharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
 		44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */ = {isa = PBXFileReference; path = "rain-heavy.m4a"; sourceTree = "<group>"; };
 		47B72F9152C4A5CC021AF7D3 /* AchievementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementsView.swift; sourceTree = "<group>"; };
 		4969C51CB23569DB69FB76B5 /* Geist-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Regular.otf"; sourceTree = "<group>"; };
 		4A227550A360DB7B68C6A984 /* Geist-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-Thin.otf"; sourceTree = "<group>"; };
 		4E1BABC26143AC54DC67E12A /* forest.m4a */ = {isa = PBXFileReference; path = forest.m4a; sourceTree = "<group>"; };
+		4E9CA278873496585A35D369 /* classical.m4a */ = {isa = PBXFileReference; path = classical.m4a; sourceTree = "<group>"; };
 		4FF45A7D493A798DB24F34D4 /* LiveActivityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityController.swift; sourceTree = "<group>"; };
 		50D3873C6E46A163CFE3DC65 /* GlassSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassSurface.swift; sourceTree = "<group>"; };
 		551F1AC62710E313E077B43D /* SoundGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundGenerator.swift; sourceTree = "<group>"; };
 		5644316087C570548CD72340 /* MedityWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MedityWidgets.entitlements; sourceTree = "<group>"; };
-		5AF1AC724637E18592AAB3D3 /* japanese.m4a */ = {isa = PBXFileReference; path = japanese.m4a; sourceTree = "<group>"; };
-		5E95BC3009626DD10F345E90 /* illusions.m4a */ = {isa = PBXFileReference; path = illusions.m4a; sourceTree = "<group>"; };
 		652BD31F0E7BCD4AB696AA78 /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		674FC1138CE5A8543A38AB21 /* BellsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellsPickerView.swift; sourceTree = "<group>"; };
 		685F6CC2C9FC2541EA2210A9 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
@@ -167,6 +165,7 @@
 		7F51DD7013894907D723B72F /* SoundCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundCatalog.swift; sourceTree = "<group>"; };
 		89EDDDB83503F9D6F6830684 /* AchievementDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementDetailView.swift; sourceTree = "<group>"; };
 		8D35904E25066F131084563C /* MedityTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MedityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FB4A8574AEEF6EAE27537E8 /* universe.m4a */ = {isa = PBXFileReference; path = universe.m4a; sourceTree = "<group>"; };
 		96DA3B741DF8DC4B128640F5 /* Geist-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-SemiBold.otf"; sourceTree = "<group>"; };
 		9D5D5C10556B09B18FCCC350 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A0534973F30956949F013335 /* MedityWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MedityWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,9 +175,11 @@
 		B1C481FB2AAEE4A6D8730A29 /* SessionAggregatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionAggregatesTests.swift; sourceTree = "<group>"; };
 		B58FF6311BA68428F8E0F446 /* Session+Aggregates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Session+Aggregates.swift"; sourceTree = "<group>"; };
 		B64F96F984127A102200484F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6F65804E1DD420B95A44058 /* canyon.m4a */ = {isa = PBXFileReference; path = canyon.m4a; sourceTree = "<group>"; };
 		B87ADBD69DBDE2BCFD9CFF1D /* StreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakWidget.swift; sourceTree = "<group>"; };
 		BA7033E27967DF4A25BB3AB9 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 		D1BBA46375C48FC77060FB3C /* Achievement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Achievement.swift; sourceTree = "<group>"; };
+		D20BC9C84EE448C840211CAC /* nature.m4a */ = {isa = PBXFileReference; path = nature.m4a; sourceTree = "<group>"; };
 		D401200C1FDA34C12FA8FC78 /* AchievementEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementEngine.swift; sourceTree = "<group>"; };
 		D7C473F3495E84163E13C778 /* CairnMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CairnMark.swift; sourceTree = "<group>"; };
 		D88EB88483F0E8716199D85A /* ocean-waves.m4a */ = {isa = PBXFileReference; path = "ocean-waves.m4a"; sourceTree = "<group>"; };
@@ -191,7 +192,6 @@
 		EF14BD276419D36AF28701E3 /* MedityWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedityWidgets.swift; sourceTree = "<group>"; };
 		F228E5CB2E99DF6E09C58E91 /* SessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionView.swift; sourceTree = "<group>"; };
 		F500A83CFD2DAB84DD66719C /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		FB7DBE4C4DB324CE7AA74377 /* calm.m4a */ = {isa = PBXFileReference; path = calm.m4a; sourceTree = "<group>"; };
 		FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */ = {isa = PBXFileReference; path = wind.m4a; sourceTree = "<group>"; };
 		FECF874F2FEB350F361F6276 /* Geist-ExtraLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Geist-ExtraLight.otf"; sourceTree = "<group>"; };
 		FFE59215B614621427299474 /* MedityApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedityApp.swift; sourceTree = "<group>"; };
@@ -288,19 +288,19 @@
 			isa = PBXGroup;
 			children = (
 				018545A3003AB34857410E54 /* bell.m4a */,
-				FB7DBE4C4DB324CE7AA74377 /* calm.m4a */,
+				B6F65804E1DD420B95A44058 /* canyon.m4a */,
+				4E9CA278873496585A35D369 /* classical.m4a */,
 				EE643DD1CAE0D6297ECAB19B /* fire.m4a */,
 				4E1BABC26143AC54DC67E12A /* forest.m4a */,
-				5E95BC3009626DD10F345E90 /* illusions.m4a */,
-				5AF1AC724637E18592AAB3D3 /* japanese.m4a */,
-				42124A18432D6CD333498C9E /* moonlight.m4a */,
+				3359F34D3D13D1139FB05FBD /* fountain.m4a */,
+				D20BC9C84EE448C840211CAC /* nature.m4a */,
 				D88EB88483F0E8716199D85A /* ocean-waves.m4a */,
 				44F9B9D6AD043F94EB19603D /* rain-heavy.m4a */,
 				1DCA6A6DE3B2A6306528960A /* rain-light.m4a */,
 				189E58B67B50E80A539A728D /* README.md */,
-				21EB9FE1214AD2B59F50C307 /* reverie.m4a */,
 				E32769551DE87D693D50143F /* river.m4a */,
 				79C0873C7F3E08B3767FF5F0 /* spatium.m4a */,
+				8FB4A8574AEEF6EAE27537E8 /* universe.m4a */,
 				FBB3E9AB57D1FA4C2F7661F4 /* wind.m4a */,
 			);
 			path = Sounds;
@@ -549,16 +549,20 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					0934D365BD40DC9D3B0B3C04 = {
+						DevelopmentTeam = 85Q3MAPQ75;
 						ProvisioningStyle = Automatic;
 					};
 					26F0F38CA20DD06D5EE51DA9 = {
+						DevelopmentTeam = 85Q3MAPQ75;
 						ProvisioningStyle = Automatic;
 					};
 					479A6CE85FA619205B29088D = {
+						DevelopmentTeam = 85Q3MAPQ75;
 						ProvisioningStyle = Automatic;
 						TestTargetID = C01BF9725FB688EF11B6020A;
 					};
 					C01BF9725FB688EF11B6020A = {
+						DevelopmentTeam = 85Q3MAPQ75;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -599,18 +603,18 @@
 				5742A65022BEC14594B67582 /* Geist-Thin.otf in Resources */,
 				1D20F530157FF6BBD8E2293C /* README.md in Resources */,
 				5DA5CB8794BCA3536B507BD6 /* bell.m4a in Resources */,
-				BCA1D8DF9E8EC8F6839AF004 /* calm.m4a in Resources */,
+				699EFE48D42ECB5416B880BD /* canyon.m4a in Resources */,
+				9DE21CB6176864AF833C7EC4 /* classical.m4a in Resources */,
 				B67F548151AAD5876ECB027D /* fire.m4a in Resources */,
 				7B5BAF72D0C3A5CD5113651A /* forest.m4a in Resources */,
-				701D06B9E6E9C977B5C9311F /* illusions.m4a in Resources */,
-				D244ECF3B2DC3F5D3DBE61DA /* japanese.m4a in Resources */,
-				139715B8F283AA06768C354C /* moonlight.m4a in Resources */,
+				F4AED1F0E186A3C384FF78AA /* fountain.m4a in Resources */,
+				AEB6256D165CE5919A378C8F /* nature.m4a in Resources */,
 				FEA854A540F1DF9CF6D04CB2 /* ocean-waves.m4a in Resources */,
 				DCA17F42BB5BCD3ED869EE9A /* rain-heavy.m4a in Resources */,
 				3522267AD7874D67D7FE5547 /* rain-light.m4a in Resources */,
-				875943EB847BC1444E49515D /* reverie.m4a in Resources */,
 				77F9077B9FFA655A8EC99B71 /* river.m4a in Resources */,
 				1994D69DAD9789955F87E840 /* spatium.m4a in Resources */,
+				1112A25AE7BD982942E84B4A /* universe.m4a in Resources */,
 				01F25C78AC34E8926A90646A /* wind.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -830,6 +834,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 85Q3MAPQ75;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -936,6 +941,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 85Q3MAPQ75;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
