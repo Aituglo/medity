@@ -113,12 +113,24 @@ private let ambientCredits: [Credit] = [
 ]
 
 private let musicCredits: [Credit] = [
-    Credit(id: "calm", title: "Calm", author: "—", license: "All rights reserved", url: nil),
-    Credit(id: "illusions", title: "Illusions", author: "—", license: "All rights reserved", url: nil),
-    Credit(id: "japanese", title: "Japanese", author: "—", license: "All rights reserved", url: nil),
-    Credit(id: "moonlight", title: "Moonlight", author: "—", license: "All rights reserved", url: nil),
-    Credit(id: "reverie", title: "Reverie", author: "—", license: "All rights reserved", url: nil),
-    Credit(id: "spatium", title: "Spatium", author: "—", license: "All rights reserved", url: nil),
+    Credit(id: "universe", title: "Universe", author: "HoliznaCC0",
+           license: "CC0",
+           url: URL(string: "https://freemusicarchive.org/music/holiznacc0/space-sleep-meditation/20-minute-meditation-1/")),
+    Credit(id: "nature", title: "Nature", author: "HoliznaCC0",
+           license: "CC0",
+           url: URL(string: "https://freemusicarchive.org/music/holiznacc0/space-sleep-meditation/20-minute-meditation-7/")),
+    Credit(id: "spatium", title: "Spatium", author: "HoliznaCC0",
+           license: "CC0",
+           url: URL(string: "https://freemusicarchive.org/music/holiznacc0/space-sleep-meditation/too-brief-a-time-to-be-anything/")),
+    Credit(id: "classical", title: "Classical", author: "Alex Wit (via Pixabay)",
+           license: "Pixabay License",
+           url: URL(string: "https://www.youtube.com/watch?v=xiIXNnJXpwo")),
+    Credit(id: "canyon", title: "Canyon", author: "Dandelion Meditation Music",
+           license: "CC BY 4.0",
+           url: URL(string: "https://www.youtube.com/watch?v=yd5b2L0gGqw")),
+    Credit(id: "fountain", title: "Fountain", author: "Dandelion Meditation Music",
+           license: "CC BY 4.0",
+           url: URL(string: "https://www.youtube.com/watch?v=t0Om9Slw4as")),
 ]
 
 private let bellCredits: [Credit] = [

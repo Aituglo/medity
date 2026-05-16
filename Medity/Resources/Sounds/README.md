@@ -20,12 +20,12 @@ in `SoundCatalog.swift`:
 | `river`           | `river`                |
 | `fire`            | `fire`                 |
 | `wind`            | `wind`                 |
-| `calm`            | `calm`                 |
-| `illusions`       | `illusions`            |
-| `japanese`        | `japanese`             |
-| `moonlight`       | `moonlight`            |
-| `reverie`         | `reverie`              |
+| `universe`        | `universe`             |
+| `nature`          | `nature`               |
 | `spatium`         | `spatium`              |
+| `classical`       | `classical`            |
+| `canyon`          | `canyon`               |
+| `fountain`        | `fountain`             |
 
 The session bell (rung at start + end) also looks for a bundled
 `bell.{caf,m4a,mp3,wav}`. When present, it replaces the synthesized
@@ -88,12 +88,12 @@ To revert to the procedural version, just delete the file and regenerate.
 | `rain-heavy.m4a`    | [Wikimedia](https://commons.wikimedia.org/wiki/File:Regen_op_een_pannendak_-_SoundCloud_-_Beeld_en_Geluid.ogg) | Beeld en Geluid (NL audiovisual archive) | CC BY-SA 3.0 |
 | `river.m4a`         | [Wikimedia](https://commons.wikimedia.org/wiki/File:Water_on_Rocks.ogg) | Dsw4                              | CC BY 3.0          |
 | `wind.m4a`          | [Wikimedia](https://commons.wikimedia.org/wiki/File:Howling_wind.ogg) | Tvabutzku1234                     | CC0                |
-| `calm.m4a`          | User-supplied (~/Downloads/meditation/calm.mp3)                | —                                 | TBD                |
-| `illusions.m4a`     | User-supplied (~/Downloads/meditation/illusions.mp3)           | —                                 | TBD                |
-| `japanese.m4a`      | User-supplied (~/Downloads/meditation/japanese.mp3)            | —                                 | TBD                |
-| `moonlight.m4a`     | User-supplied (~/Downloads/meditation/moonlight.mp3)           | —                                 | TBD                |
-| `reverie.m4a`       | User-supplied (~/Downloads/meditation/reverie.mp3)             | —                                 | TBD                |
-| `spatium.m4a`       | User-supplied (~/Downloads/meditation/spatium.mp3)             | —                                 | TBD                |
+| `universe.m4a`      | [FMA — HoliznaCC0 "20 Minute Meditation 1"](https://freemusicarchive.org/music/holiznacc0/space-sleep-meditation/20-minute-meditation-1/) | HoliznaCC0 | CC0 |
+| `nature.m4a`        | [FMA — HoliznaCC0 "20 Minute Meditation 7"](https://freemusicarchive.org/music/holiznacc0/space-sleep-meditation/20-minute-meditation-7/) | HoliznaCC0 | CC0 |
+| `spatium.m4a`       | [FMA — HoliznaCC0 "Too Brief A Time To Be Anything"](https://freemusicarchive.org/music/holiznacc0/space-sleep-meditation/too-brief-a-time-to-be-anything/) | HoliznaCC0 | CC0 |
+| `classical.m4a`     | [YouTube — Zen Musique (Alex Wit / Pixabay)](https://www.youtube.com/watch?v=xiIXNnJXpwo) | Alex Wit  | Pixabay License (commercial OK, no attribution) |
+| `canyon.m4a`        | [YouTube — Dandelion Meditation Music](https://www.youtube.com/watch?v=yd5b2L0gGqw) | Dandelion Meditation Music | CC BY 4.0 |
+| `fountain.m4a`      | [YouTube — Dandelion Meditation Music](https://www.youtube.com/watch?v=t0Om9Slw4as) | Dandelion Meditation Music | CC BY 4.0 |
 
 The CC-licensed files (BY / BY-SA) require attribution somewhere in the
 shipping app — typically a "Sound credits" entry in the About / Acknowledgements
