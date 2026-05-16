@@ -44,13 +44,13 @@ enum SoundCatalog {
         Sound(id: "noise.pink",   displayName: "Pink",          category: .noise,  fileName: nil),
         Sound(id: "noise.white",  displayName: "White",         category: .noise,  fileName: nil),
 
-        // Music — composed meditation tracks.
-        Sound(id: "calm",         displayName: "Calm",          category: .music,  fileName: "calm"),
-        Sound(id: "illusions",    displayName: "Illusions",     category: .music,  fileName: "illusions"),
-        Sound(id: "japanese",     displayName: "Japanese",      category: .music,  fileName: "japanese"),
-        Sound(id: "moonlight",    displayName: "Moonlight",     category: .music,  fileName: "moonlight"),
-        Sound(id: "reverie",      displayName: "Reverie",       category: .music,  fileName: "reverie"),
+        // Music — long-form meditation tracks (20–45 min) under CC0 or CC-BY.
+        Sound(id: "universe",     displayName: "Universe",      category: .music,  fileName: "universe"),
+        Sound(id: "nature",       displayName: "Nature",        category: .music,  fileName: "nature"),
         Sound(id: "spatium",      displayName: "Spatium",       category: .music,  fileName: "spatium"),
+        Sound(id: "classical",    displayName: "Classical",     category: .music,  fileName: "classical"),
+        Sound(id: "canyon",       displayName: "Canyon",        category: .music,  fileName: "canyon"),
+        Sound(id: "fountain",     displayName: "Fountain",      category: .music,  fileName: "fountain"),
 
         // Stillness — sentinel, no playback.
         Sound(id: "silence",      displayName: "Silence",       category: .stillness, fileName: nil),

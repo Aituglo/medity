@@ -43,6 +43,7 @@ settings:
     GCC_NO_COMMON_BLOCKS: YES
     ALWAYS_SEARCH_USER_PATHS: NO
     CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: "85Q3MAPQ75"
 
 targets:
   MedityTests:
